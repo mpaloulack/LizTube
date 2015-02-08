@@ -51,7 +51,7 @@ public class JpaConfigs {
     private static final String DEFAULT_HIBERNATE_SHOW_SQL = "false";
 
     private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
-    private static final String DEFAULT_ENTITYMANAGER_PACKAGES_TO_SCAN = "com.lizbox.entity";
+    private static final String DEFAULT_ENTITYMANAGER_PACKAGES_TO_SCAN = "com.liztube.entity";
 
     private static final String PROPERTY_NAME_HIBERNATE_DB_ACTION = "hibernate.hbm2ddl.auto";
     private static final String DEFAULT_HIBERNATE_HBM2DDL_AUTO  = "update";
@@ -110,7 +110,7 @@ public class JpaConfigs {
         jpaProperties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, environment.getProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL, DEFAULT_HIBERNATE_SHOW_SQL));
 
         //Update DB
-        //jpaProperties.put(PROPERTY_NAME_HIBERNATE_DB_ACTION, environment.getProperty(PROPERTY_NAME_HIBERNATE_DB_ACTION, DEFAULT_HIBERNATE_HBM2DDL_AUTO));
+        jpaProperties.put(PROPERTY_NAME_HIBERNATE_DB_ACTION, environment.getProperty(PROPERTY_NAME_HIBERNATE_DB_ACTION, DEFAULT_HIBERNATE_HBM2DDL_AUTO));
 
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
 
