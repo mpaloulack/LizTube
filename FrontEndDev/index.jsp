@@ -22,7 +22,6 @@
 <body>
     LizTube !!!
     <!-- inject:js -->
-    <script src="../app/dist/libs/angular/angular.js"></script>
     <!-- endinject -->
     <script type="text/javascript" src="../app/dist/js/app.js"></script>
 </body>
