@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
-<head lang="fr">
-    <title>LizTube</title>
+<html ng-app="liztube">
+<head>
+    <title>LizTube - {{title}}</title>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -20,9 +20,9 @@
     <base href="/"/>
 </head>
 <body>
-    LizTube !!!
+    <div ng-view></div>
     <!-- inject:js -->
     <!-- endinject -->
-    <script type="text/javascript" src="../app/dist/js/app.js"></script>
+    <script type="text/javascript" src="../app/dist/js/all.js"></script>
 </body>
 </html>
