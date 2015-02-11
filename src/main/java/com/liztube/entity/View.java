@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by laurent on 07/02/15.
+ * View class : one persist each time that a video is seen.
  */
 @Entity
 @Table(name = "VIEW")
@@ -28,8 +28,8 @@ public class View {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public View setId(long id) {
+        this.id = id; return this;
     }
 
     @ManyToOne
@@ -38,8 +38,8 @@ public class View {
         return user;
     }
 
-    public void setUser(UserLiztube user) {
-        this.user = user;
+    public View setUser(UserLiztube user) {
+        this.user = user; return this;
     }
 
     @ManyToOne
@@ -48,8 +48,8 @@ public class View {
         return video;
     }
 
-    public void setVideo(Video video) {
-        this.video = video;
+    public View setVideo(Video video) {
+        this.video = video; return this;
     }
 
     @JsonIgnore
@@ -59,8 +59,8 @@ public class View {
         return viewdate;
     }
 
-    public void setViewdate(Timestamp viewdate) {
-        this.viewdate = viewdate;
+    public View setViewdate(Timestamp viewdate) {
+        this.viewdate = viewdate; return this;
     }
     //endregion
 

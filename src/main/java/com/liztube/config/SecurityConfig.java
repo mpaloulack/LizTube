@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .usernameParameter("username")
                 .failureHandler(new AuthentificationListener())
+                .successHandler(new AuthentificationListener())
             .and()
                 .logout()
                 //.logoutSuccessUrl("/login?success=1")
