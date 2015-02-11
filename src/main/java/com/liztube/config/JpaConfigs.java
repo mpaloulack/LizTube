@@ -21,8 +21,8 @@ import java.util.Properties;
  * Created by laurent on 16/07/2014.
  */
 @Configuration
-@ComponentScan(basePackages = {"com.liztube.repository", "com.liztube.entity"})
-@EnableJpaRepositories("com.liztube.repository")
+@ComponentScan(basePackages = {"com.liztube.repository", "com.liztube.entity", "com.liztube.business"})
+@EnableJpaRepositories(basePackages = {"com.liztube.repository"})
 @EnableTransactionManagement
 //@Profile("real_db")
 public class JpaConfigs {
@@ -57,8 +57,6 @@ public class JpaConfigs {
     private static final String DEFAULT_HIBERNATE_HBM2DDL_AUTO  = "update";
 
     public static final String DEFAULT_EMBEDDED_DATABASE_NAME = "liztube";
-
-    protected static final String CONSOLE_DATABASE = "/console/database/*";
 
     @Resource
     private Environment environment;

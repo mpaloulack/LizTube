@@ -2,11 +2,14 @@ package com.liztube.business;
 
 import com.liztube.entity.Role;
 import com.liztube.entity.UserLiztube;
+import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.RoleRepository;
 import com.liztube.repository.UserRepository;
 import com.liztube.utils.facade.SignInTestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -22,9 +25,6 @@ public class AuthBusiness {
     @Autowired
     public RoleRepository roleRepository;
 
-    @Autowired
-    public UserForBusiness userForBusiness;
-
     /**
      * Get partial user profile : Username (login) and roles
      * @return
@@ -32,7 +32,7 @@ public class AuthBusiness {
     public UserConnectedProfile getUserConnectedProfile(){
         List<String> roles = new ArrayList<String>();
         try{
-            UserLiztube user = userForBusiness.getConnectedUser();
+            UserLiztube user = getConnectedUser();
             for(Role role : user.getRoles()){
                 roles.add(role.getName());
             }
@@ -64,5 +64,25 @@ public class AuthBusiness {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Get complete connected user profile
+     * @return
+     * @throws com.liztube.exception.UserNotFoundException
+     */
+    public UserLiztube getConnectedUser() throws UserNotFoundException {
+        if (SecurityContextHolder.getContext() != null &&
+                SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+            try{
+                User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                String name = user.getUsername();
+                return userRepository.findByPseudo(name);
+            }catch (Exception e){
+                throw new UserNotFoundException("NotConnected","user not connected");
+            }
+        }
+        throw new UserNotFoundException("NotConnected","user not connected");
     }
 }
