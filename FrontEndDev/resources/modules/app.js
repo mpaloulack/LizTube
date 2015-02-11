@@ -3,6 +3,7 @@
  */
 angular.module("liztube",[
     "ngMaterial",
+    "liztube.menu",
     "liztube.home",
     "liztube.partial",
     "ngRoute"

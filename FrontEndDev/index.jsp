@@ -20,6 +20,7 @@
     <base href="/"/>
 </head>
 <body>
+    <header></header>
     <div data-ng-view></div>
     <!-- inject:js -->
     <!-- endinject -->

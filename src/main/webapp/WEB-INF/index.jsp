@@ -21,6 +21,7 @@
     <base href="/"/>
 </head>
 <body>
+    <header></header>
     <div data-ng-view></div>
     <!-- inject:js -->
     <script src="../app/dist/libs/angular/angular.js"></script>
