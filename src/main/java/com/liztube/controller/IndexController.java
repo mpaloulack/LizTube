@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Default controller for the SPA application : all pages redirect to the single page index.jsp
+ */
 @Controller
 @RequestMapping("/")
 public class IndexController {

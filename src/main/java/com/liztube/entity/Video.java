@@ -3,7 +3,7 @@ package com.liztube.entity;
 import javax.persistence.*;
 
 /**
- * Created by laurent on 07/02/15.
+ * Video class
  */
 @Entity
 @Table(name = "VIDEO")
@@ -25,8 +25,8 @@ public class Video {
         return key;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public Video setKey(String key) {
+        this.key = key; return this;
     }
 
     @Lob
@@ -35,8 +35,8 @@ public class Video {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public Video setTitle(String title) {
+        this.title = title; return this;
     }
 
     @Lob
@@ -45,8 +45,8 @@ public class Video {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public Video setDescription(String description) {
+        this.description = description; return this;
     }
 
     @ManyToOne
@@ -55,8 +55,8 @@ public class Video {
         return owner;
     }
 
-    public void setOwner(UserLiztube owner) {
-        this.owner = owner;
+    public Video setOwner(UserLiztube owner) {
+        this.owner = owner; return this;
     }
 
     @Basic
@@ -65,8 +65,8 @@ public class Video {
         return ispublic;
     }
 
-    public void setIspublic(Boolean ispublic) {
-        this.ispublic = ispublic;
+    public Video setIspublic(Boolean ispublic) {
+        this.ispublic = ispublic; return this;
     }
 
     @Basic
@@ -75,8 +75,8 @@ public class Video {
         return ispubliclink;
     }
 
-    public void setIspubliclink(Boolean ispubliclink) {
-        this.ispubliclink = ispubliclink;
+    public Video setIspubliclink(Boolean ispubliclink) {
+        this.ispubliclink = ispubliclink; return this;
     }
     //endregion
 

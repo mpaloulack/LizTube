@@ -3,14 +3,14 @@ package com.liztube.entity;
 import javax.persistence.*;
 
 /**
- * Created by laurent on 07/02/15.
+ * Role class
  */
 @Entity
 @Table(name = "ROLE")
 public class Role {
 
     //region attributes
-    private int id;
+    private long id;
     private String name;
     //endregion
 
@@ -19,11 +19,11 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "roleId")
     @SequenceGenerator(name = "roleId", sequenceName = "ROLEID")
     @Column(name = "ID", nullable = false, insertable = true, updatable = true, length = 5, precision = 0)
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public Role setId(int id) {
+    public Role setId(long id) {
         this.id = id; return this;
     }
 
@@ -54,10 +54,11 @@ public class Role {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
+
     //endregion
 }
 

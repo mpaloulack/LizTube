@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by laurent on 07/02/15.
+ * User class
  */
 @Entity
 @Table(name = "USER")
@@ -42,8 +42,8 @@ public class UserLiztube {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public UserLiztube setId(long id) {
+        this.id = id; return this;
     }
 
     @JsonIgnore
@@ -53,8 +53,8 @@ public class UserLiztube {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public UserLiztube setFirstname(String firstname) {
+        this.firstname = firstname; return this;
     }
 
     @JsonIgnore
@@ -64,8 +64,8 @@ public class UserLiztube {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public UserLiztube setLastname(String lastname) {
+        this.lastname = lastname; return this;
     }
 
     @Basic
@@ -74,8 +74,8 @@ public class UserLiztube {
         return pseudo;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public UserLiztube setPseudo(String pseudo) {
+        this.pseudo = pseudo; return this;
     }
 
     @JsonIgnore
@@ -85,8 +85,8 @@ public class UserLiztube {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public UserLiztube setPassword(String password) {
+        this.password = password; return this;
     }
 
     @JsonIgnore
@@ -96,8 +96,8 @@ public class UserLiztube {
         return birthdate;
     }
 
-    public void setBirthdate(Timestamp birthdate) {
-        this.birthdate = birthdate;
+    public UserLiztube setBirthdate(Timestamp birthdate) {
+        this.birthdate = birthdate; return this;
     }
 
     @JsonIgnore
@@ -107,8 +107,8 @@ public class UserLiztube {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public UserLiztube setEmail(String email) {
+        this.email = email; return this;
     }
 
     @JsonIgnore
@@ -118,8 +118,8 @@ public class UserLiztube {
         return registerdate;
     }
 
-    public void setRegisterdate(Timestamp registerdate) {
-        this.registerdate = registerdate;
+    public UserLiztube setRegisterdate(Timestamp registerdate) {
+        this.registerdate = registerdate; return this;
     }
 
     @JsonIgnore
@@ -129,8 +129,8 @@ public class UserLiztube {
         return modificationdate;
     }
 
-    public void setModificationdate(Timestamp modificationdate) {
-        this.modificationdate = modificationdate;
+    public UserLiztube setModificationdate(Timestamp modificationdate) {
+        this.modificationdate = modificationdate; return this;
     }
 
     @JsonIgnore
@@ -140,8 +140,8 @@ public class UserLiztube {
         return isfemale;
     }
 
-    public void setIsfemale(Boolean isfemale) {
-        this.isfemale = isfemale;
+    public UserLiztube setIsfemale(Boolean isfemale) {
+        this.isfemale = isfemale; return this;
     }
 
     @JsonIgnore
