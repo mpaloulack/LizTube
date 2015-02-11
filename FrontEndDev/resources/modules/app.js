@@ -3,20 +3,11 @@
  */
 angular.module("liztube",[
     "ngMaterial",
+    "liztube.home",
+    "liztube.partial",
     "ngRoute"
 ])
-    .controller("indexCtrl", function($rootScope){
-
-    })
     .config(function ($routeProvider,$locationProvider){
-        $routeProvider.when("/",{
-            title: "Home",
-            controller: 'indexCtrl',
-            templateUrl: "../app/dist/partials/home.html"
-        }).otherwise({
-            redirectTo: '/404',
-            templateUrl:"../app/dist/partials/404.html"
-        });
         $locationProvider.html5Mode(true);
     })
     .run(function($rootScope) {
@@ -27,7 +18,9 @@ angular.module("liztube",[
             }
         });
         $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-            $rootScope.title = current.$$route.title;
             $rootScope.isViewLoading = false;
+            if (current.hasOwnProperty('$$route')) {
+                $rootScope.title = current.$$route.title;
+            }
         });
     });
