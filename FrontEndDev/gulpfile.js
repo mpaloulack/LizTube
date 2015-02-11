@@ -59,7 +59,7 @@ gulp.task('view', function () {
 gulp.task('generate-partial', function() {
     return gulp.src(viewsLocation)
         .pipe(rename({ dirname: '' }))
-        .pipe(ngHtml2Js({moduleName: "minuteman.partial"}))
+        .pipe(ngHtml2Js({moduleName: "liztube.partial"}))
         .pipe(concat("partials.js"))
         .pipe(gulp.dest(viewsDestination))
         .pipe(uglify())
@@ -127,7 +127,9 @@ gulp.task('plugins', ['inject']);
 gulp.task('all', ['default', 'plugins']);
 
 gulp.task('watch', ['default'], function() {
-    gulp.watch(scriptsLocation, ['script']);
+    gulp.watch(scriptsLocation, ['all']);
     gulp.watch(stylesLocation, ['style']);
     gulp.watch(viewsLocation, ['view']);
+    gulp.watch(viewsLocation, ['script']);
+    gulp.watch(viewsLocation, ['inject']);
 });

@@ -1,7 +1,17 @@
-<div ng-controller="indexCtrl">
-    <p>Test Angular Material :D</p>
-    <md-button class="md-raised">Button</md-button>
-    <md-button class="md-raised md-primary">Primary</md-button>
-    <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
-    <md-button class="md-raised md-warn">Warn</md-button>
+<div ng-controller="homeCtrl" layout="column" layout-fill>
+    <section layout="row" flex>
+        <md-button ng-click="toggleRight()" class="md-primary">
+            Toggle right
+        </md-button>
+        <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+            <md-toolbar class="md-theme-light">
+                <h1 class="md-toolbar-tools">Menu</h1>
+            </md-toolbar>
+            <md-content ng-controller="RightSideBarCtrl" class="md-padding">
+                <md-button ng-click="close()" class="md-primary">
+                    Close
+                </md-button>
+            </md-content>
+        </md-sidenav>
+    </section>
 </div>
