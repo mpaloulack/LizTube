@@ -7,7 +7,7 @@ import com.liztube.business.AuthBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.entity.UserLiztube;
 import com.liztube.exception.UserNotFoundException;
-import com.liztube.repository.UserRepository;
+import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.EnumRole;
 import com.liztube.utils.facade.UserConnectedProfile;
 import org.junit.Before;
@@ -40,7 +40,7 @@ public class AuthConnectedTests {
     AuthBusiness authBusiness;
 
     @Autowired
-    UserRepository userRepository;
+    UserLiztubeRepository userLiztubeRepository;
 
 
     @Before
@@ -70,7 +70,7 @@ public class AuthConnectedTests {
 
     @Test
     public void getConnectedUser_should_get_connected_user_complete_profile() throws UserNotFoundException {
-        UserLiztube userLiztubeToFound = userRepository.findByPseudo("spywen");
+        UserLiztube userLiztubeToFound = userLiztubeRepository.findByPseudo("spywen");
         assertThat(authBusiness.getConnectedUser()).isEqualTo(userLiztubeToFound);
     }
 }

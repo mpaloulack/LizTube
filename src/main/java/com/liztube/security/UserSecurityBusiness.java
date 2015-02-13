@@ -1,7 +1,7 @@
 package com.liztube.security;
 
 import com.liztube.entity.UserLiztube;
-import com.liztube.repository.UserRepository;
+import com.liztube.repository.UserLiztubeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserSecurityBusiness implements UserDetailsService{
     @Autowired
-    UserRepository userRepository;
+    UserLiztubeRepository userLiztubeRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            UserLiztube domainUser = userRepository.findByEmailOrPseudo(username, username);
+            UserLiztube domainUser = userLiztubeRepository.findByEmailOrPseudo(username, username);
 
             return new User(
                     domainUser.getPseudo(),

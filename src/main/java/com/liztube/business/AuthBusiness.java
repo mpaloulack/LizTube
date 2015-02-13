@@ -4,13 +4,15 @@ import com.liztube.entity.Role;
 import com.liztube.entity.UserLiztube;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.RoleRepository;
-import com.liztube.repository.UserRepository;
+import com.liztube.repository.UserLiztubeRepository;
+import com.liztube.repository.predicate.UserLiztubePredicates;
 import com.liztube.utils.facade.SignInTestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import sun.misc.MessageUtils;
 
 import java.util.*;
 
@@ -20,7 +22,7 @@ import java.util.*;
 @Component
 public class AuthBusiness {
     @Autowired
-    public UserRepository userRepository;
+    public UserLiztubeRepository userLiztubeRepository;
 
     @Autowired
     public RoleRepository roleRepository;
@@ -48,7 +50,7 @@ public class AuthBusiness {
      * @return
      */
     public Boolean existEmail(SignInTestExistFacade signInTestExistFacade){
-        if(userRepository.countByEmail(signInTestExistFacade.getValue()) == 0){
+        if(userLiztubeRepository.countByEmail(signInTestExistFacade.getValue()) == 0){
             return false;
         }
         return true;
@@ -60,7 +62,7 @@ public class AuthBusiness {
      * @return
      */
     public Boolean existPseudo(SignInTestExistFacade signInTestExistFacade){
-        if(userRepository.countByPseudo(signInTestExistFacade.getValue()) == 0){
+        if(userLiztubeRepository.countByPseudo(signInTestExistFacade.getValue()) == 0){
             return false;
         }
         return true;
@@ -78,7 +80,7 @@ public class AuthBusiness {
             try{
                 User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 String name = user.getUsername();
-                return userRepository.findByPseudo(name);
+                return userLiztubeRepository.findByEmailOrPseudo(name, name);
             }catch (Exception e){
                 throw new UserNotFoundException("NotConnected","user not connected");
             }

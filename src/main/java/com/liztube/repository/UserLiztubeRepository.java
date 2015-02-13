@@ -2,11 +2,12 @@ package com.liztube.repository;
 
 import com.liztube.entity.UserLiztube;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 /**
  * User repository : data access layer to the users
  */
-public interface UserRepository extends JpaRepository<UserLiztube, Long> {
+public interface UserLiztubeRepository extends JpaRepository<UserLiztube, Long>, QueryDslPredicateExecutor<UserLiztube> {
     /**
      * Find a user according to his email or his pseudo
      * @param email

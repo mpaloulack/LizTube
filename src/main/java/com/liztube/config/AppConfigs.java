@@ -20,7 +20,7 @@ import java.util.List;
  * Created by laurent on 06/07/2014.
  */
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.liztube.controller"})
+@ComponentScan(basePackages = {"com.liztube.controller, com.liztube.service"})
 @Configuration
 @EnableScheduling
 public class AppConfigs extends WebMvcConfigurerAdapter {
