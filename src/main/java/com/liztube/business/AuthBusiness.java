@@ -5,14 +5,12 @@ import com.liztube.entity.UserLiztube;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.RoleRepository;
 import com.liztube.repository.UserLiztubeRepository;
-import com.liztube.repository.predicate.UserLiztubePredicates;
-import com.liztube.utils.facade.SignInTestExistFacade;
+import com.liztube.utils.facade.SigninTestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import sun.misc.MessageUtils;
 
 import java.util.*;
 
@@ -46,11 +44,11 @@ public class AuthBusiness {
 
     /**
      * Define if the an email is already registered
-     * @param signInTestExistFacade
+     * @param signinTestExistFacade
      * @return
      */
-    public Boolean existEmail(SignInTestExistFacade signInTestExistFacade){
-        if(userLiztubeRepository.countByEmail(signInTestExistFacade.getValue()) == 0){
+    public Boolean existEmail(SigninTestExistFacade signinTestExistFacade){
+        if(userLiztubeRepository.countByEmail(signinTestExistFacade.getValue()) == 0){
             return false;
         }
         return true;
@@ -58,11 +56,11 @@ public class AuthBusiness {
 
     /**
      * Define if the a pseudo is already registered
-     * @param signInTestExistFacade
+     * @param signinTestExistFacade
      * @return
      */
-    public Boolean existPseudo(SignInTestExistFacade signInTestExistFacade){
-        if(userLiztubeRepository.countByPseudo(signInTestExistFacade.getValue()) == 0){
+    public Boolean existPseudo(SigninTestExistFacade signinTestExistFacade){
+        if(userLiztubeRepository.countByPseudo(signinTestExistFacade.getValue()) == 0){
             return false;
         }
         return true;

@@ -6,7 +6,7 @@ import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
 import com.liztube.business.AuthBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.exception.UserNotFoundException;
-import com.liztube.utils.facade.SignInTestExistFacade;
+import com.liztube.utils.facade.SigninTestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,21 +41,21 @@ public class AuthDisconnectedTests {
 
     @Test
     public void existEmail_should_find_someone_with_same_email(){
-        assertThat(authBusiness.existEmail(new SignInTestExistFacade().setValue("spywen@hotmail.fr"))).isTrue();
+        assertThat(authBusiness.existEmail(new SigninTestExistFacade().setValue("spywen@hotmail.fr"))).isTrue();
     }
 
     @Test
     public void existEmail_should_not_find_someone_with_same_email(){
-        assertThat(authBusiness.existEmail(new SignInTestExistFacade().setValue("unknown@hotmail.fr"))).isFalse();
+        assertThat(authBusiness.existEmail(new SigninTestExistFacade().setValue("unknown@hotmail.fr"))).isFalse();
     }
 
     @Test
     public void existPseudo_should_find_someone_with_same_pseudo(){
-        assertThat(authBusiness.existPseudo(new SignInTestExistFacade().setValue("spywen"))).isTrue();
+        assertThat(authBusiness.existPseudo(new SigninTestExistFacade().setValue("spywen"))).isTrue();
     }
 
     @Test
     public void existPseudo_should_not_find_someone_with_same_pseudo(){
-        assertThat(authBusiness.existEmail(new SignInTestExistFacade().setValue("unknown"))).isFalse();
+        assertThat(authBusiness.existEmail(new SigninTestExistFacade().setValue("unknown"))).isFalse();
     }
 }
