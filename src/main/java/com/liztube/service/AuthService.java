@@ -1,11 +1,16 @@
 package com.liztube.service;
 
 import com.liztube.business.AuthBusiness;
+import com.liztube.entity.UserLiztube;
+import com.liztube.exception.SigninException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.utils.facade.SigninTestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
+import com.liztube.utils.facade.UserForRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Service which provide all the method concerning the authentication of an user (login, signin, get user profile...)
@@ -24,6 +29,17 @@ public class AuthService {
     @RequestMapping(value = "/currentProfil",method = RequestMethod.GET)
     public UserConnectedProfile getUserProfil() {
         return authBusiness.getUserConnectedProfile();
+    }
+
+    /**
+     * Register to the liztube service as a user
+     * @param userForRegistration
+     * @return
+     * @throws SigninException
+     */
+    @RequestMapping(value = "/signin", method = RequestMethod.POST)
+    public long signIn(@RequestBody UserForRegistration userForRegistration) throws SigninException {
+        return authBusiness.signIn(userForRegistration).getId();
     }
 
     /**

@@ -21,7 +21,7 @@ public class UserSecurityBusiness implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            UserLiztube domainUser = userLiztubeRepository.findByEmailOrPseudo(username, username);
+            UserLiztube domainUser = userLiztubeRepository.findByEmailOrPseudo(username);
 
             return new User(
                     domainUser.getPseudo(),

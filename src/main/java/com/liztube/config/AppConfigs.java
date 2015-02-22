@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -47,9 +48,13 @@ public class AppConfigs extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters (List<HttpMessageConverter<?>> converters) {
+        super.configureMessageConverters(converters);
+
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         mappingJackson2HttpMessageConverter.setObjectMapper(new HibernateAwareObjectMapper());
         converters.add(mappingJackson2HttpMessageConverter);
-        converters.add(new StringHttpMessageConverter());
+
+        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
+        converters.add(stringHttpMessageConverter);
     }
 }

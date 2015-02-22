@@ -22,7 +22,7 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan(basePackages = {"com.liztube.repository", "com.liztube.entity", "com.liztube.business", "com.liztube.repository.predicate"})
-@EnableJpaRepositories(basePackages = {"com.liztube.repository"})
+@EnableJpaRepositories("com.liztube.repository")
 @EnableTransactionManagement
 //@Profile("real_db")
 public class JpaConfigs {

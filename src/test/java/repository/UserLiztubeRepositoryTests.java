@@ -27,12 +27,13 @@ public class UserLiztubeRepositoryTests {
 
     @Test
     public void should_find_by_email_or_pseudo(){
-        String email = "spywen@hotmail.fr";
-        String pseudo = "spywen";
-        UserLiztube user1 = userLiztubeRepository.findByEmailOrPseudo(email, email);
-        UserLiztube user2 = userLiztubeRepository.findByEmailOrPseudo(pseudo,pseudo);
+        UserLiztube userToFind = userLiztubeRepository.findOne((long) 1);
+        UserLiztube user1 = userLiztubeRepository.findByEmailOrPseudo(userToFind.getEmail());
+        UserLiztube user2 = userLiztubeRepository.findByEmailOrPseudo(userToFind.getPseudo());
         assertThat(user1).isNotNull();
         assertThat(user2).isNotNull();
+        assertThat(user1.getId()).isEqualTo(1);
+        assertThat(user2.getId()).isEqualTo(1);
         assertThat(user1).isEqualToComparingFieldByField(user2);
     }
 

@@ -6,6 +6,7 @@ import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
 import com.liztube.business.AuthBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.exception.UserNotFoundException;
+import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.facade.SigninTestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import org.junit.Test;
@@ -26,6 +27,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AuthDisconnectedTests {
     @Autowired
     AuthBusiness authBusiness;
+
+    @Autowired
+    UserLiztubeRepository userLiztubeRepository;
 
     @Test
     public void getUserConnectedProfile_should_get_no_one(){

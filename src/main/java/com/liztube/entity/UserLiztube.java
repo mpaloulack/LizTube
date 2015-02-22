@@ -2,10 +2,15 @@ package com.liztube.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.liztube.utils.EnumError;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +54,7 @@ public class UserLiztube {
     @JsonIgnore
     @Basic
     @Column(name = "FIRSTNAME", nullable = false, insertable = true, updatable = true, length = 100)
+    @Size(min = 1, max = 100, message = EnumError.SIGNIN_FIRSTNAME_SIZE)
     public String getFirstname() {
         return firstname;
     }
@@ -60,6 +66,7 @@ public class UserLiztube {
     @JsonIgnore
     @Basic
     @Column(name = "LASTNAME", nullable = false, insertable = true, updatable = true, length = 100)
+    @Size(min = 1, max = 100, message = EnumError.SIGNIN_LASTNAME_SIZE)
     public String getLastname() {
         return lastname;
     }
@@ -70,6 +77,7 @@ public class UserLiztube {
 
     @Basic
     @Column(name = "PSEUDO", nullable = false, insertable = true, updatable = true, length = 50)
+    @Size(min = 1, max = 50, message = EnumError.SIGNIN_PSEUDO_SIZE)
     public String getPseudo() {
         return pseudo;
     }
@@ -92,6 +100,8 @@ public class UserLiztube {
     @JsonIgnore
     @Basic
     @Column(name = "BIRTHDATE", nullable = false, insertable = true, updatable = true)
+    @Past(message = EnumError.SIGNIN_BIRTHDAY_PAST_DATE)
+    @NotNull(message = EnumError.SIGNIN_BIRTHDAY_NOTNULL)
     public Timestamp getBirthdate() {
         return birthdate;
     }
@@ -103,6 +113,8 @@ public class UserLiztube {
     @JsonIgnore
     @Basic
     @Column(name = "EMAIL", nullable = false, insertable = true, updatable = true, length = 100)
+    @Email(message = EnumError.SIGNIN_EMAIL_FORMAT)
+    @Size(min = 1, max = 100, message = EnumError.SIGNIN_EMAIL_SIZE)
     public String getEmail() {
         return email;
     }
@@ -114,6 +126,8 @@ public class UserLiztube {
     @JsonIgnore
     @Basic
     @Column(name = "REGISTERDATE", nullable = false, insertable = true, updatable = true)
+    @Past(message = EnumError.SIGNIN_REGISTER_PAST_DATE)
+    @NotNull(message = EnumError.SIGNIN_REGISTER_NOTNULL)
     public Timestamp getRegisterdate() {
         return registerdate;
     }
@@ -125,6 +139,7 @@ public class UserLiztube {
     @JsonIgnore
     @Basic
     @Column(name = "MODIFICATIONDATE", nullable = true, insertable = true, updatable = true)
+    @NotNull(message = EnumError.SIGNIN_MODIFICATION_NOTNULL)
     public Timestamp getModificationdate() {
         return modificationdate;
     }
@@ -136,6 +151,7 @@ public class UserLiztube {
     @JsonIgnore
     @Basic
     @Column(name = "ISFEMALE", nullable = false, insertable = true, updatable = true)
+    @NotNull(message = EnumError.SIGNIN_ISFEMALE_NOTNULL)
     public Boolean getIsfemale() {
         return isfemale;
     }
@@ -147,6 +163,7 @@ public class UserLiztube {
     @JsonIgnore
     @Basic
     @Column(name = "ISACTIVE", nullable = false, insertable = true, updatable = true)
+    @NotNull(message = EnumError.SIGNIN_ISACTIVE_NOTNULL)
     public Boolean getIsactive() {
         return isactive;
     }
