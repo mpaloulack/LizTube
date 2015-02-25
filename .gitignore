@@ -5,3 +5,4 @@ FrontEndDev/bower_components/
 FrontEndDev/node_modules/
 src/main/webapp/app/
 src/main/webapp/WEB-INF/index.jsp
+classes/

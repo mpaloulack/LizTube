@@ -19,10 +19,4 @@ angular.module("liztube.header",[])
             controller: 'headerCtrl',
             templateUrl: "header.html"
         };
-    }).config(function($mdThemingProvider) {
-        $mdThemingProvider.theme('navbar')
-            .primaryPalette('grey', {
-                'default': '200' // by default use shade 400 from the pink palette for primary intentions
-            });
-        $mdThemingProvider.setDefaultTheme('navbar');
     });

@@ -5,11 +5,29 @@ angular.module("liztube",[
     "ngMaterial",
     "liztube.menu",
     "liztube.home",
+    "liztube.user",
     "liztube.partial",
     "ngRoute"
 ])
-    .config(function ($routeProvider,$locationProvider){
+    .config(function ($routeProvider,$locationProvider,$mdThemingProvider){
         $locationProvider.html5Mode(true);
+        //Theme material design.
+        $mdThemingProvider.theme('default')
+            .accentPalette('green', {
+                'default': '600'
+            });
+        $mdThemingProvider.theme('navbar')
+            .primaryPalette('grey', {
+                'default': '200'
+            })
+            .accentPalette('blue-grey', {
+                'default': '500'
+            });
+        $mdThemingProvider.theme('sub-bar')
+            .primaryPalette('grey', {
+                'default': '600'
+            });
+        $mdThemingProvider.setDefaultTheme('default');
     })
     .run(function($rootScope) {
         $rootScope.$on('$routeChangeStart', function(event, current, previous) {
@@ -22,6 +40,7 @@ angular.module("liztube",[
             $rootScope.isViewLoading = false;
             if (current.hasOwnProperty('$$route')) {
                 $rootScope.title = current.$$route.title;
+                $rootScope.page = current.$$route.page;
             }
         });
     });

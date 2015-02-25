@@ -15,6 +15,7 @@
     <link rel="SHORTCUT ICON" href="#" />
 
     <!-- inject:css -->
+    <link rel="stylesheet" href="../app/dist/libs/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../app/dist/libs/angular-material/angular-material.css">
     <!-- endinject -->
     <link rel="stylesheet" href="../app/dist/css/all.css">

@@ -1,0 +1,18 @@
+<div ng-controller="loginCtrl">
+    <div layout="column" layout-align="center center" class="login">
+        <form class="form-login">
+            <md-input-container class="md-accent" md-theme="docs-dark">
+                <label><i class="fa fa-user"></i> Email ou Pseudo</label>
+                <input>
+            </md-input-container>
+            <md-input-container class="md-accent" md-theme="docs-dark">
+                <label><i class="fa fa-lock"></i> Mot de passe</label>
+                <input type="password">
+            </md-input-container>
+            <section layout="row" layout-align="end center">
+                <md-button type="submit" class="md-accent md-raised margin-right"><i class="fa fa-check"></i> Login</md-button>
+                <md-button href="/register" class="md-primary"><i class="fa fa-sign-in"></i> Register</md-button>
+            </section>
+        </form>
+    </div>
+</div>

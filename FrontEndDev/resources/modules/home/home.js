@@ -8,6 +8,7 @@ angular.module("liztube.home",["ngRoute"])
     .config(function ($routeProvider,$locationProvider){
         $routeProvider.when("/",{
             title: "LizTube - Home",
+            page: "Home",
             controller: 'homeCtrl',
             templateUrl: "home.html"
         }).otherwise({
