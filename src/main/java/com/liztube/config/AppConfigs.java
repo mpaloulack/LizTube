@@ -8,12 +8,14 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.annotation.Resource;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -56,5 +58,13 @@ public class AppConfigs extends WebMvcConfigurerAdapter {
 
         StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
         converters.add(stringHttpMessageConverter);
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(524288000);
+        //multipartResolver.setUploadTempDir();
+        return multipartResolver;
     }
 }

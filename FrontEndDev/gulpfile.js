@@ -90,6 +90,10 @@ gulp.task('inject' ,function () {
             {
               match: /@MINIFY@/g,
               replacement: '.min.'
+            },
+            {
+              match: /@PATH@/g,
+              replacement: '/liztube/'
             }
           ]
         })))
@@ -98,10 +102,14 @@ gulp.task('inject' ,function () {
             {
               match: /@MINIFY@/g,
               replacement: '.'
+            },
+            {
+              match: /@PATH@/g,
+              replacement: '/'
             }
           ]
         })))
-        .pipe(inject(gulp.src(bowerfiles({ read: false, debugging: false, env: env })), { ignorePath: "/bower_components/", addPrefix: "app/dist/libs/", addRootSlash: false }))
+        .pipe(inject(gulp.src(bowerfiles({ read: false, debugging: false, env: env })), { ignorePath: "/bower_components/", addPrefix: "${pageContext.request.contextPath}/app/dist/libs/", addRootSlash: false }))
         .pipe(gulp.dest(indexDestination));
 
     gulp.src(bowerfiles({ checkExistence: true, read: true, debugging: false, env: env }), { base: 'bower_components' })

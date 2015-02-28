@@ -16,8 +16,8 @@
 
     <!-- inject:css -->
     <!-- endinject -->
-    <link rel="stylesheet" href="app/dist/css/all@MINIFY@css">
-    <base href="/"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all@MINIFY@css">
+    <base href="@PATH@"/>
 </head>
 <body>
     <header></header>
@@ -27,7 +27,7 @@
     <script>
         window.user = ${userConnected};
     </script>
-    <script type="text/javascript" src="app/dist/js/all@MINIFY@js"></script>
-    <script type="text/javascript" src="app/dist/partials/partials@MINIFY@js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/app/dist/js/all@MINIFY@js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/app/dist/partials/partials@MINIFY@js"></script>
 </body>
 </html>

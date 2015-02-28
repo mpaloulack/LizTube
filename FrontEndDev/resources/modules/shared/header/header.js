@@ -8,7 +8,7 @@ angular.module("liztube.header",[])
         };
 
     })
-    .controller('RightSideBarCtrl', function($scope, $timeout, $mdSidenav, $log) {
+    .controller('RightSideBarCtrl', function($scope, $timeout, $mdSidenav, $log, $location) {
         $scope.close = function() {
             $mdSidenav('right').close();
         };

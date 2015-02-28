@@ -15,26 +15,28 @@
     <link rel="SHORTCUT ICON" href="#" />
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="../app/dist/libs/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="../app/dist/libs/angular-material/angular-material.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.min.css">
     <!-- endinject -->
-    <link rel="stylesheet" href="../app/dist/css/all.css">
-    <base href="/"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all.min.css">
+    <base href="/liztube/"/>
 </head>
 <body>
     <header></header>
     <div data-ng-view></div>
     <!-- inject:js -->
-    <script src="../app/dist/libs/angular/angular.js"></script>
-    <script src="../app/dist/libs/angular-animate/angular-animate.js"></script>
-    <script src="../app/dist/libs/angular-aria/angular-aria.js"></script>
-    <script src="../app/dist/libs/angular-route/angular-route.js"></script>
-    <script src="../app/dist/libs/angular-material/angular-material.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular/angular.min.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-animate/angular-animate.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-aria/angular-aria.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-route/angular-route.min.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload-shim.min.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload.min.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.min.js"></script>
     <!-- endinject -->
     <script>
         window.user = ${userConnected};
     </script>
-    <script type="text/javascript" src="../app/dist/js/all.js"></script>
-    <script type="text/javascript" src="../app/dist/partials/partials.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/app/dist/js/all.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/app/dist/partials/partials.min.js"></script>
 </body>
 </html>

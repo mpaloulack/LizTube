@@ -5,7 +5,6 @@ import com.excilys.ebi.spring.dbunit.test.DataSet;
 import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
 import com.liztube.business.AuthBusiness;
 import com.liztube.config.JpaConfigs;
-import com.liztube.entity.Role;
 import com.liztube.entity.UserLiztube;
 import com.liztube.exception.SigninException;
 import com.liztube.exception.exceptionType.PublicException;
@@ -28,10 +27,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {JpaConfigs.class}, loader = AnnotationConfigContextLoader.class)
