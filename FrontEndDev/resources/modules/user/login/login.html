@@ -1,8 +1,13 @@
 <div ng-controller="loginCtrl">
     <div layout="column" layout-align="center center" class="login">
         <form class="form-login">
+            <md-toolbar class="login-bar md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span><img src="./../app/dist/img/favicon.png" width="27px"> Login</span>
+                </h2>
+            </md-toolbar>
             <div class="login-content">
-                <md-input-container class="md-accent">
+                <md-input-container>
                     <label><i class="fa fa-user"></i> Email ou Pseudo</label>
                     <input autofocus required>
                 </md-input-container>
@@ -13,7 +18,7 @@
             </div>
             <div layout="row" layout-align="end center" class="login-footer">
                 <md-button type="submit" class="md-accent md-raised margin-right"><i class="fa fa-check"></i> Login</md-button>
-                <md-button href="/register" class="md-primary"><i class="fa fa-sign-in"></i> Register</md-button>
+                <md-button href="/register" class="md-warn md-primary"><i class="fa fa-sign-in"></i> Register</md-button>
             </div>
         </form>
     </div>

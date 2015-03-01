@@ -30,7 +30,9 @@ angular.module("liztube.themes",[
         });
         $mdThemingProvider.theme('default')
             .primaryPalette('liztubePalette')
-            .accentPalette('blue');
+            .accentPalette('blue',{
+                'default': '700'
+            });
         $mdThemingProvider.theme('navbar')
             .primaryPalette('grey', {
                 'default': '200'

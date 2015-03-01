@@ -12,7 +12,7 @@
     <meta name="Robots" content="all" >
     <meta name="Rating" content="general" >
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="SHORTCUT ICON" href="#" />
+    <link rel="SHORTCUT ICON" href="${pageContext.request.contextPath}/app/dist/img/favicon.png" />
 
     <!-- inject:css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/font-awesome/css/font-awesome.css">
