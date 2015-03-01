@@ -17,7 +17,7 @@
     <!-- inject:css -->
     <!-- endinject -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all@MINIFY@css">
-    <base href="@PATH@"/>
+    <base href="/"/>
 </head>
 <body>
     <header></header>

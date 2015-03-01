@@ -22,6 +22,7 @@
 var indexLocation = "./index.jsp",
     scriptsLocation = ['./resources/**/*.js'],
     viewsLocation = ['./resources/**/*.html'],
+    imgLocation = ['./resources/img/**'],
     stylesLocation = ['./resources/**/*.less'];
 //Destination
 var backEndDir = "./../src/main/webapp/",
@@ -29,6 +30,7 @@ var backEndDir = "./../src/main/webapp/",
     scriptsBaseDestination = backEndDir + 'app/dist/js/',
     pluginsScriptsDestination = backEndDir + "app/dist/libs",
     stylesBaseDestination = backEndDir + 'app/dist/css',
+    imgDestination = backEndDir + 'app/dist/img',
     viewsDestination = backEndDir + 'app/dist/partials';
 //Args
 var env = args.env || 'dev';
@@ -90,10 +92,6 @@ gulp.task('inject' ,function () {
             {
               match: /@MINIFY@/g,
               replacement: '.min.'
-            },
-            {
-              match: /@PATH@/g,
-              replacement: '/liztube/'
             }
           ]
         })))
@@ -102,10 +100,6 @@ gulp.task('inject' ,function () {
             {
               match: /@MINIFY@/g,
               replacement: '.'
-            },
-            {
-              match: /@PATH@/g,
-              replacement: '/'
             }
           ]
         })))
@@ -124,10 +118,15 @@ gulp.task('quality', function () {
         .pipe(jshint.reporter('fail'));
 });
 
+gulp.task('images', function () {
+    return gulp.src(imgLocation)
+        .pipe(gulp.dest(imgDestination));
+});
+
 //Commands :
 //Parameter : gulp (--env=prod or --debug=dev (default value)),
 //Remark : task executed in parallel (no order defined here)
-gulp.task('default', ['script', 'view', 'style']);
+gulp.task('default', ['script', 'view', 'style','images']);
 //Parameter : gulp plugins (--env=dev or --env=prod)
 gulp.task('plugins', ['inject']);
 
