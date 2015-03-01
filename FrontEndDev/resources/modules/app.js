@@ -15,7 +15,7 @@ angular.module("liztube",[
         $mdThemingProvider.definePalette('liztubePalette', {
             '50': 'ffebee',
             '100': 'ffcdd2',
-            '200': 'ef9a9a',
+            '200': '000000',
             '300': 'e57373',
             '400': 'ef5350',
             '500': 'f44336',
@@ -34,7 +34,9 @@ angular.module("liztube",[
             'contrastLightColors': undefined    // could also specify this if default was 'dark'
         });
         $mdThemingProvider.theme('default')
-            .primaryPalette('amazingPaletteName')
+            .primaryPalette('liztubePalette',{
+                'default' : '200'
+            })
             .accentPalette('blue');
         $mdThemingProvider.theme('navbar')
             .primaryPalette('grey', {
