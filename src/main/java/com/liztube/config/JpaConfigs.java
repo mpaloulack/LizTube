@@ -24,7 +24,6 @@ import java.util.Properties;
 @ComponentScan(basePackages = {"com.liztube.repository", "com.liztube.entity", "com.liztube.business", "com.liztube.repository.predicate"})
 @EnableJpaRepositories("com.liztube.repository")
 @EnableTransactionManagement
-//@Profile("real_db")
 public class JpaConfigs {
 
     private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";

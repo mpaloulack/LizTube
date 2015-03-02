@@ -36,6 +36,7 @@ public class UserLiztube {
     private Boolean isfemale;
     private Boolean isactive;
     private Set<Role> roles;
+    private Set<Video> videos;
     //endregion
 
     //region getter/setter
@@ -195,9 +196,20 @@ public class UserLiztube {
             }
         return authList;
     }
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
+    //List<?> list = new ArrayList<?>(set); or Lists.newArrayList([your_set]) to convert in list
+    public Set<Video> getVideos() {
+        return videos;
+    }
+    public UserLiztube setVideos(Set<Video> videos) {
+        this.videos = videos; return this;
+    }
     //endregion
 
     //region override methods
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -218,6 +230,7 @@ public class UserLiztube {
         if (pseudo != null ? !pseudo.equals(that.pseudo) : that.pseudo != null) return false;
         if (registerdate != null ? !registerdate.equals(that.registerdate) : that.registerdate != null) return false;
         if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
+        if (videos != null ? !videos.equals(that.videos) : that.videos != null) return false;
 
         return true;
     }
@@ -236,8 +249,10 @@ public class UserLiztube {
         result = 31 * result + (isfemale != null ? isfemale.hashCode() : 0);
         result = 31 * result + (isactive != null ? isactive.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (videos != null ? videos.hashCode() : 0);
         return result;
     }
+
     //endregion
 
 }

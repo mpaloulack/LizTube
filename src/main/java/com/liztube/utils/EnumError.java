@@ -22,6 +22,13 @@ public class EnumError {
     public static final String SIGNIN_ISFEMALE_NOTNULL      = "#1011";
     public static final String SIGNIN_ISACTIVE_NOTNULL      = "#1012";
     public static final String SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED      = "#1013";
-
+    //VIDEO
+    public static final String VIDEO_ERRORS                = "#1050";
+    public static final String VIDEO_UPLOAD_FILE_EMPTY     = "File is empty.";
+    public static final String VIDEO_UPLOAD_NO_VALID_TYPE  = "Not valid type of file uploaded.";
+    public static final String VIDEO_UPLOAD_TOO_HEAVY      = "File size exceed {0} Mo.";
+    public static final String VIDEO_TITLE_SIZE            = "#1051";
+    public static final String VIDEO_DESCRIPTION_SIZE      = "#1052";
+    public static final String VIDEO_UPLOAD_SAVE_FILE_ON_SERVER     = "#1053";
 
 }

@@ -21,6 +21,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,6 +31,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import java.sql.Timestamp;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -108,6 +110,7 @@ public class SignInTests {
         newUser = newUser.setFirstname("");
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_FIRSTNAME_SIZE);
         }
@@ -118,6 +121,7 @@ public class SignInTests {
         newUser = newUser.setLastname("");
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_LASTNAME_SIZE);
         }
@@ -128,6 +132,7 @@ public class SignInTests {
         newUser = newUser.setPseudo("");
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_PSEUDO_SIZE);
         }
@@ -138,6 +143,7 @@ public class SignInTests {
         newUser = newUser.setBirthdate(null);
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_BIRTHDAY_NOTNULL);
         }
@@ -148,6 +154,7 @@ public class SignInTests {
         newUser = newUser.setBirthdate(new Timestamp(new DateTime(2016,1,1,0,0,0,0).getMillis()));
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_BIRTHDAY_PAST_DATE);
         }
@@ -158,6 +165,7 @@ public class SignInTests {
         newUser = newUser.setEmail("bademail");
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_FORMAT);
         }
@@ -168,6 +176,7 @@ public class SignInTests {
         newUser = newUser.setEmail("");
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_SIZE);
         }
@@ -178,6 +187,7 @@ public class SignInTests {
         newUser = newUser.setIsfemale(null);
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_ISFEMALE_NOTNULL);
         }
@@ -188,6 +198,7 @@ public class SignInTests {
         newUser = newUser.setEmail("spywen@hotmail.fr");
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
         }
@@ -198,6 +209,7 @@ public class SignInTests {
         newUser = newUser.setPseudo("spywen");
         try{
             authBusiness.signIn(newUser);
+            fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
         }

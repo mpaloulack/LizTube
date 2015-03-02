@@ -1,6 +1,10 @@
 package com.liztube.entity;
 
+import com.liztube.utils.EnumError;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Video class
@@ -31,6 +35,7 @@ public class Video {
 
     @Lob
     @Column(name = "TITLE", nullable = false, insertable = true, updatable = true, length = 300)
+    @Size(min = 1, max = 300, message = EnumError.VIDEO_TITLE_SIZE)
     public String getTitle() {
         return title;
     }
@@ -41,6 +46,7 @@ public class Video {
 
     @Lob
     @Column(name = "DESCRIPTION", nullable = true, insertable = true, updatable = true, length = 1000)
+    @Size(min = 1, max = 1000, message = EnumError.VIDEO_DESCRIPTION_SIZE)
     public String getDescription() {
         return description;
     }
@@ -51,6 +57,7 @@ public class Video {
 
     @ManyToOne
     @JoinColumn(name="USER", nullable=false, referencedColumnName = "ID")
+    @NotNull
     public UserLiztube getOwner() {
         return owner;
     }
