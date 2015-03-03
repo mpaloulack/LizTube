@@ -85,7 +85,8 @@ public class VideoBusiness {
 
         //Save video file
         try {
-            file.transferTo(new File(videoLibrary.getFile().getAbsolutePath()+ File.separator + key));
+            //transfer video to the video library
+            file.transferTo(new File(videoLibrary.getFile().getAbsolutePath() + File.separator + key));
         } catch (Exception e) {
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add(EnumError.VIDEO_UPLOAD_SAVE_FILE_ON_SERVER);
