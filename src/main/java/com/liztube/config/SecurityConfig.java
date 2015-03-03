@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 @Configuration
 @EnableWebMvcSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 @ComponentScan(basePackages = {"com.liztube.security"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -63,10 +63,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maximumSessions(1);
                 //.expiredUrl("/loginExpired");
 
-        http
+        /*http
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(PROPERTY_REMEMBER_ME_DELAY);
+                .tokenValiditySeconds(PROPERTY_REMEMBER_ME_DELAY);*/
 
     }
 

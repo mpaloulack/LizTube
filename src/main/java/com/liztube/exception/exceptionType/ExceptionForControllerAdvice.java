@@ -1,6 +1,7 @@
 package com.liztube.exception.exceptionType;
 
 import com.liztube.exception.SigninException;
+import com.liztube.exception.VideoException;
 
 import java.util.List;
 
@@ -20,6 +21,12 @@ public class ExceptionForControllerAdvice {
         this.code = signinException.getCode();
         this.globalDescriptor = signinException.getGlobalDescriptor();
         this.messages = signinException.getMessages();
+    }
+
+    public ExceptionForControllerAdvice(VideoException videoException){
+        this.code = videoException.getCode();
+        this.globalDescriptor = videoException.getGlobalDescriptor();
+        this.messages = videoException.getMessages();
     }
     //endregion
 

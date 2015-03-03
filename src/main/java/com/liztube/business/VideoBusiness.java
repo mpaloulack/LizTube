@@ -2,7 +2,6 @@ package com.liztube.business;
 
 import com.liztube.entity.UserLiztube;
 import com.liztube.entity.Video;
-import com.liztube.exception.SigninException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
 import com.liztube.repository.VideoRepository;
@@ -11,19 +10,16 @@ import com.liztube.utils.facade.VideoCreationFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

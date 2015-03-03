@@ -7,7 +7,8 @@ angular.module("liztube",[
     "liztube.home",
     "liztube.user",
     "liztube.partial",
-    "ngRoute"
+    "ngRoute",
+    'test'
 ])
     .config(function ($routeProvider,$locationProvider,$mdThemingProvider){
         $locationProvider.html5Mode(true);
