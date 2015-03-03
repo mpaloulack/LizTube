@@ -120,7 +120,8 @@ public class AuthBusiness {
                 .setModificationdate(new Timestamp(new DateTime().getMillis()))
                 .setRegisterdate(new Timestamp(new DateTime().getMillis()));
 
-        //User already exist validations
+        //User already exist valigulp
+        // dations
         if(existEmail(new SigninTestExistFacade().setValue(user.getEmail())) || existPseudo(new SigninTestExistFacade().setValue(user.getPseudo()))){
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);

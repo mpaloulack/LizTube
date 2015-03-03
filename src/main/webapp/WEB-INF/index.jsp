@@ -31,7 +31,9 @@
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-route/angular-route.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload-shim.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/lodash/dist/lodash.compat.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/restangular/dist/restangular.js"></script>
     <!-- endinject -->
     <script>
         window.user = ${userConnected};
