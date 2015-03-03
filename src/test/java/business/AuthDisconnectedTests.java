@@ -9,9 +9,11 @@ import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.facade.SigninTestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -31,6 +33,11 @@ public class AuthDisconnectedTests {
 
     @Autowired
     UserLiztubeRepository userLiztubeRepository;
+
+    @Before
+    public void setUp(){
+        SecurityContextHolder.getContext().setAuthentication(null);
+    }
 
     @Test
     public void getUserConnectedProfile_should_get_no_one(){
