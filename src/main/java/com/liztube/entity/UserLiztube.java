@@ -36,7 +36,7 @@ public class UserLiztube {
     private Boolean isfemale;
     private Boolean isactive;
     private Set<Role> roles;
-    private Set<Video> videos;
+    private List<Video> videos;
     //endregion
 
     //region getter/setter
@@ -198,12 +198,11 @@ public class UserLiztube {
     }
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
-    //List<?> list = new ArrayList<?>(set); or Lists.newArrayList([your_set]) to convert in list
-    public Set<Video> getVideos() {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+    public List<Video> getVideos() {
         return videos;
     }
-    public UserLiztube setVideos(Set<Video> videos) {
+    public UserLiztube setVideos(List<Video> videos) {
         this.videos = videos; return this;
     }
     //endregion

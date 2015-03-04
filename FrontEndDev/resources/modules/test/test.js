@@ -8,7 +8,7 @@ angular.module('test', ['ngRoute', 'angularFileUpload'])//https://github.com/dan
         });
     })
     .controller('FileUploadController', function($scope, $http, $upload) {
-
+        $scope.uploadRate = 0;
 
         $scope.$watch('files', function () {
             $scope.upload($scope.files);
@@ -27,9 +27,7 @@ angular.module('test', ['ngRoute', 'angularFileUpload'])//https://github.com/dan
                     },
                     file: file
                 }).progress(function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    console.log('progress: ' + progressPercentage + '% ' +
-                    evt.config.file.name);
+                    $scope.uploadRate = parseInt(100.0 * evt.loaded / evt.total);
                 }).success(function (data, status, headers, config) {
                     console.log('file ' + config.file.name + 'uploaded. Response: ' +
                     JSON.stringify(data));

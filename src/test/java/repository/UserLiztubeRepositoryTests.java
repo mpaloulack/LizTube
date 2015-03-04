@@ -34,7 +34,7 @@ public class UserLiztubeRepositoryTests {
         assertThat(user2).isNotNull();
         assertThat(user1.getId()).isEqualTo(1);
         assertThat(user2.getId()).isEqualTo(1);
-        assertThat(user1).isEqualToComparingFieldByField(user2);
+        assertThat(user1.getPseudo()).isEqualTo("spywen");
     }
 
     @Test

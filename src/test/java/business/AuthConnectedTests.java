@@ -72,6 +72,6 @@ public class AuthConnectedTests {
     @Test
     public void getConnectedUser_should_get_connected_user_complete_profile() throws UserNotFoundException {
         UserLiztube userLiztubeToFound = userLiztubeRepository.findByPseudo("spywen");
-        assertThat(authBusiness.getConnectedUser()).isEqualTo(userLiztubeToFound);
+        assertThat(authBusiness.getConnectedUser().getId()).isEqualTo(userLiztubeToFound.getId());
     }
 }
