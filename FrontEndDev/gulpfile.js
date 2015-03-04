@@ -126,14 +126,11 @@ gulp.task('images', function () {
 //Commands :
 //Parameter : gulp (--env=prod or --debug=dev (default value)),
 //Remark : task executed in parallel (no order defined here)
-gulp.task('default', ['script', 'view', 'style','images']);
-//Parameter : gulp plugins (--env=dev or --env=prod)
-gulp.task('plugins', ['inject']);
-
+gulp.task('default', ['script', 'view', 'style']);
 //ALL
-gulp.task('all', ['default', 'plugins']);
+gulp.task('all', ['default', 'inject', 'images']);
 
-gulp.task('watch', ['default'], function() {
+gulp.task('watch', ['all'], function() {
     gulp.watch(scriptsLocation, ['all']);
     gulp.watch(stylesLocation, ['style']);
     gulp.watch(viewsLocation, ['view']);

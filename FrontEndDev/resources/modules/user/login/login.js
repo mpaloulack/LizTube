@@ -2,10 +2,10 @@
  * Created by Youcef on 26/02/2015.
  */
 angular.module("liztube.login",[
-    "ngRoute", 
     "liztube.dataService.authService",
+    "ngRoute",
     'ngMessages'
-]).controller("loginCtrl", function($scope, $location, authService, $window, $interval) {
+]).controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, $interval){
 
     $scope.loaderLogin= false;
 
@@ -19,6 +19,7 @@ angular.module("liztube.login",[
             authService.currentUser().then(function(currentUser){
                 console.log("currentUser success " +currentUser.pseudo);
                 $window.user = currentUser;
+                $rootScope.$broadcast('userStatus', currentUser);
             },function(){
                 console.log("currentUser fail");
             });
@@ -32,8 +33,6 @@ angular.module("liztube.login",[
         },1000,1);
         
     };
-    
-    /**/
 })
 .config(function ($routeProvider,$locationProvider){
     $routeProvider.when("/login",{

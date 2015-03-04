@@ -1,0 +1,17 @@
+<span ng-if="type == 'forSideBar'">
+    <div class="colored"></div>
+    <div class="panel-header">
+        <h1>{{pseudo}}</h1>
+    </div>
+    <div class="clear"></div>
+    <div class="panel-footer">
+        <img src="app/dist/img/user.png"/>
+        <md-button class="logout md-warn md-raised" ng-click="logOut()" href="#"><i class="fa fa-sign-out"></i> Déconnexion</md-button>
+    </div>
+</span>
+<span ng-if="type == 'forHeaderBar'">
+    <div class="navbar-header">
+        <img src="app/dist/img/user.png"/>
+        <h1>{{pseudo}}</h1>
+    </div>
+</span>
