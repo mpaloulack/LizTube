@@ -23,7 +23,7 @@ angular.module('liztube.dataService.authService', [
     Get current connected user
     **/
     function currentUser() {
-        return Restangular.one('currentProfil').get();
+        return RestangularForAuth.one('currentProfil').get();
     }
 
     function login(username, password) {
