@@ -383,7 +383,7 @@
                     <skipKarma>false</skipKarma>
                     <skipTests>false</skipTests>
                     <karmaFailureIgnore>false</karmaFailureIgnore>
-                    <reporters>teamcity, junit</reporters>
+                    <reporters>junit, teamcity</reporters>
                 </configuration>
             </plugin>
             <plugin>
