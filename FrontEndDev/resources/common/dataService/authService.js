@@ -16,7 +16,8 @@ angular.module('liztube.dataService.authService', [
 
     return {
         login: login,
-        currentUser: currentUser
+        currentUser: currentUser,
+        logout: logout
     };
 
     /**
@@ -34,6 +35,6 @@ angular.module('liztube.dataService.authService', [
             {'Content-Type': 'application/x-www-form-urlencoded'});
     }
     function logout(){
-        return RestangularDefault.one('logout');
+        return RestangularDefault.one('logout').get();
     }
 });
