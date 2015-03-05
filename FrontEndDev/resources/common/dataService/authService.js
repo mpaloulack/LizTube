@@ -34,6 +34,6 @@ angular.module('liztube.dataService.authService', [
             {'Content-Type': 'application/x-www-form-urlencoded'});
     }
     function logout(){
-        return RestangularDefault.one('logout').get();
+        return RestangularDefault.one('logout');
     }
 });

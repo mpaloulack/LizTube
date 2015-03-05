@@ -13,8 +13,7 @@ angular.module("liztube",[
     'test'
 ]).config(function ($routeProvider,$locationProvider,$mdThemingProvider){
     $locationProvider.html5Mode(true);
-})
-.run(function($rootScope) {
+}).run(function($rootScope) {
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
         if (current.$$route && current.$$route.resolve) {
             // Show a loading message until promises are not resolved

@@ -30,23 +30,23 @@ angular.module("liztube.themes",[
         .primaryPalette('liztubePalette')
         .accentPalette('blue',{
             'default': '700'
+        }).warnPalette("red",{
+            'default': '800'
         });
     $mdThemingProvider.theme('navbar')
         .primaryPalette('grey', {
             'default': '200'
-        })
-        .accentPalette('grey', {
+        }).accentPalette('grey', {
             'default': '900'
+        }).warnPalette("red",{
+            'default': '800'
         });
     $mdThemingProvider.theme('sub-bar')
         .primaryPalette('grey', {
             'default': '600'
-        })
-        .accentPalette('blue-grey', {
+        }).accentPalette('blue-grey', {
             'default': '500'
-        });
-    $mdThemingProvider.theme('default', 'navbar', 'sub-bar')
-        .warnPalette("red",{
+        }).warnPalette("red",{
             'default': '800'
         });
     $mdThemingProvider.setDefaultTheme('default');
