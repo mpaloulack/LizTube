@@ -4,29 +4,23 @@
 angular.module("liztube.login",[
     "liztube.dataService.authService",
     "ngRoute"
-]).controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, $interval){
+]).controller("loginCtrl", function($scope, $rootScope, $location, authService, $window){
+
+    $scope.errorLogin = '';
 
     $scope.submit= function() {
         $rootScope.$broadcast('loadingStatus', true);
-        $interval(function(){
-            console.log($scope.loaderLogin);
-            authService.login($scope.login, $scope.password).then(function(){
-            console.log("success");
+        authService.login($scope.login, $scope.password).then(function(){
             authService.currentUser().then(function(currentUser){
-                console.log("currentUser success " +currentUser.pseudo);
                 $window.user = currentUser;
                 $rootScope.$broadcast('userStatus', currentUser);
-            },function(){
-                console.log("currentUser fail");
-            });
-            $location.path('/');
-            },function(){
-                console.log("fail");
-                $scope.errorLogin ="Error login";
-            }).finally(function(){
-                $rootScope.$broadcast('loadingStatus', false);
-            });
-        },1000,1);
+                $location.path('/');
+            },function(){});
+        },function(){
+            $scope.errorLogin ="Error login";
+        }).finally(function(){
+            $rootScope.$broadcast('loadingStatus', false);
+        });
     };
 })
 .config(function ($routeProvider,$locationProvider){

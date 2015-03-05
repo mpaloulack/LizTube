@@ -12,14 +12,14 @@ describe('liztube.login', function() {
     beforeEach(module('liztube.login'));
     beforeEach(module('liztube.dataService.authService'));
 
-    var $scope, $rootScope, $location, authService, $window, $interval;
+    var $scope, $rootScope, $location, authService, $window, $q;
 
-    beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$interval_) {
+    beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_) {
     	$rootScope =_$rootScope_;
     	$location = _$location_;
     	authService = _authService_;
     	$window= _$window_;
-    	$interval = _$interval_;
+        $q = _$q_;
     }));
 
 	beforeEach(inject(function ($controller) {
@@ -31,9 +31,64 @@ describe('liztube.login', function() {
         };
 	}));
 
+    beforeEach(function(){
+        createController();
+    });
 
-	it('should behave...', function() {
-		expect(true).toEqual(true);
-	});
+    describe('variables', function(){
+
+        it('variables should initialized', function() {
+            expect($scope.errorLogin).toEqual('');
+        });
+
+    });
+
+    describe('submit', function() {
+        var loginPromise, currentProfilPromise, currentUserResponse;
+
+        beforeEach(function(){
+            loginPromise = $q.defer();
+            spyOn(authService, 'login').and.returnValue(loginPromise.promise);
+        });
+
+        beforeEach(function(){
+            currentProfilPromise = $q.defer();
+            spyOn(authService, 'currentUser').and.returnValue(currentProfilPromise.promise);
+            currentUserResponse = {
+                pseudo:'max',
+                roles:['ROLE_ADMIN']
+            };
+        });
+
+        beforeEach(function(){
+            spyOn($rootScope, '$broadcast').and.callThrough();
+            spyOn($location,'path').and.callThrough();
+            $scope.submit();
+        });
+
+        it('should start global loading', function(){
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadingStatus', true);
+        });
+
+        it('should stop global loading when request is finished', function(){
+            changePromiseResult(loginPromise, "failed");
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadingStatus', false);
+        });
+
+        it('should return an error message', function(){
+            changePromiseResult(loginPromise, "failed");
+            expect($scope.errorLogin).toEqual("Error login");
+        });
+
+        it('should be a successful authentication', function(){
+            changePromiseResult(loginPromise, "resolve");
+            changePromiseResult(currentProfilPromise, "resolve", currentUserResponse);
+
+            expect($window.user).toEqual(currentUserResponse);
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('userStatus', currentUserResponse);
+            expect($location.path).toHaveBeenCalledWith('/');
+        });
+        
+    });
 	
 });

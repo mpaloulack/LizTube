@@ -14,10 +14,15 @@ describe('liztube.dataService.authService', function(){
         $httpBackend.verifyNoOutstandingExpectation();
     });
 
-	/*it('should get current profil', function(){
-		$httpBackend.expectGET('/api/auth/currentProfil').respond();
+	it('should get current profil', function(){
+		$httpBackend.expectGET('/currentProfil').respond();
 		authService.currentUser();
         $httpBackend.flush();
-	});*/
+	});
 	
+	it('should post for login', function(){
+		$httpBackend.expectPOST('/login').respond();
+		authService.login();
+        $httpBackend.flush();
+	});
 });
