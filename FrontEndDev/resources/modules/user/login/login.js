@@ -3,7 +3,6 @@
  */
 angular.module("liztube.login",[
     "liztube.dataService.authService",
-    "ngRoute",
     'ngMessages'
 ]).controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, $interval){
 
