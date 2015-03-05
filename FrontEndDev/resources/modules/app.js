@@ -3,6 +3,7 @@
  */
 angular.module("liztube",[
     "liztube.themes",
+    "liztube.loading",
     "liztube.menu",
     "liztube.home",
     "liztube.user",

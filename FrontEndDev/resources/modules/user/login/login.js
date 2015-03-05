@@ -7,11 +7,8 @@ angular.module("liztube.login",[
     'ngMessages'
 ]).controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, $interval){
 
-    $scope.loaderLogin= false;
-
     $scope.submit= function() {
-        $scope.loaderLogin= true;
-
+        $rootScope.$broadcast('loadingStatus', true);
         $interval(function(){
             console.log($scope.loaderLogin);
             authService.login($scope.login, $scope.password).then(function(){
@@ -28,16 +25,15 @@ angular.module("liztube.login",[
                 console.log("fail");
                 $scope.errorLogin ="Error login";
             }).finally(function(){
-                $scope.loaderLogin= false;
+                $rootScope.$broadcast('loadingStatus', false);
             });
         },1000,1);
-        
     };
 })
 .config(function ($routeProvider,$locationProvider){
     $routeProvider.when("/login",{
-        title: "LizTube - Login",
-        page: "Login",
+        title: "LizTube - Connexion",
+        page: "Connexion",
         controller: 'loginCtrl',
         templateUrl: "login.html"
     });

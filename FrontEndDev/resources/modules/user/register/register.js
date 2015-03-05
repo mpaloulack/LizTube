@@ -5,29 +5,25 @@ angular.module("liztube.register",[
     "ngRoute", 
     "liztube.dataService.authService",
     'ngMessages'
-]).controller("registerCtrl", function($scope, $location, authService, $window, $interval) {
-
-
+]).config(function ($routeProvider,$locationProvider){
+    $routeProvider.when("/register",{
+        title: "LizTube - Inscription",
+        page: "Inscription",
+        controller: 'registerCtrl',
+        templateUrl: "register.html"
+    });
+}).controller("registerCtrl", function($scope, $location, authService, $window, $interval) {
 	$scope.user={
         	firstname: '',
 		    lastname: '',
 		    pseudo: '',
-		    password: '',
 		    birthdate: '',
 		    email: '',
+            password: '',
+            passwordConfirme: '',
     		isFemale: true
         };
     $scope.register= function() {
         console.log(user);
     };
-    
-    /**/
-})
-.config(function ($routeProvider,$locationProvider){
-    $routeProvider.when("/register",{
-        title: "LizTube - Enregistrement",
-        page: "Login",
-        controller: 'registerCtrl',
-        templateUrl: "register.html"
-    });
 });

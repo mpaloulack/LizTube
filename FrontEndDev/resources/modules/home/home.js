@@ -14,7 +14,8 @@ angular.module("liztube.home",[
         templateUrl: "home.html"
     }).otherwise({
         redirectTo: '/404',
-        title: "LizTube - Home",
+        title: "LizTube - 404",
+        page: "404 page non trouvé",
         templateUrl:"404.html"
     });
 });

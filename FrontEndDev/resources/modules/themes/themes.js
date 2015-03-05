@@ -30,9 +30,6 @@ angular.module("liztube.themes",[
         .primaryPalette('liztubePalette')
         .accentPalette('blue',{
             'default': '700'
-        })
-        .warnPalette("red",{
-            'default': '800'
         });
     $mdThemingProvider.theme('navbar')
         .primaryPalette('grey', {
@@ -40,9 +37,6 @@ angular.module("liztube.themes",[
         })
         .accentPalette('grey', {
             'default': '900'
-        })
-        .warnPalette("red",{
-            'default': '800'
         });
     $mdThemingProvider.theme('sub-bar')
         .primaryPalette('grey', {
@@ -50,7 +44,8 @@ angular.module("liztube.themes",[
         })
         .accentPalette('blue-grey', {
             'default': '500'
-        })
+        });
+    $mdThemingProvider.theme('default', 'navbar', 'sub-bar')
         .warnPalette("red",{
             'default': '800'
         });
