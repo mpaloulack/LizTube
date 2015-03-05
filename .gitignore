@@ -4,5 +4,7 @@ target/
 FrontEndDev/bower_components/
 FrontEndDev/node_modules/
 src/main/webapp/app/
-src/main/webapp/WEB-INF/index.jsp
+src/main/webapp/WEB-INF/
 classes/
+FrontEndDev/test-results.xml
+FrontEndDev/Reports/
