@@ -4,7 +4,14 @@
 angular.module("liztube.login",[
     "liztube.dataService.authService",
     "ngRoute"
-]).controller("loginCtrl", function($scope, $rootScope, $location, authService, $window){
+]).config(function ($routeProvider,$locationProvider){
+    $routeProvider.when("/login",{
+        title: "LizTube - Connexion",
+        page: "Connexion",
+        controller: 'loginCtrl',
+        templateUrl: "login.html"
+    });
+}).controller("loginCtrl", function($scope, $rootScope, $location, authService, $window){
 
     $scope.errorLogin = '';
 
@@ -22,13 +29,5 @@ angular.module("liztube.login",[
             $rootScope.$broadcast('loadingStatus', false);
         });
     };
-})
-.config(function ($routeProvider,$locationProvider){
-    $routeProvider.when("/login",{
-        title: "LizTube - Connexion",
-        page: "Connexion",
-        controller: 'loginCtrl',
-        templateUrl: "login.html"
-    });
 });
 
