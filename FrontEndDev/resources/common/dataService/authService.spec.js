@@ -15,7 +15,7 @@ describe('liztube.dataService.authService', function(){
     });
 
 	it('should get current profil', function(){
-		$httpBackend.expectGET('/api/auth/currentProfil').respond();
+		$httpBackend.expectGET('/auth/currentProfil').respond();
 		authService.currentUser();
         $httpBackend.flush();
 	});
@@ -29,6 +29,24 @@ describe('liztube.dataService.authService', function(){
     it('should get for logout', function(){
         $httpBackend.expectGET('/logout').respond();
         authService.logout();
+        $httpBackend.flush();
+    });
+
+    it('should post for register', function(){
+        $httpBackend.expectPOST('/auth/signin').respond();
+        authService.register({});
+        $httpBackend.flush();
+    });
+
+    it('should post for Exist Email', function(){
+        $httpBackend.expectPOST('/auth/email').respond();
+        authService.emailExist();
+        $httpBackend.flush();
+    });
+
+    it('should post for Exist Pseudo', function(){
+        $httpBackend.expectPOST('/auth/pseudo').respond();
+        authService.pseudoExist();
         $httpBackend.flush();
     });
 });
