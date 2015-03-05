@@ -16,15 +16,13 @@ angular.module("liztube.userStatus",[
             $scope.userConnected = false;
         }
     }
-    /*$scope.logOut = function(){
+    $scope.logOut = function(){
         authService.logout().then(function(){
-            window.location.reload();
             resolve(result);
         }, function(){
-            console.log("fail Logout");
             reject(false);
         });
-    };*/
+    };
 }).directive('isConnected', function () {
     return {
         restrict: 'E',
