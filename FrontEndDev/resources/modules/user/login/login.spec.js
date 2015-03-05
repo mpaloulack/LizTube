@@ -8,11 +8,9 @@ describe('liztube.login', function() {
             promise.reject(value);
         $rootScope.$digest();
 	};
-
     
     beforeEach(module('liztube.login'));
-    beforeEach(module('liztube.dataservice.authService'));
-    beforeEach(module('ngMessages'));
+    beforeEach(module('liztube.dataService.authService'));
 
     var $scope, $rootScope, $location, authService, $window, $interval;
 
