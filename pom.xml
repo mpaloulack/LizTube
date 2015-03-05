@@ -375,7 +375,7 @@
                     <karmaExecutable>FrontEndDev/node_modules/.bin/karma</karmaExecutable>
                     <configFile>FrontEndDev/karma.config.js</configFile>
                     <junitReportFile>FrontEndDev/test-results.xml</junitReportFile>
-                    <reportsDirectory>FrontEndDev/Reports/coverage/karma-reports</reportsDirectory>
+                    <reportsDirectory>FrontEndDev/Reports/coverage</reportsDirectory>
                     <browsers>PhantomJS</browsers>
                     <autoWatch>false</autoWatch>
                     <singleRun>true</singleRun>
@@ -383,7 +383,7 @@
                     <skipKarma>false</skipKarma>
                     <skipTests>false</skipTests>
                     <karmaFailureIgnore>false</karmaFailureIgnore>
-                    <reporters>dots,junit</reporters>
+                    <reporters>teamcity, junit</reporters>
                 </configuration>
             </plugin>
             <plugin>
