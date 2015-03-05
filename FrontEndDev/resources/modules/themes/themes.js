@@ -38,8 +38,8 @@ angular.module("liztube.themes",[
         .primaryPalette('grey', {
             'default': '200'
         })
-        .accentPalette('blue-grey', {
-            'default': '500'
+        .accentPalette('grey', {
+            'default': '900'
         })
         .warnPalette("red",{
             'default': '800'

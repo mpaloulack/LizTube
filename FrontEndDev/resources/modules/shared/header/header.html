@@ -11,14 +11,14 @@
                 <input placeholder="Rechercher une vidéo">
             </md-input-container>
 
-            <md-button ng-click="toggleRight()">
-                <i class="fa fa-bars"></i>
+            <md-button ng-click="toggleRight()" class="btn-size">
+                <i class="fa fa-bars fa-font-size"></i>
             </md-button>
             <span ng-controller="connectedCtrl">
                 <is-connected ng-show="userConnected" type="forHeaderBar" id="isConnected"></is-connected>
                 <span ng-hide="userConnected">
-                    <md-button class="md-warn" href="login"><i class="fa fa-user"></i> Login</md-button>
-                    <md-button class="md-accent" href="register"><i class="fa fa-user-plus"></i> Register</md-button>
+                    <md-button class="md-warn btn-size" href="login"><i class="fa fa-user"></i> Login</md-button>
+                    <md-button class="md-accent btn-size" href="register"><i class="fa fa-user-plus"></i> Register</md-button>
                 </span>
             </span>
         </section>
