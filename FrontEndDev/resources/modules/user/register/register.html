@@ -1,0 +1,60 @@
+<div ng-controller="registerCtrl">
+    <div layout="column" layout-align="center center" class="register">
+        <form class="form-register" ng-submit="register()"  name="formRegister">
+            <md-toolbar class="register-bar md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span><img src="app/dist/img/favicon.png" width="27px"> Register</span>
+                </h2>
+            </md-toolbar>
+            <div class="register-content">
+                <md-input-container>
+                    <label>Email :</label>
+                    <input type="email" name="myEmail" required ng-model="user.email"/>
+                    <div ng-messages="formRegister.myEmail.$error">
+                        <div ng-message="required">L'email est requis</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Pseudo :</label>
+                    <input type="text" name="myPseudo" required ng-model="user.pseudo"/>
+                    <div ng-messages="formRegister.myPseudo.$error">
+                        <div ng-message="required">Le pseudo est requis</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Mot de passe :</label>
+                    <input type="password" name="myPassword" required ng-model="user.password">
+                    <div ng-messages="formRegister.myPassword.$error">
+                        <div ng-message="required">Mot de passe requis</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Nom :</label>
+                    <input type="text" name="myFirstname" ng-model="user.firstname"/>
+                </md-input-container>
+                <md-input-container>
+                    <label>Prénom :</label>
+                    <input type="text" name="myLastname"  ng-model="user.lastname"/>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Submission Date</label>
+                    <input type="date" ng-model="user.birthdate">
+                </md-input-container>
+                <md-input-container>
+                    Sexe : 
+                    <md-radio-group ng-model="user.isFemale" required>
+                        <md-radio-button ng-value="true">Femme</md-radio-button>
+                        <md-radio-button ng-value="false"> Homme </md-radio-button>
+                    </md-radio-group>
+                </md-input-container>
+                <md-input-container ng-show="loaderRegister">
+                    <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="end center" class="register-footer">
+                <md-button type="submit" class="md-accent md-raised margin-right"><i class="fa fa-check"></i> Register</md-button>
+                
+            </div>
+        </form>
+    </div>
+</div>
