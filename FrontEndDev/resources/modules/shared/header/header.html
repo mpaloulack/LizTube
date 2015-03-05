@@ -1,4 +1,5 @@
 <!-- NavBar -->
+<div id="header">
 <nav ng-controller="headerCtrl">
     <md-toolbar layout="row" layout-align="center center" md-theme="navbar">
         <md-button href="/">
@@ -13,17 +14,27 @@
             <md-button ng-click="toggleRight()">
                 <i class="fa fa-bars"></i>
             </md-button>
-            <md-button class="md-warn md-hue-2" href="login"><i class="fa fa-user"></i> Login</md-button>
+            <span ng-controller="connectedCtrl">
+                <is-connected ng-show="userConnected" type="forHeaderBar" id="isConnected"></is-connected>
+                <span ng-hide="userConnected">
+                    <md-button class="md-warn" href="login"><i class="fa fa-user"></i> Login</md-button>
+                    <md-button class="md-accent" href="register"><i class="fa fa-user-plus"></i> Register</md-button>
+                </span>
+            </span>
         </section>
 
     </md-toolbar>
     <div layout="column" layout-fill md-theme="sub-bar">
         <section layout="row" flex>
             <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-                <md-toolbar class="md-medium-tall" layout-align="center center">
-                    <h1 class="md-toolbar-tools">Menu</h1>
+                <md-toolbar class="md-medium-tall" layout-align="center center" ng-controller="connectedCtrl">
+                    <is-connected ng-show="userConnected" type="forSideBar" id="isConnected"></is-connected>
+                    <span ng-hide="userConnected">
+                        <h1 class="md-toolbar-tools">Menu</h1>
+                    </span>
                 </md-toolbar>
                 <md-content ng-controller="RightSideBarCtrl" class="md-padding">
+                    <br/>
                     <md-button ng-click="close()">
                         Fermer le menu
                     </md-button>
@@ -43,3 +54,4 @@
     </span>
 </md-toolbar>
 <!-- Breadcrumb -->
+</div>

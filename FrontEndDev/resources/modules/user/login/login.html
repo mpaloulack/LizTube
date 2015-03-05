@@ -1,3 +1,4 @@
+<div id="login">
 <div ng-controller="loginCtrl">
     <div layout="column" layout-align="center center" class="login">
         <form class="form-login" ng-submit="submit()"  name="formLogin">
@@ -9,7 +10,7 @@
             <div class="login-content">
                 <md-input-container>
                     <label><i class="fa fa-user"></i> Email ou Pseudo</label>
-                    <input type="text" name="myLogin" required ng-model="login" autofocus/>
+                    <input type="text" name="myLogin" required ng-model="login"/>
                     <div ng-messages="formLogin.myLogin.$error">
                         <div ng-message="required">Login is required</div>
                     </div>
@@ -31,4 +32,5 @@
             </div>
         </form>
     </div>
+</div>
 </div>
