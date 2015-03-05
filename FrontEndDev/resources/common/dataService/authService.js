@@ -5,7 +5,7 @@ Authentication data service : to get/set data from the API
 
 angular.module('liztube.dataService.authService', [
     'restangular'
-]).factory('authService', function (Restangular, $q) {
+]).factory('authService', function (Restangular) {
     var RestangularDefault = Restangular.withConfig(function(RestangularConfigurer) {
         RestangularConfigurer.setBaseUrl('/');
     });
@@ -23,7 +23,7 @@ angular.module('liztube.dataService.authService', [
     Get current connected user
     **/
     function currentUser() {
-        return RestangularForAuth.one('currentProfil').get();
+        return Restangular.one('currentProfil').get();
     }
 
     function login(username, password) {

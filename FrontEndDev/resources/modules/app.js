@@ -9,7 +9,8 @@ angular.module("liztube",[
     "liztube.user",
     "liztube.partial",
     "ngRoute",
-    'test'
+    'test',
+    'ngMessages'
 ]).config(function ($routeProvider,$locationProvider,$mdThemingProvider){
     $locationProvider.html5Mode(true);
 })

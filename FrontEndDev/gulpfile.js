@@ -21,6 +21,7 @@
 //Location
 var indexLocation = "./index.jsp",
     scriptsLocation = ['./resources/**/*.js'],
+    scriptsQualityLocation = ['./resources/**/*.js','!./resources/**/*.spec.js'],
     viewsLocation = ['./resources/**/*.html'],
     imgLocation = ['./resources/img/**'],
     stylesLocation = ['./resources/**/*.less'];
@@ -112,7 +113,7 @@ gulp.task('inject' ,function () {
 
 //Quality
 gulp.task('quality', function () {
-    return gulp.src(scriptsLocation)
+    return gulp.src(scriptsQualityLocation)
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'));

@@ -26,4 +26,18 @@ angular.module("liztube.register",[
     $scope.register= function() {
         console.log(user);
     };
+<<<<<<< HEAD
 });
+=======
+    
+    /**/
+})
+.config(function ($routeProvider,$locationProvider){
+    $routeProvider.when("/register",{
+        title: "LizTube - Enregistrement",
+        page: "Login",
+        controller: 'registerCtrl',
+        templateUrl: "register.html"
+    });
+});
+>>>>>>> 10610aac22da985675a502eb8dbc133ea95b1c3d

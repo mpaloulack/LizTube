@@ -3,8 +3,7 @@
  */
 angular.module("liztube.login",[
     "liztube.dataService.authService",
-    "ngRoute",
-    'ngMessages'
+    "ngRoute"
 ]).controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, $interval){
 
     $scope.submit= function() {
