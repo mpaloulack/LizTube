@@ -15,7 +15,7 @@ describe('liztube.dataService.authService', function(){
     });
 
 	it('should get current profil', function(){
-		$httpBackend.expectGET('/currentProfil').respond();
+		$httpBackend.expectGET('/api/auth/currentProfil').respond();
 		authService.currentUser();
         $httpBackend.flush();
 	});
