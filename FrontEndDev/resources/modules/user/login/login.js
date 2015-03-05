@@ -5,9 +5,7 @@ angular.module("liztube.login",[
     "liztube.dataService.authService",
     "liztube.toast",
     "ngRoute"
-
-])
-.config(function ($routeProvider,$locationProvider){
+]).config(function ($routeProvider,$locationProvider){
     $routeProvider.when("/login",{
         title: "LizTube - Connexion",
         page: "Connexion",

@@ -10,21 +10,24 @@ angular.module('liztube.dataService.authService', [
         RestangularConfigurer.setBaseUrl('/');
     });
 
-    var RestangularForAuth = Restangular.withConfig(function(RestangularConfigurer) {
-        RestangularConfigurer.setBaseUrl('/api/auth');
-    });
+    function baseAuth(){
+        return Restangular.one("auth");
+    }
 
     return {
         login: login,
+        register: register,
         currentUser: currentUser,
-        logout: logout
+        logout: logout,
+        emailExist : emailExist,
+        pseudoExist : pseudoExist
     };
 
     /**
     Get current connected user
     **/
     function currentUser() {
-        return RestangularForAuth.one('currentProfil').get();
+        return baseAuth().one('currentProfil').get();
     }
 
     function login(username, password) {
@@ -33,6 +36,21 @@ angular.module('liztube.dataService.authService', [
             undefined,
             undefined,
             {'Content-Type': 'application/x-www-form-urlencoded'});
+    }
+    function register(user) {
+        return baseAuth().post('signin', user);
+    }
+    function emailExist(email) {
+        var emailObj = {
+            'value':email
+        };
+        return baseAuth().post('email', emailObj);
+    }
+    function pseudoExist(pseudo) {
+        var pseudoObj = {
+            'value':pseudo
+        };
+        return baseAuth().post('pseudo', pseudoObj);
     }
     function logout(){
         return RestangularDefault.one('logout').get();

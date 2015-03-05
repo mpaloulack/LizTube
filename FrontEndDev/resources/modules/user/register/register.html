@@ -1,7 +1,7 @@
 <div id="register">
 <div ng-controller="registerCtrl">
     <div layout="column" layout-align="center center" class="register">
-        <form class="form-register" ng-submit="register()"  name="formRegister">
+        <form class="form-register" name="formRegister">
             <md-toolbar class="register-bar md-accent">
                 <h2 class="md-toolbar-tools">
                     <span><img src="app/dist/img/favicon.png" width="27px"> Inscription</span>
@@ -25,23 +25,25 @@
                     </md-input-container>
                     <md-input-container flex>
                         <label><i class="fa fa-user"></i> Pseudo</label>
-                        <input type="text" name="pseudo" ng-model="user.pseudo" required/>
+                        <input type="text" name="pseudo" ng-model="user.pseudo" required pseudo-validation ng-model-options="{ updateOn: 'blur' }"/>
                         <div ng-messages="formRegister.pseudo.$error">
                             <div ng-message="required">Le pseudo est requis</div>
+                            <div ng-message="pseudoValidation">Le pseudo éxist déja, essayez de vous connecter avec</div>
                         </div>
                     </md-input-container>
                 </div>
                 <div layout layout-sm="column">
                     <md-input-container flex>
                         <label><i class="fa fa-envelope"></i> Email</label>
-                        <input type="email" name="email" ng-model="user.email" required/>
+                        <input type="email" name="email" ng-model="user.email" required email-validation ng-model-options="{ updateOn: 'blur' }"/>
                         <div ng-messages="formRegister.email.$error">
                             <div ng-message="required">L'email est requis</div>
+                            <div ng-message="emailValidation">L'email éxist déja, essayez de vous connecter avec</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex>
                         <label><i class="fa fa-calendar"></i> date de naissance</label>
-                        <input type="date" name="date_naissance" ng-model="user.birthdate">
+                        <input type="date" name="date_naissance" ng-model="user.birthdate" date-to-timestamp>
                     </md-input-container>
                 </div>
                 <div layout layout-sm="column">
@@ -54,29 +56,26 @@
                     </md-input-container>
                     <md-input-container flex>
                         <label><i class="fa fa-lock"></i> Confirmation Mot de passe</label>
-                        <input type="password" name="password_confirm" ng-model="user.passwordConfirme" required>
+                        <input type="password" name="password_confirm" ng-model="verif.password" required password-verify="user.password">
                         <div ng-messages="formRegister.password_confirm.$error">
                             <div ng-message="required">Mot de passe requis</div>
+                            <div ng-message="passwordVerify">Les deux mots de passe n'ont pas la mème valeurs</div>
                         </div>
                     </md-input-container>
                 </div>
                 <div layout layout-sm="column">
                     <md-input-container flex>
                         Sexe
-                        <md-radio-group ng-model="user.isFemale" required>
+                        <md-radio-group ng-model="user.isfemale" required>
                             <md-radio-button ng-value="true"><i class="fa fa-female"></i> Femme</md-radio-button>
                             <md-radio-button ng-value="false"><i class="fa fa-male"></i>  Homme </md-radio-button>
                         </md-radio-group>
                     </md-input-container>
-                    <md-input-container ng-show="loaderRegister">
-                        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-                    </md-input-container>
                 </div>
             </div>
             <div layout="row" layout-align="end center" class="register-footer">
-                <md-button type="submit" class="md-accent md-raised margin-right"><i class="fa fa-check"></i> Inscription</md-button>
+                <md-button type="submit" ng-click="register()" class="md-accent md-raised margin-right" ng-disabled="formRegister.$invalid"><i class="fa fa-check"></i> Inscription</md-button>
                 <md-button href="/login" class="md-warn md-primary"><i class="fa fa-sign-in"></i> Connexion</md-button>
-                
             </div>
         </form>
     </div>

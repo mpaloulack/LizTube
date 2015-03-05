@@ -10,9 +10,11 @@ angular.module("liztube",[
     "liztube.partial",
     "ngRoute",
     'ngMessages',
-    'test'
-]).config(function ($routeProvider,$locationProvider,$mdThemingProvider){
+    'test',
+    'liztube.date'
+]).config(function ($routeProvider,$locationProvider,RestangularProvider){
     $locationProvider.html5Mode(true);
+    RestangularProvider.setBaseUrl('api/');
 }).run(function($rootScope) {
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
         if (current.$$route && current.$$route.resolve) {
