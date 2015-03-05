@@ -14,12 +14,8 @@
             <md-button ng-click="toggleRight()" class="btn-size" aria-label>
                 <i class="fa fa-bars fa-font-size"></i>
             </md-button>
-            <span ng-controller="connectedCtrl">
-                <is-connected ng-show="userConnected" type="forHeaderBar" id="isConnected"></is-connected>
-                <span ng-hide="userConnected">
-                    <md-button class="md-warn btn-size" href="login"><i class="fa fa-user"></i> Connexion</md-button>
-                    <md-button class="md-accent btn-size" href="register"><i class="fa fa-user-plus"></i> Inscription</md-button>
-                </span>
+            <span>
+                <is-connected type="forHeaderBar" id="isConnected"></is-connected>
             </span>
         </section>
 
@@ -27,11 +23,8 @@
     <div layout="column" layout-fill md-theme="sub-bar">
         <section layout="row" flex>
             <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-                <md-toolbar class="md-medium-tall" layout-align="center center" ng-controller="connectedCtrl">
-                    <is-connected ng-show="userConnected" type="forSideBar" id="isConnected"></is-connected>
-                    <span ng-hide="userConnected">
-                        <h1 class="md-toolbar-tools">Menu</h1>
-                    </span>
+                <md-toolbar class="md-medium-tall" layout-align="center center">
+                    <is-connected type="forSideBar" id="isConnected"></is-connected>
                 </md-toolbar>
                 <md-content ng-controller="RightSideBarCtrl" class="md-padding">
                     <br/>

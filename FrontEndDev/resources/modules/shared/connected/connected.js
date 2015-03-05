@@ -2,13 +2,19 @@
  * Created by Youcef on 04/03/2015.
  */
 angular.module("liztube.userStatus",[
-
-]).controller("connectedCtrl", function($scope,$rootScope,$window) {
+    "liztube.dataService.authService",
+    "ngRoute"
+]).controller("connectedCtrl", function($scope,$rootScope,$window, authService,$location) {
     $rootScope.$on('userStatus', function(event, user) {
-        $scope.pseudo = user.pseudo;
-        $scope.userConnected = true;
+        if(_.isUndefined(user)){
+            $scope.pseudo = '';
+            $scope.userConnected = false;
+        }else {
+            $scope.pseudo = user.pseudo;
+            $scope.userConnected = true;
+        }
     });
-    if(! $scope.pseudo){
+    if(!$scope.pseudo){
         if($window.user.pseudo){
             $scope.pseudo = $window.user.pseudo;
             $scope.userConnected = true;
@@ -18,9 +24,10 @@ angular.module("liztube.userStatus",[
     }
     $scope.logOut = function(){
         authService.logout().then(function(){
-            resolve(result);
+            $rootScope.$broadcast('userStatus', undefined);
+            $location.path("/");
         }, function(){
-            reject(false);
+
         });
     };
 }).directive('isConnected', function () {

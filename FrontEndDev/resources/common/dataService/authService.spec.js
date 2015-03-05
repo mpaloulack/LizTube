@@ -25,4 +25,10 @@ describe('liztube.dataService.authService', function(){
 		authService.login();
         $httpBackend.flush();
 	});
+
+    it('should get for logout', function(){
+        $httpBackend.expectGET('/logout').respond();
+        authService.logout();
+        $httpBackend.flush();
+    });
 });
