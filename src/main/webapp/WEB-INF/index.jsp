@@ -33,6 +33,7 @@
     <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/lodash/dist/lodash.compat.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-messages/angular-messages.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-mocks/angular-mocks.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/restangular/dist/restangular.js"></script>
     <!-- endinject -->
