@@ -40,8 +40,8 @@ module.exports = function (config) {
 
         coverageReporter: { // name => coverage
             reporters: [
-                { type: 'html', subdir: 'report-html'},
-                { type: 'teamcity', subdir: '.', file: 'teamcity.txt' }
+                { type: 'html', subdir: 'report-html'}
+                //{ type: 'teamcity', subdir: '.', file: 'teamcity.txt' }
             ]
         },
 
