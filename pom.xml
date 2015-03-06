@@ -360,33 +360,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.kelveden</groupId>
-                <artifactId>maven-karma-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <karmaExecutable>FrontEndDev/node_modules/.bin/karma</karmaExecutable>
-                    <configFile>FrontEndDev/karma.config.js</configFile>
-                    <junitReportFile>FrontEndDev/test-results.xml</junitReportFile>
-                    <reportsDirectory>FrontEndDev/Reports/coverage</reportsDirectory>
-                    <browsers>PhantomJS</browsers>
-                    <autoWatch>false</autoWatch>
-                    <singleRun>true</singleRun>
-                    <colors>true</colors>
-                    <skipKarma>false</skipKarma>
-                    <skipTests>false</skipTests>
-                    <karmaFailureIgnore>false</karmaFailureIgnore>
-                    <reporters>junit, teamcity</reporters>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
