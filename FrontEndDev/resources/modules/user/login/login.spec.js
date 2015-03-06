@@ -72,7 +72,7 @@ describe('liztube.login', function() {
 
         it('should stop global loading when request is finished', function(){
             changePromiseResult(loginPromise, "failed");
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadingStatus', false);
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadngStatus', false);
         });
 
         it('should return an error message', function(){
