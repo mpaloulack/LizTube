@@ -40,16 +40,15 @@ module.exports = function (config) {
 
         coverageReporter: { // name => coverage
             reporters: [
-                { type: 'html', dir: 'Reports/coverage', subdir: '.' }
+                { type: 'html', subdir: 'report-html'},
+                { type: 'teamcity', subdir: '.', file: 'teamcity.txt' }
             ]
         },
-
-        
 
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
+        reporters: ['progress', 'coverage'],
 
         // web server port
         port: 9876,

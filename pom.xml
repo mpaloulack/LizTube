@@ -357,34 +357,21 @@
                             </arguments>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.kelveden</groupId>
-                <artifactId>maven-karma-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
                     <execution>
-                        <phase>test</phase>
+                        <id>--- KARMA ---</id>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>start</goal>
+                            <goal>exec</goal>
                         </goals>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>test-coverage</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <karmaExecutable>FrontEndDev/node_modules/.bin/karma</karmaExecutable>
-                    <configFile>FrontEndDev/karma.config.js</configFile>
-                    <junitReportFile>FrontEndDev/test-results.xml</junitReportFile>
-                    <reportsDirectory>FrontEndDev/Reports/coverage</reportsDirectory>
-                    <browsers>PhantomJS</browsers>
-                    <autoWatch>false</autoWatch>
-                    <singleRun>true</singleRun>
-                    <colors>true</colors>
-                    <skipKarma>false</skipKarma>
-                    <skipTests>false</skipTests>
-                    <karmaFailureIgnore>false</karmaFailureIgnore>
-                    <reporters>junit, teamcity</reporters>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

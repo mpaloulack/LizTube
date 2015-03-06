@@ -33,12 +33,10 @@
     "karma-coverage": "0.2.7",
     "karma-jasmine": "0.3.4",
     "karma-junit-reporter": "0.2.2",
-    "karma-phantomjs-launcher": "0.1.4",
-    "karma-teamcity-reporter": "0.1.2"
+    "karma-phantomjs-launcher": "0.1.4"
   },
   "scripts": {
     "test": "node ./node_modules/karma/bin/karma start ./karma.config.js",
-    "test-coverage-teamcity": "node ./node_modules/karma/bin/karma start --reporters teamcity --single-run",
     "test-single-run": "node ./node_modules/karma/bin/karma start ./karma.config.js --single-run",
     "test-coverage": "node ./node_modules/karma/bin/karma start ./karma.config.js --reporters coverage --single-run"
   }

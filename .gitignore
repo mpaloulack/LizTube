@@ -7,4 +7,4 @@ src/main/webapp/app/
 src/main/webapp/WEB-INF/
 classes/
 FrontEndDev/test-results.xml
-FrontEndDev/Reports/
+FrontEndDev/coverage
