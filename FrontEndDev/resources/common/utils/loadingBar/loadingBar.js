@@ -4,7 +4,11 @@
 angular.module("liztube.loading",[
 
 ]).controller("loadingCtrl", function($scope,$rootScope) {
+
+    $scope.isLoading = false;
+
     $rootScope.$on('loadingStatus', function(event, bool) {
         $scope.isLoading= bool;
     });
+
 });

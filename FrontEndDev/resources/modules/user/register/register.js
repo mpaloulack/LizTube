@@ -22,7 +22,6 @@ angular.module("liztube.register",[
             authService.register($scope.user).then(function () {
                 $location.path('/login');
             }, function () {
-                $scope.errorRegister = "Error Register";
                 moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
             }).finally(function () {
                 $rootScope.$broadcast('loadingStatus', false);

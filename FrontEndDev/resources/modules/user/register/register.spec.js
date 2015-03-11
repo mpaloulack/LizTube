@@ -19,7 +19,6 @@ describe('liztube.register', function() {
 		authService = _authService_;
 		$window= _$window_;
 	    $q = _$q_;
-	    //$setValidity = _$setValidity_;
 	}));
 
     var moastr = {
@@ -51,7 +50,6 @@ describe('liztube.register', function() {
     });
 
 
-
 	describe('Register', function() {
 		var registerPromise ;
 
@@ -63,6 +61,7 @@ describe('liztube.register', function() {
     	beforeEach(function(){
             spyOn($rootScope, '$broadcast').and.callThrough();
             spyOn($location,'path').and.callThrough();
+            spyOn(moastr, 'error').and.callThrough();
             $scope.register();
         });
 
@@ -78,7 +77,7 @@ describe('liztube.register', function() {
 
     	it('should return an error message', function(){
             changePromiseResult(registerPromise, "failed");
-            expect($scope.errorRegister).toEqual("Error Register");
+            expect(moastr.error).toHaveBeenCalledWith('An unexpected error occured. If the problem persists please contact the administrator.');
         });
 
 		it('should be a successful register', function() {

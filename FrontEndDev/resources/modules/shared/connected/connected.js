@@ -3,8 +3,9 @@
  */
 angular.module("liztube.userStatus",[
     "liztube.dataService.authService",
+    "liztube.moastr",
     "ngRoute"
-]).controller("connectedCtrl", function($scope,$rootScope,$window, authService,$location,$mdSidenav) {
+]).controller("connectedCtrl", function($scope,$rootScope,$window, authService,$location,$mdSidenav,moastr) {
     $rootScope.$on('userStatus', function(event, user) {
         if(_.isUndefined(user)){
             $scope.pseudo = '';
@@ -14,27 +15,31 @@ angular.module("liztube.userStatus",[
             $scope.userConnected = true;
         }
     });
-    if(!$scope.pseudo){
-        if($window.user.pseudo){
-            $scope.pseudo = $window.user.pseudo;
-            $scope.userConnected = true;
-        }else{
-            $scope.userConnected = false;
-        }
-    }
     $scope.logOut = function(){
         authService.logout().then(function(){
             $rootScope.$broadcast('userStatus', undefined);
 
             $location.path("/");
         }, function(){
-
+            moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
         });
     };
 
     $scope.close = function() {
         $mdSidenav('right').close();
     };
+
+    $scope.checkUserConnected = function(){
+        if(!$scope.pseudo){
+            if($window.user.pseudo){
+                $scope.pseudo = $window.user.pseudo;
+                $scope.userConnected = true;
+            }else{
+                $scope.userConnected = false;
+            }
+        }
+    };
+
 }).directive('isConnected', function () {
     return {
         restrict: 'E',

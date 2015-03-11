@@ -1,6 +1,5 @@
 describe('liztube.login', function() {
 
-
 	var changePromiseResult = function (promise, status, value) {
         if (status === 'resolve')
             promise.resolve(value);
@@ -12,7 +11,7 @@ describe('liztube.login', function() {
     beforeEach(module('liztube.login'));
     beforeEach(module('liztube.dataService.authService'));
 
-    var $scope, $rootScope, $location, authService, $window, $q;
+    var createController, $scope, $rootScope, $location, authService, $window, $q;
 
     beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_) {
     	$rootScope =_$rootScope_;
