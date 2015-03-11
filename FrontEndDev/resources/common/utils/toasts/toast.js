@@ -1,26 +1,14 @@
-angular.module("liztube.toast",[
-    "ngRoute"
-]).controller("toastCtrl", function($scope, $rootScope, $mdToast) {
+angular.module("liztube.moastr",[])
+    .factory("moastr", function($mdToast) {
+    	return {
+            error:error
+        };
 
-    $scope.message = '';
-    $scope.position = '';
-
-    $rootScope.$on('launchToast', function(event, toast) {
-        $scope.message = toast.message;
-        $scope.position = toast.position;
-        showToast(toast.position);
-        console.log("TOASTTTTTTTTTTTTTTT");
+        function error(message){
+            $mdToast.show({
+                template: '<md-toast class="warn"><span flex>'+message+'</span></md-toast>',
+                hideDelay: 6000,
+                position: 'left right bottom'
+            });
+        }
     });
-
-   $scope.showToast = function(position){
-        $mdToast.show({
-            controller: 'toastCtrl',
-            templateUrl: 'toast-template.html',
-            hideDelay: 6000,
-            position: position
-        });
-    };
-    $scope.closeToast = function(){
-        $mdToast.hide();
-    };
-});

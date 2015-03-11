@@ -3,9 +3,9 @@
  */
 angular.module("liztube.login",[
     "liztube.dataService.authService",
-    "liztube.toast",
+    "liztube.moastr",
     "ngRoute"
-]).config(function ($routeProvider,$locationProvider){
+]).config(function ($routeProvider){
     $routeProvider.when("/login",{
         title: "LizTube - Connexion",
         page: "Connexion",
@@ -13,7 +13,7 @@ angular.module("liztube.login",[
         templateUrl: "login.html"
     });
 })
-.controller("loginCtrl", function($scope, $rootScope, $location, authService, $window){
+.controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, moastr){
 
     $scope.errorLogin = '';
         $rootScope.$broadcast('launchToast', {
@@ -28,17 +28,10 @@ angular.module("liztube.login",[
                 $rootScope.$broadcast('userStatus', currentUser);
                 $location.path('/');
             },function(){
-                $rootScope.$broadcast('launchToast', {
-                    'message': "test1",
-                    'position' : "left right bottom"
-                });
+                moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
             });
         },function(){
-            $scope.errorLogin ="Error login";
-            $rootScope.$broadcast('launchToast', {
-                'message': "test2",
-                'position' : "left right bottom"
-            });
+            moastr.error('Bad credentials');
         }).finally(function(){
             $rootScope.$broadcast('loadingStatus', false);
         });
