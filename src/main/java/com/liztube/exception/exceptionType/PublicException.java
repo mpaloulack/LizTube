@@ -1,48 +1,55 @@
 package com.liztube.exception.exceptionType;
 
+import com.liztube.exception.SigninException;
+import com.liztube.exception.VideoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Base class exception
  */
-public class PublicException extends Exception {
-    private String code = "#0";
-    private String globalDescriptor;
-    private List<String> messages;
+public class PublicException extends InternalException {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public PublicException() { super(); }
+    //region attributes
+    private List<String> messages = new ArrayList<>();
+    //endregion
 
-    public PublicException(String code, String globalDescriptor){
-        super(globalDescriptor);
-        this.code = code;
-        this.globalDescriptor = globalDescriptor;
-        this.messages = new ArrayList<>();
+    //region Constructor of the customize base exception
+    public PublicException(String log){
+
+        super.log(log);
+        addMessage("An unexpected error occured. If the problem persists please contact the administrator.");
+        logException();
     }
 
-    public PublicException(String code, String globalDescriptor, List<String> messages){
-        super(globalDescriptor);
-        this.code = code;
-        this.globalDescriptor = globalDescriptor;
+    public PublicException(String log, List<String> messages) {
+        super.log(log);
         this.messages = messages;
+        logException();
     }
 
-    public String getGlobalDescriptor() {
-        return globalDescriptor;
+    public PublicException(String log, String message) {
+        super.log(log);
+        this.addMessage(message);
+        logException();
+    }
+    //endregion
+
+    //region Constructors for exceptions manage by the controller advice
+    public PublicException(SigninException signinException){
+        this.messages = signinException.getMessages();
     }
 
-    public void setGlobalDescriptor(String globalDescriptor) {
-        this.globalDescriptor = globalDescriptor;
+    public PublicException(VideoException videoException){
+        this.messages = videoException.getMessages();
     }
+    //endregion
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
+    //region getter/setter
     public List<String> getMessages() {
         return messages;
     }
@@ -50,4 +57,13 @@ public class PublicException extends Exception {
     public void setMessages(List<String> messages) {
         this.messages = messages;
     }
+    public void addMessage(String message){
+        this.messages.add(message);
+    }
+    //endregion
+
+    private void logException(){
+        logger.error(super.log(), this.messages, this.getClass(), this.getStackTrace(), this.getCause());
+    }
+
 }

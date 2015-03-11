@@ -8,7 +8,15 @@ import java.util.List;
  * Video exception
  */
 public class VideoException extends PublicException {
-    public VideoException(String code, String globalDescriptor, List<String> messages) {
-        super(code, globalDescriptor, messages);
+    public VideoException(String log) {
+        super(log);
+    }
+
+    public VideoException(String log, List<String> messages) {
+        super(log, messages);
+    }
+
+    public VideoException(String log, String message) {
+        super(log, message);
     }
 }
