@@ -8,21 +8,21 @@ angular.module("liztube.moastr",[])
 
         function error(message){
             $mdToast.show({
-                template: '<md-toast class="warn"><span flex>'+message+'</span></md-toast>',
-                hideDelay: 100000,
+                template: '<md-toast class="moastr error"><span flex>'+message+'</span></md-toast>',
+                hideDelay: 6000,
                 position: 'left right bottom'
             });
         }
         function success(message){
             $mdToast.show({
-                template: '<md-toast class="success"><span flex>'+message+'</span></md-toast>',
+                template: '<md-toast class="moastr success"><span flex>'+message+'</span></md-toast>',
                 hideDelay: 6000,
                 position: 'left right bottom'
             });
         }
         function info(message){
             $mdToast.show({
-                template: '<md-toast class="info"><span flex>'+message+'</span></md-toast>',
+                template: '<md-toast class="moastr info"><span flex>'+message+'</span></md-toast>',
                 hideDelay: 6000,
                 position: 'left right bottom'
             });
