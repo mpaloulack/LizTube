@@ -106,6 +106,28 @@ public class SignInTests {
     //Other errors manage by entity validations
 
     @Test
+    public void should_raise_an_error_if_password_too_short() throws SigninException {
+        newUser = newUser.setPassword("cisc");//4 characters
+        try{
+            authBusiness.signIn(newUser);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_password_too_long() throws SigninException {
+        newUser = newUser.setPassword("ciscociscociscociscociscociscociscociscociscociscoc");//51 characters
+        try{
+            authBusiness.signIn(newUser);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
+        }
+    }
+
+    @Test
     public void should_raise_an_error_if_firstname_empty() throws SigninException {
         newUser = newUser.setFirstname("");
         try{
