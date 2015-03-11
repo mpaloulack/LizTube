@@ -4,15 +4,18 @@
 angular.module("liztube.header",[
     "liztube.userStatus",
     "ngRoute"
-]).controller("headerCtrl", function($scope, $timeout, $mdSidenav) {
+]).controller("headerCtrl", function($scope, $mdSidenav) {
+
+    $scope.isLoading = false;
+
+    $scope.$on('loadingStatusForHeader', function(event, bool) {
+        $scope.isLoading= bool;
+    });
+
     $scope.toggleRight = function() {
         $mdSidenav('right').toggle();
     };
 
-}).controller('RightSideBarCtrl', function($scope, $mdSidenav) {
-        $scope.close = function() {
-            $mdSidenav('right').close();
-        };
 }).directive('header', function () {
     return {
         restrict: 'E',

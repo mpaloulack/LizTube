@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all.css">
     <base href="/"/>
 </head>
-<body>
+<body ng-controller="mainCtrl">
     <header></header>
     <div data-ng-view></div>
     <!-- inject:js -->

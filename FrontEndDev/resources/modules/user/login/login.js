@@ -17,11 +17,11 @@ angular.module("liztube.login",[
 
     $scope.errorLogin = '';
     $scope.submit= function() {
-        $rootScope.$broadcast('loadingStatus', true);
+        $scope.$emit('loadingStatus', true);
         authService.login($scope.login, $scope.password).then(function(){
             authService.currentUser().then(function(currentUser){
                 $window.user = currentUser;
-                $rootScope.$broadcast('userStatus', currentUser);
+                $scope.$emit('userStatus', currentUser);
                 $location.path('/');
             },function(){
                 moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
@@ -29,7 +29,7 @@ angular.module("liztube.login",[
         },function(){
             moastr.error('Bad credentials');
         }).finally(function(){
-            $rootScope.$broadcast('loadingStatus', false);
+            $scope.$emit('loadingStatus', false);
         });
     };
 });

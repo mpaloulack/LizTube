@@ -71,7 +71,7 @@ describe('liztube.login', function() {
         });
 
         beforeEach(function(){
-            spyOn($rootScope, '$broadcast').and.callThrough();
+            spyOn($scope, '$emit').and.callThrough();
             spyOn($location,'path').and.callThrough();
             spyOn(moastr, 'error').and.callThrough();
             $scope.submit();
@@ -82,12 +82,12 @@ describe('liztube.login', function() {
         });
 
         it('should start global loading', function(){
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadingStatus', true);
+            expect($scope.$emit).toHaveBeenCalledWith('loadingStatus', true);
         });
 
         it('should stop global loading when request is finished', function(){
             changePromiseResult(loginPromise, "failed");
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadingStatus', false);
+            expect($scope.$emit).toHaveBeenCalledWith('loadingStatus', false);
         });
 
         it('should return an error message', function(){
@@ -100,7 +100,7 @@ describe('liztube.login', function() {
             changePromiseResult(currentProfilPromise, "resolve", currentUserResponse);
 
             expect($window.user).toEqual(currentUserResponse);
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('userStatus', currentUserResponse);
+            expect($scope.$emit).toHaveBeenCalledWith('userStatus', currentUserResponse);
             expect($location.path).toHaveBeenCalledWith('/');
         });
 
@@ -109,7 +109,7 @@ describe('liztube.login', function() {
             changePromiseResult(currentProfilPromise, "error");
 
             expect($window.user).toEqual(windowUserNotConnected);
-            expect($rootScope.$broadcast).not.toHaveBeenCalledWith('userStatus', currentUserResponse);
+            expect($scope.$emit).not.toHaveBeenCalledWith('userStatus', currentUserResponse);
             expect(moastr.error).toHaveBeenCalledWith('An unexpected error occured. If the problem persists please contact the administrator.');
         });
     });

@@ -6,7 +6,7 @@ angular.module("liztube.userStatus",[
     "liztube.moastr",
     "ngRoute"
 ]).controller("connectedCtrl", function($scope,$rootScope,$window, authService,$location,$mdSidenav,moastr) {
-    $rootScope.$on('userStatus', function(event, user) {
+    $scope.$on('userIsConnected', function(event, user) {
         if(_.isUndefined(user)){
             $scope.pseudo = '';
             $scope.userConnected = false;
@@ -17,7 +17,7 @@ angular.module("liztube.userStatus",[
     });
     $scope.logOut = function(){
         authService.logout().then(function(){
-            $rootScope.$broadcast('userStatus', undefined);
+            $scope.$emit('userStatus', undefined);
 
             $location.path("/");
         }, function(){

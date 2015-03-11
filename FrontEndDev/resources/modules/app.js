@@ -4,7 +4,6 @@
 angular.module("liztube",[
     "liztube.themes",
     'liztube.utils',
-    "liztube.loading",
     "liztube.menu",
     "liztube.home",
     "liztube.user",
@@ -15,6 +14,13 @@ angular.module("liztube",[
 ]).config(function ($routeProvider,$locationProvider,RestangularProvider){
     $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('api/');
+}).controller('mainCtrl', function ($scope) {
+    $scope.$on('loadingStatus', function (event, bool) {
+        $scope.$broadcast('loadingStatusForHeader', bool);
+    });
+    $scope.$on('userStatus', function(event, user) {
+        $scope.$broadcast('userIsConnected', user);
+    });
 }).run(function($rootScope) {
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
         if (current.$$route && current.$$route.resolve) {

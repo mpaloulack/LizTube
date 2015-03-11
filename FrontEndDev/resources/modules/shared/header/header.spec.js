@@ -1,18 +1,27 @@
-describe('liztube.loading', function(){
+describe('liztube.header', function(){
 
-    beforeEach(module('liztube.loading'));
+    beforeEach(module('liztube.header'));
 
-    var createController, $scope, $rootScope;
+    var createController, $scope,$rootScope,$mdSidenav;
 
     beforeEach(inject(function (_$rootScope_) {
         $rootScope =_$rootScope_;
     }));
 
+    var $mdSidenav = function(){
+        return {
+            close: function(){
+                return true;
+            }
+        };
+    };
+
     beforeEach(inject(function ($controller) {
         $scope = $rootScope.$new();
         createController = function () {
-            return $controller('loadingCtrl', {
-                '$scope': $scope
+            return $controller('headerCtrl', {
+                '$scope': $scope,
+                '$mdSidenav': $mdSidenav
             });
         };
     }));
@@ -36,7 +45,7 @@ describe('liztube.loading', function(){
         });
 
         it('should put isLoading to true if a loadingStatus event is broadcast with true', function(){
-            $rootScope.$broadcast('loadingStatus', true);
+            $scope.$broadcast('loadingStatusForHeader', true);
             expect($scope.isLoading).toEqual(true);
         });
 
@@ -49,7 +58,7 @@ describe('liztube.loading', function(){
         });
 
         it('should put isLoading to false if a loadingStatus event is broadcast with false', function(){
-            $rootScope.$broadcast('loadingStatus', false);
+            $scope.$broadcast('loadingStatusForHeader', false);
             expect($scope.isLoading).toEqual(false);
         });
 
