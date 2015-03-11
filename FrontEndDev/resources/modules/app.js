@@ -2,6 +2,7 @@
  * Created by Youcef on 28/01/2015.
  */
 angular.module("liztube",[
+    "liztube.constants",
     "liztube.themes",
     'liztube.utils',
     "liztube.menu",

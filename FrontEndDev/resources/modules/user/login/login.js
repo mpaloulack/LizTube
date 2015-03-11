@@ -2,7 +2,7 @@
  * Created by Youcef on 26/02/2015.
  */
 angular.module("liztube.login",[
-    "liztube.dataService.authService",
+"liztube.dataService.authService",
     "liztube.moastr",
     "ngRoute"
 ]).config(function ($routeProvider){
@@ -13,7 +13,7 @@ angular.module("liztube.login",[
         templateUrl: "login.html"
     });
 })
-.controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, moastr){
+.controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, moastr/*,constants*/){
 
     $scope.errorLogin = '';
     $scope.submit= function() {
@@ -24,7 +24,7 @@ angular.module("liztube.login",[
                 $scope.$emit('userStatus', currentUser);
                 $location.path('/');
             },function(){
-                moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
+                //moastr.error(constants.SERVER_ERROR);
             });
         },function(){
             moastr.error('Bad credentials');

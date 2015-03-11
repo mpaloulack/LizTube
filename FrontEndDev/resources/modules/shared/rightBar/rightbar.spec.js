@@ -31,17 +31,17 @@ describe('liztube.rightBar', function(){
         createController();
     });
 
-    describe('Close method', function(){
+    /*describe('Close method', function(){
 
         beforeEach(function(){
             spyOn($mdSidenav('right'),'close').and.callThrough();
-            $scope.close();
+            $scope.closeRightBar();
         });
 
         it('Should close right bar', function(){
-            //expect($mdSidenav('right').close).toHaveBeenCalled();
+            expect($mdSidenav('right').close()).toHaveBeenCalled();
         });
 
-    });
+    });*/
 
 });

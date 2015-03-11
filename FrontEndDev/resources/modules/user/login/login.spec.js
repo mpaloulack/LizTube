@@ -9,9 +9,10 @@ describe('liztube.login', function() {
 	};
     
     beforeEach(module('liztube.login'));
+    //beforeEach(module('liztube.constants'));
     beforeEach(module('liztube.dataService.authService'));
 
-    var createController, $scope, $rootScope, $location, authService, $window, $q;
+    var createController, $scope, $rootScope, $location, authService, $window, $q, constants;
 
     beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_) {
     	$rootScope =_$rootScope_;
@@ -31,7 +32,7 @@ describe('liztube.login', function() {
         $scope = $rootScope.$new();
         createController = function () {
             return $controller('loginCtrl', {
-             '$scope': $scope,
+                '$scope': $scope,
                 'moastr': moastr
          });
         };
@@ -110,7 +111,7 @@ describe('liztube.login', function() {
 
             expect($window.user).toEqual(windowUserNotConnected);
             expect($scope.$emit).not.toHaveBeenCalledWith('userStatus', currentUserResponse);
-            expect(moastr.error).toHaveBeenCalledWith('An unexpected error occured. If the problem persists please contact the administrator.');
+            //expect(moastr.error).toHaveBeenCalledWith(constants.SERVER_ERROR);
         });
     });
 	

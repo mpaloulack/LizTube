@@ -8,9 +8,9 @@ describe('liztube.header', function(){
         $rootScope =_$rootScope_;
     }));
 
-    var $mdSidenav = function(){
+    var $mdSidenav = function(test){
         return {
-            close: function(){
+            toggleRight: function(){
                 return true;
             }
         };
@@ -63,5 +63,18 @@ describe('liztube.header', function(){
         });
 
     });
+
+    /*describe('toggleRight method', function(){
+
+        beforeEach(function(){
+            spyOn($mdSidenav('right'),'toggle').and.callThrough();
+            $scope.toggleRight();
+        });
+
+        it('Should toggleRight open/close', function(){
+            expect($mdSidenav('right').toggle).toHaveBeenCalled();
+        });
+
+    });*/
 
 });

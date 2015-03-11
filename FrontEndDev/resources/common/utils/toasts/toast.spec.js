@@ -21,7 +21,7 @@ describe('liztube.moastr', function(){
     it('should toast an error', function(){
         moast.error("test");
         expect($mdToast.show).toHaveBeenCalledWith({
-            template: '<md-toast class="moastr error"><span flex>test</span></md-toast>',
+            template: '<md-toast class="moastr error"><span flex><i class="fa fa-exclamation-triangle"></i> test</span></md-toast>',
             hideDelay: 6000,
             position: 'left right bottom'
         });
@@ -30,7 +30,7 @@ describe('liztube.moastr', function(){
     it('should toast a warning', function(){
         moast.success("test");
         expect($mdToast.show).toHaveBeenCalledWith({
-            template: '<md-toast class="moastr success"><span flex>test</span></md-toast>',
+            template: '<md-toast class="moastr success"><span flex><i class="fa fa-exclamation-triangle"></i> test</span></md-toast>',
             hideDelay: 6000,
             position: 'left right bottom'
         });
@@ -39,7 +39,7 @@ describe('liztube.moastr', function(){
     it('should toast an info', function(){
         moast.info("test");
         expect($mdToast.show).toHaveBeenCalledWith({
-            template: '<md-toast class="moastr info"><span flex>test</span></md-toast>',
+            template: '<md-toast class="moastr info"><span flex><i class="fa fa-exclamation-triangle"></i> test</span></md-toast>',
             hideDelay: 6000,
             position: 'left right bottom'
         });

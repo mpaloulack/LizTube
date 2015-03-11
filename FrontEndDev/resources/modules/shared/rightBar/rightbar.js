@@ -4,7 +4,7 @@
 angular.module("liztube.rightBar",[
     "liztube.userStatus"
 ]).controller('RightSideBarCtrl', function($scope, $mdSidenav) {
-    $scope.close = function() {
+    $scope.closeRightBar = function() {
         $mdSidenav('right').close();
     };
 });
