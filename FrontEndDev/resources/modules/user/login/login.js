@@ -3,7 +3,7 @@
  */
 angular.module("liztube.login",[
     "liztube.dataService.authService",
-    "liztube.toast",
+    "liztube.moastr",
     "ngRoute"
 ]).config(function ($routeProvider,$locationProvider){
     $routeProvider.when("/login",{
@@ -13,7 +13,7 @@ angular.module("liztube.login",[
         templateUrl: "login.html"
     });
 })
-.controller("loginCtrl", function($scope, $rootScope, $location, authService, $window/*, $mdToast*/){
+.controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, moastr){
 
     $scope.errorLogin = '';
 
@@ -26,8 +26,7 @@ angular.module("liztube.login",[
                 $location.path('/');
             },function(){/*toastError();*/});
         },function(){
-            $scope.errorLogin ="Error login";
-            //toastError;
+            moastr.error('tetstststs');
         }).finally(function(){
             $rootScope.$broadcast('loadingStatus', false);
             

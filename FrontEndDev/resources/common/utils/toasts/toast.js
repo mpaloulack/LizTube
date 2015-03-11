@@ -1,7 +1,14 @@
-angular.module("liztube.toast",[])
-    .controller("toastCtrl", function($scop, $mdToast) {
-    	$scope.warnMessage= "erreur login";
-    	$scope.closeToast = function(){
-    		$mdToast.hide();
-    	};
+angular.module("liztube.moastr",[])
+    .factory("moastr", function($mdToast) {
+    	return {
+            error:error
+        };
+
+        function error(message){
+            $mdToast.show({
+                template: '<md-toast class="warn"><span flex>'+message+'</span></md-toast>',
+                hideDelay: 6000,
+                position: 'left right bottom'
+            });
+        }
     });
