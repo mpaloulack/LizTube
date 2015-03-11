@@ -3,6 +3,7 @@
  */
 angular.module("liztube",[
     "liztube.themes",
+    'liztube.utils',
     "liztube.loading",
     "liztube.menu",
     "liztube.home",
@@ -10,8 +11,7 @@ angular.module("liztube",[
     "liztube.partial",
     "ngRoute",
     'ngMessages',
-    'test',
-    'liztube.date'
+    'test'
 ]).config(function ($routeProvider,$locationProvider,RestangularProvider){
     $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('api/');

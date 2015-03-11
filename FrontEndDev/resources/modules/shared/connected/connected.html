@@ -7,7 +7,7 @@
         <div class="clear"></div>
         <div class="panel-footer">
             <img src="app/dist/img/user.png"/>
-            <md-button class="logout md-warn md-raised" ng-click="logOut()" href="#"><i class="fa fa-sign-out"></i> Déconnexion</md-button>
+            <md-button class="logout md-warn md-raised" ng-click="logOut(); close()" href="#"><i class="fa fa-sign-out"></i> Déconnexion</md-button>
         </div>
     </span>
     <span ng-hide="userConnected">

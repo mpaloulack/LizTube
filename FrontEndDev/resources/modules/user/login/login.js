@@ -13,10 +13,13 @@ angular.module("liztube.login",[
         templateUrl: "login.html"
     });
 })
-.controller("loginCtrl", function($scope, $rootScope, $location, authService, $window/*, $mdToast*/){
+.controller("loginCtrl", function($scope, $rootScope, $location, authService, $window){
 
     $scope.errorLogin = '';
-
+        $rootScope.$broadcast('launchToast', {
+            'message': "test2",
+            'position' : "left right bottom"
+        });
     $scope.submit= function() {
         $rootScope.$broadcast('loadingStatus', true);
         authService.login($scope.login, $scope.password).then(function(){
@@ -24,23 +27,21 @@ angular.module("liztube.login",[
                 $window.user = currentUser;
                 $rootScope.$broadcast('userStatus', currentUser);
                 $location.path('/');
-            },function(){/*toastError();*/});
+            },function(){
+                $rootScope.$broadcast('launchToast', {
+                    'message': "test1",
+                    'position' : "left right bottom"
+                });
+            });
         },function(){
             $scope.errorLogin ="Error login";
-            //toastError;
+            $rootScope.$broadcast('launchToast', {
+                'message': "test2",
+                'position' : "left right bottom"
+            });
         }).finally(function(){
             $rootScope.$broadcast('loadingStatus', false);
-            
         });
     };
-
-    /*var toastError = function(){
-        $mdToast.show({
-            controller: 'toastCtrl',
-            templateUrl: 'toast-template.html',
-            hideDelay: 6000,
-            position: "left right bottom"
-        });
-    };*/
 });
 
