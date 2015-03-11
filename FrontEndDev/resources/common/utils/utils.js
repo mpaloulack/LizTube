@@ -3,6 +3,5 @@
  */
 angular.module('liztube.utils',[
     'liztube.date',
-    'liztube.toast',
     'liztube.loading'
 ]);

@@ -16,10 +16,6 @@ angular.module("liztube.login",[
 .controller("loginCtrl", function($scope, $rootScope, $location, authService, $window, moastr){
 
     $scope.errorLogin = '';
-        $rootScope.$broadcast('launchToast', {
-            'message': "test2",
-            'position' : "left right bottom"
-        });
     $scope.submit= function() {
         $rootScope.$broadcast('loadingStatus', true);
         authService.login($scope.login, $scope.password).then(function(){
