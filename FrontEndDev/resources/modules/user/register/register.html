@@ -28,7 +28,7 @@
                         <input type="text" name="pseudo" ng-model="user.pseudo" required pseudo-validation ng-model-options="{ updateOn: 'blur' }"/>
                         <div ng-messages="formRegister.pseudo.$error">
                             <div ng-message="required">Le pseudo est requis</div>
-                            <div ng-message="pseudoValidation">Le pseudo éxist déja, essayez de vous connecter avec</div>
+                            <div ng-message="pseudoValidation">Pseudo déjà utilisé</div>
                         </div>
                     </md-input-container>
                 </div>
@@ -38,11 +38,11 @@
                         <input type="email" name="email" ng-model="user.email" required email-validation ng-model-options="{ updateOn: 'blur' }"/>
                         <div ng-messages="formRegister.email.$error">
                             <div ng-message="required">L'email est requis</div>
-                            <div ng-message="emailValidation">L'email éxist déja, essayez de vous connecter avec</div>
+                            <div ng-message="emailValidation">Email déjà utilisé</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex>
-                        <label><i class="fa fa-calendar"></i> date de naissance</label>
+                        <label><i class="fa fa-calendar"></i> Date de naissance</label>
                         <input type="date" name="date_naissance" ng-model="user.birthdate" date-to-timestamp>
                     </md-input-container>
                 </div>
@@ -55,11 +55,11 @@
                         </div>
                     </md-input-container>
                     <md-input-container flex>
-                        <label><i class="fa fa-lock"></i> Confirmation Mot de passe</label>
+                        <label><i class="fa fa-lock"></i> Confirmation mot de passe</label>
                         <input type="password" name="password_confirm" ng-model="verif.password" required password-verify="user.password">
                         <div ng-messages="formRegister.password_confirm.$error">
                             <div ng-message="required">Mot de passe requis</div>
-                            <div ng-message="passwordVerify">Les deux mots de passe n'ont pas la mème valeurs</div>
+                            <div ng-message="passwordVerify">Les mots de passe sont différents</div>
                         </div>
                     </md-input-container>
                 </div>
