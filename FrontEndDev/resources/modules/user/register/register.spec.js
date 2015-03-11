@@ -22,11 +22,18 @@ describe('liztube.register', function() {
 	    //$setValidity = _$setValidity_;
 	}));
 
+    var moastr = {
+        error: function(message){
+            return message;
+        }
+    };
+
 	beforeEach(inject(function ($controller) {
         $scope = $rootScope.$new();
         createController = function () {
             return $controller('registerCtrl', {
-             '$scope': $scope
+             '$scope': $scope,
+             'moastr' : moastr
          });
         };
 	}));

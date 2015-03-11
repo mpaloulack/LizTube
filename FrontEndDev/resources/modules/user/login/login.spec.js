@@ -11,7 +11,6 @@ describe('liztube.login', function() {
     
     beforeEach(module('liztube.login'));
     beforeEach(module('liztube.dataService.authService'));
-    beforeEach(module('liztube.moastr'));
 
     var $scope, $rootScope, $location, authService, $window, $q;
 
@@ -27,7 +26,7 @@ describe('liztube.login', function() {
         error: function(message){
             return message;
         }
-    }
+    };
 
 	beforeEach(inject(function ($controller) {
         $scope = $rootScope.$new();

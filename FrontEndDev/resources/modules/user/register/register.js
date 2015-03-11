@@ -13,7 +13,7 @@ angular.module("liztube.register",[
         controller: 'registerCtrl',
         templateUrl: "register.html"
     });
-}).controller("registerCtrl", function($scope, $rootScope, authService, $location) {
+}).controller("registerCtrl", function($scope, $rootScope, authService, $location, moastr) {
 
         $scope.errorRegister = '';
 
