@@ -1,7 +1,5 @@
 package com.liztube.exception.exceptionType;
 
-import com.liztube.exception.SigninException;
-import com.liztube.exception.VideoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Base class exception
+ * Base class exception which be raised to users
  */
 public class PublicException extends InternalException {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -39,16 +37,6 @@ public class PublicException extends InternalException {
     }
     //endregion
 
-    //region Constructors for exceptions manage by the controller advice
-    public PublicException(SigninException signinException){
-        this.messages = signinException.getMessages();
-    }
-
-    public PublicException(VideoException videoException){
-        this.messages = videoException.getMessages();
-    }
-    //endregion
-
     //region getter/setter
     public List<String> getMessages() {
         return messages;
@@ -63,7 +51,7 @@ public class PublicException extends InternalException {
     //endregion
 
     private void logException(){
-        logger.error(super.log(), this.messages, this.getClass(), this.getStackTrace(), this.getCause());
+        logger.error(super.log(), this);
     }
 
 }
