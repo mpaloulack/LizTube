@@ -1,9 +1,8 @@
 package com.liztube.service;
 
-import com.liztube.entity.Video;
-import com.liztube.exception.VideoException;
-import com.liztube.exception.exceptionType.ExceptionForControllerAdvice;
 import com.liztube.exception.SigninException;
+import com.liztube.exception.VideoException;
+import com.liztube.exception.exceptionType.PublicException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,17 +18,15 @@ public class LiztubeControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(SigninException.class)
     @ResponseBody
-    public ExceptionForControllerAdvice signInException(SigninException signinException){
-        return new ExceptionForControllerAdvice(signinException);
+    public PublicException signInException(SigninException signinException){
+        return new PublicException(signinException);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(VideoException.class)
     @ResponseBody
-    public ExceptionForControllerAdvice videoException(VideoException videoException){
-        return new ExceptionForControllerAdvice(videoException);
+    public PublicException videoException(VideoException videoException){
+        return new PublicException(videoException);
     }
-
-
 
 }

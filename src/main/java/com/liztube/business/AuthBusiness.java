@@ -33,6 +33,8 @@ public class AuthBusiness {
     @Autowired
     public UserLiztubeRepository userLiztubeRepository;
 
+    public static final String USER_NOT_FOUND_EXCEPTION = "You are not connected.";
+
     @Autowired
     public RoleRepository roleRepository;
 
@@ -91,10 +93,10 @@ public class AuthBusiness {
                 String login = user.getUsername();
                 return userLiztubeRepository.findByEmailOrPseudo(login);
             }catch (Exception e){
-                throw new UserNotFoundException(EnumError.USER_ERRORS);
+                throw new UserNotFoundException("Find user by login failed", USER_NOT_FOUND_EXCEPTION);
             }
         }
-        throw new UserNotFoundException(EnumError.USER_ERRORS);
+        throw new UserNotFoundException("Session not found", USER_NOT_FOUND_EXCEPTION);
     }
 
     /**
@@ -120,12 +122,11 @@ public class AuthBusiness {
                 .setModificationdate(new Timestamp(new DateTime().getMillis()))
                 .setRegisterdate(new Timestamp(new DateTime().getMillis()));
 
-        //User already exist valigulp
-        // dations
+        //User already exist
         if(existEmail(new SigninTestExistFacade().setValue(user.getEmail())) || existPseudo(new SigninTestExistFacade().setValue(user.getPseudo()))){
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
-            throw new SigninException(EnumError.SIGNIN_ERRORS, "signin", errorMessages);
+            throw new SigninException("email or pseudo already exist", errorMessages);
         }
 
         //Entity validations Validations
@@ -137,7 +138,7 @@ public class AuthBusiness {
             for(ConstraintViolation<UserLiztube> constraintViolation : constraintViolations){
                 errorMessages.add(constraintViolation.getMessage());
             }
-            throw new SigninException(EnumError.SIGNIN_ERRORS, "signin", errorMessages);
+            throw new SigninException("signin", errorMessages);
         }
 
 

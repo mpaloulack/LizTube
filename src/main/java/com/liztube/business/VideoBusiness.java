@@ -38,6 +38,10 @@ public class VideoBusiness {
 
     public ClassPathResource videoLibrary = new ClassPathResource("VideoLibrary/");
 
+    public static final String VIDEO_UPLOAD_FILE_EMPTY     = "File is empty.";
+    public static final String VIDEO_UPLOAD_NO_VALID_TYPE  = "Not valid type of file uploaded.";
+    public static final String VIDEO_UPLOAD_TOO_HEAVY      = "File size exceed {0} Mo.";
+
     @Autowired
     Environment environment;
 
@@ -76,7 +80,7 @@ public class VideoBusiness {
             for(ConstraintViolation<Video> constraintViolation : constraintViolations){
                 errorMessages.add(constraintViolation.getMessage());
             }
-            throw new VideoException(EnumError.VIDEO_ERRORS, "upload video", errorMessages);
+            throw new VideoException("save video check attributes validity", errorMessages);
         }
 
         //Save video file
@@ -86,7 +90,7 @@ public class VideoBusiness {
         } catch (Exception e) {
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add(EnumError.VIDEO_UPLOAD_SAVE_FILE_ON_SERVER);
-            throw new VideoException(EnumError.VIDEO_ERRORS, "upload video save on server", errorMessages);
+            throw new VideoException("copy on the server", errorMessages);
         }
 
         //Create db entry for the video (generate key associated to the video)
@@ -107,20 +111,20 @@ public class VideoBusiness {
         List<String> errorMessages = new ArrayList<>();
         //File empty
         if(file == null || file.isEmpty()){
-            errorMessages.add(EnumError.VIDEO_UPLOAD_FILE_EMPTY);
+            errorMessages.add(VIDEO_UPLOAD_FILE_EMPTY);
         }
         //File type : allowed -> mp4
         if(!FilenameUtils.getExtension(file.getOriginalFilename()).equals("mp4")){
-            errorMessages.add(EnumError.VIDEO_UPLOAD_NO_VALID_TYPE);
+            errorMessages.add(VIDEO_UPLOAD_NO_VALID_TYPE);
         }
         //File max size : 500Mo
         if(file.getSize() > Integer.parseInt(environment.getProperty("upload.maxFileSize"))){
-            errorMessages.add(String.format(EnumError.VIDEO_UPLOAD_TOO_HEAVY, FileUtils.byteCountToDisplaySize(Integer.parseInt(environment.getProperty("upload.maxFileSize")))));
+            errorMessages.add(String.format(VIDEO_UPLOAD_TOO_HEAVY, FileUtils.byteCountToDisplaySize(Integer.parseInt(environment.getProperty("upload.maxFileSize")))));
         }
 
         //Raised potential errors
         if(errorMessages.size()>0){
-            throw new VideoException(EnumError.VIDEO_ERRORS,"upload video",errorMessages);
+            throw new VideoException("check validity",errorMessages);
         }
     }
     //endregion

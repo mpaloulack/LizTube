@@ -100,8 +100,7 @@ public class VideoBusinessTests {
             videoBusiness.uploadVideo(file, videoCreationFacade);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getCode()).isEqualTo(EnumError.VIDEO_ERRORS);
-            assertThat(e.getMessages()).contains(EnumError.VIDEO_UPLOAD_NO_VALID_TYPE);
+            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_UPLOAD_NO_VALID_TYPE);
         }
     }
 
@@ -113,8 +112,7 @@ public class VideoBusinessTests {
             videoBusiness.uploadVideo(file, videoCreationFacade);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getCode()).isEqualTo(EnumError.VIDEO_ERRORS);
-            assertThat(e.getMessages()).contains(EnumError.VIDEO_UPLOAD_TOO_HEAVY);
+            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_UPLOAD_TOO_HEAVY);
         }
     }
 
@@ -136,7 +134,6 @@ public class VideoBusinessTests {
             videoBusiness.uploadVideo(file, videoCreationFacade);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getCode()).isEqualTo(EnumError.VIDEO_ERRORS);
             assertThat(e.getMessages()).contains(EnumError.VIDEO_TITLE_SIZE);
         }
     }
@@ -150,7 +147,6 @@ public class VideoBusinessTests {
             videoBusiness.uploadVideo(file, videoCreationFacade);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getCode()).isEqualTo(EnumError.VIDEO_ERRORS);
             assertThat(e.getMessages()).contains(EnumError.VIDEO_DESCRIPTION_SIZE);
         }
     }

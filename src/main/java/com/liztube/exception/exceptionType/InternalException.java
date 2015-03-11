@@ -7,30 +7,33 @@ import java.util.List;
  * Created by laurent on 22/02/15.
  */
 public class InternalException extends Exception {
-    private String code = "#0";
-    private String globalDescriptor;
 
-    public InternalException() { super(); }
+    //region attributes
+    private String log;
+    //endregion
 
-    public InternalException(String code, String globalDescriptor){
-        super(globalDescriptor);
-        this.code = code;
-        this.globalDescriptor = globalDescriptor;
+    //region constructor
+    public InternalException(){
+        super();
+    }
+    /**
+     * An internal exception expects a string log for log files
+     * @param log
+     */
+    public InternalException(String log){
+        super();
+        this.log = log;
+    }
+    //endregion
+
+    //region getter/setter
+    public String log() {
+        return log;
     }
 
-    public String getGlobalDescriptor() {
-        return globalDescriptor;
+    public void log(String log) {
+        this.log = log;
     }
+    //endregion
 
-    public void setGlobalDescriptor(String globalDescriptor) {
-        this.globalDescriptor = globalDescriptor;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 }
