@@ -23,7 +23,6 @@ angular.module("liztube.register",[
                 $location.path('/login');
             }, function () {
                 $scope.errorRegister = "Error Register";
-                console.log("afficher un toast pour dire que y a une erreur");
             }).finally(function () {
                 $rootScope.$broadcast('loadingStatus', false);
             });

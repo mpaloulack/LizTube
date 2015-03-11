@@ -11,6 +11,7 @@ describe('liztube.login', function() {
     
     beforeEach(module('liztube.login'));
     beforeEach(module('liztube.dataService.authService'));
+    beforeEach(module('liztube.moastr'));
 
     var $scope, $rootScope, $location, authService, $window, $q;
 
@@ -22,11 +23,18 @@ describe('liztube.login', function() {
         $q = _$q_;
     }));
 
+    var moastr = {
+        error: function(message){
+            return message;
+        }
+    }
+
 	beforeEach(inject(function ($controller) {
         $scope = $rootScope.$new();
         createController = function () {
             return $controller('loginCtrl', {
-             '$scope': $scope
+             '$scope': $scope,
+                'moastr': moastr
          });
         };
 	}));
@@ -44,7 +52,11 @@ describe('liztube.login', function() {
     });
 
     describe('submit', function() {
-        var loginPromise, currentProfilPromise, currentUserResponse;
+        var loginPromise, currentProfilPromise, currentUserResponse, windowUserNotConnected;
+        windowUserNotConnected = {
+            pseudo: "",
+            roles:[]
+        };
 
         beforeEach(function(){
             loginPromise = $q.defer();
@@ -63,7 +75,12 @@ describe('liztube.login', function() {
         beforeEach(function(){
             spyOn($rootScope, '$broadcast').and.callThrough();
             spyOn($location,'path').and.callThrough();
+            spyOn(moastr, 'error').and.callThrough();
             $scope.submit();
+        });
+
+        afterEach(function(){
+            $window.user = windowUserNotConnected;
         });
 
         it('should start global loading', function(){
@@ -77,7 +94,7 @@ describe('liztube.login', function() {
 
         it('should return an error message', function(){
             changePromiseResult(loginPromise, "failed");
-            expect($scope.errorLogin).toEqual("Error login");
+            expect(moastr.error).toHaveBeenCalledWith('Bad credentials');
         });
 
         it('should be a successful authentication', function(){
@@ -88,7 +105,15 @@ describe('liztube.login', function() {
             expect($rootScope.$broadcast).toHaveBeenCalledWith('userStatus', currentUserResponse);
             expect($location.path).toHaveBeenCalledWith('/');
         });
-        
+
+        it('should failed when trying to get user info', function(){
+            changePromiseResult(loginPromise, "resolve");
+            changePromiseResult(currentProfilPromise, "error");
+
+            expect($window.user).toEqual(windowUserNotConnected);
+            expect($rootScope.$broadcast).not.toHaveBeenCalledWith('userStatus', currentUserResponse);
+            expect(moastr.error).toHaveBeenCalledWith('An unexpected error occured. If the problem persists please contact the administrator.');
+        });
     });
 	
 });

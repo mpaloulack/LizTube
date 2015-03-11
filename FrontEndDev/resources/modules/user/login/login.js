@@ -5,7 +5,7 @@ angular.module("liztube.login",[
     "liztube.dataService.authService",
     "liztube.moastr",
     "ngRoute"
-]).config(function ($routeProvider,$locationProvider){
+]).config(function ($routeProvider){
     $routeProvider.when("/login",{
         title: "LizTube - Connexion",
         page: "Connexion",
@@ -24,22 +24,14 @@ angular.module("liztube.login",[
                 $window.user = currentUser;
                 $rootScope.$broadcast('userStatus', currentUser);
                 $location.path('/');
-            },function(){/*toastError();*/});
+            },function(){
+                moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
+            });
         },function(){
-            moastr.error('tetstststs');
+            moastr.error('Bad credentials');
         }).finally(function(){
             $rootScope.$broadcast('loadingStatus', false);
-            
         });
     };
-
-    /*var toastError = function(){
-        $mdToast.show({
-            controller: 'toastCtrl',
-            templateUrl: 'toast-template.html',
-            hideDelay: 6000,
-            position: "left right bottom"
-        });
-    };*/
 });
 
