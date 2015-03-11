@@ -1,10 +1,7 @@
 package com.liztube.exception.exceptionType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by laurent on 22/02/15.
+ * Internal exception which be not raised to users
  */
 public class InternalException extends Exception {
 
