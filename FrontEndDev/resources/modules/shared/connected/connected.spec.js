@@ -65,7 +65,7 @@ describe('liztube.userStatus',function(){
             };
             $scope.checkUserConnected();
 
-            spyOn($rootScope, '$broadcast').and.callThrough();
+            spyOn($scope, '$emit').and.callThrough();
             spyOn($location, 'path').and.callThrough();
             spyOn(moastr, 'error').and.callThrough();
             $scope.logOut();
@@ -77,13 +77,13 @@ describe('liztube.userStatus',function(){
 
         it('Should broadcast and redirect logout message if success', function(){
             changePromiseResult(logoutPromise, "resolve");
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('userStatus', undefined);
+            expect($scope.$emit).toHaveBeenCalledWith('userStatus', undefined);
             expect($location.path).toHaveBeenCalledWith('/');
         });
 
         it('Should not broadcast logout message if error', function(){
             changePromiseResult(logoutPromise, "failed");
-            expect($rootScope.$broadcast).not.toHaveBeenCalledWith('userStatus', undefined);
+            expect($scope.$emit).not.toHaveBeenCalledWith('userStatus', undefined);
             expect(moastr.error).toHaveBeenCalledWith('An unexpected error occured. If the problem persists please contact the administrator.');
         });
 
