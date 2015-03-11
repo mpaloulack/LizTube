@@ -18,6 +18,7 @@ public class EnumError {
     public static final String SIGNIN_ISFEMALE_NOTNULL      = "#1011";
     public static final String SIGNIN_ISACTIVE_NOTNULL      = "#1012";
     public static final String SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED      = "#1013";
+    public static final String SIGNIN_PASSWORD_FORMAT       = "#1014";
 
     //VIDEO
     public static final String VIDEO_TITLE_SIZE            = "#1051";

@@ -11,13 +11,14 @@ describe('liztube.userStatus',function(){
     beforeEach(module('liztube.userStatus'));
     beforeEach(module('liztube.dataService.authService'));
 
-    var createController, $scope, $rootScope, $location, authService, $window, $q, $mdSidenav;
-    beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_) {
+    var createController, $scope, $rootScope, $location, authService, $window, $q, $mdSidenav, $templateCache;
+    beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_, _$templateCache_) {
         $rootScope =_$rootScope_;
         $location = _$location_;
         authService = _authService_;
         $window= _$window_;
         $q = _$q_;
+        $templateCache = _$templateCache_;
     }));
 
     var moastr = {
@@ -90,3 +91,34 @@ describe('liztube.userStatus',function(){
     });
 
 });
+
+/*
+describe('liztube.userStatus directive', function(){
+    var type, element, $scope;
+
+    beforeEach(module('connectedCtrl', function($controllerProvider) {
+        $controllerProvider.register('connectedCtrl', function($scope) {
+            // Controller Mock
+        });
+    }));
+
+    beforeEach(module('liztube.userStatus'));
+
+    beforeEach(inject(function ($compile) {
+        $templateCache.put('connected.html', "");
+
+        type = 'forSideBar';
+        element = angular.element('<is-connected type="'+type+'"></is-connected>');
+
+        $compile(element)($rootScope.$new());
+        $rootScope.$digest();
+        element.controller();
+
+        $scope = element.isolateScope() || element.scope();
+    }));
+
+    it('should set the type scope value', function(){
+        expect($scope.type).toEqual(type);
+    });
+});
+*/
