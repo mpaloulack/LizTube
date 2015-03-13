@@ -11,6 +11,7 @@ import com.liztube.utils.EnumRole;
 import com.liztube.utils.facade.SigninTestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import com.liztube.utils.facade.UserForRegistration;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +23,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -120,8 +120,8 @@ public class AuthBusiness {
                 .setIsfemale(userForRegistration.getIsfemale())
                 .setPassword(encoder.encodePassword(userForRegistration.getPassword(), null))
                 .setIsactive(true)
-                .setModificationdate(Timestamp.valueOf(LocalDateTime.now()))
-                .setRegisterdate(Timestamp.valueOf(LocalDateTime.now()));
+                .setModificationdate(new Timestamp(new DateTime().getMillis()))
+                .setRegisterdate(new Timestamp(new DateTime().getMillis()));
 
         //User already exist
         if(existEmail(new SigninTestExistFacade().setValue(user.getEmail())) || existPseudo(new SigninTestExistFacade().setValue(user.getPseudo()))){

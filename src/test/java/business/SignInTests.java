@@ -13,6 +13,7 @@ import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
 import com.liztube.utils.facade.UserForRegistration;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,8 +29,6 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.Month;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -54,8 +54,7 @@ public class SignInTests {
 
     @Before
     public void SetUp(){
-        //Timestamp birthday = new Timestamp(new DateTime(1991, 4, 1,0,0,0,0).getMillis());
-        Timestamp birthday = Timestamp.valueOf(LocalDateTime.of(1991, Month.FEBRUARY, 1, 0, 0));
+        Timestamp birthday = new Timestamp(new DateTime(1991, 4, 1,0,0,0,0).getMillis());
         newUser = new UserForRegistration().setPseudo("newUser")
                 .setBirthdate(birthday)
                 .setEmail("newUser@hotmail.fr")
@@ -85,9 +84,9 @@ public class SignInTests {
 
     @Test
     public void dates_should_be_filled() throws SigninException {
-        Timestamp before = Timestamp.valueOf(LocalDateTime.now());
+        Timestamp before = new Timestamp(new DateTime().getMillis());
         UserLiztube userLiztube = authBusiness.signIn(newUser);
-        Timestamp after = Timestamp.valueOf(LocalDateTime.now());
+        Timestamp after = new Timestamp(new DateTime().getMillis());
 
         assertThat(userLiztube.getRegisterdate()).isBetween(before, after);
         assertThat(userLiztube.getModificationdate()).isBetween(before, after);
@@ -185,7 +184,7 @@ public class SignInTests {
 
     @Test
     public void should_raise_an_error_if_birthday_is_not_a_past_date() throws SigninException {
-        newUser = newUser.setBirthdate(Timestamp.valueOf(LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0)));
+        newUser = newUser.setBirthdate(new Timestamp(new DateTime(2016,1,1,0,0,0,0).getMillis()));
         try{
             authBusiness.signIn(newUser);
             fail("Should throw exception");
