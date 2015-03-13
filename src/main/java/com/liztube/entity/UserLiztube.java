@@ -78,7 +78,7 @@ public class UserLiztube {
 
     @Basic
     @Column(name = "PSEUDO", nullable = false, insertable = true, updatable = true, length = 50)
-    @Size(min = 1, max = 50, message = EnumError.SIGNIN_PSEUDO_SIZE)
+    @Size(min = 3, max = 50, message = EnumError.SIGNIN_PSEUDO_SIZE)
     public String getPseudo() {
         return pseudo;
     }

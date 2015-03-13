@@ -161,6 +161,17 @@ public class SignInTests {
     }
 
     @Test
+    public void should_raise_an_error_if_pseudo_contains_less_than_3_characters() throws SigninException {
+        newUser = newUser.setPseudo("az");
+        try{
+            authBusiness.signIn(newUser);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PSEUDO_SIZE);
+        }
+    }
+
+    @Test
     public void should_raise_an_error_if_birthday_is_null() throws SigninException {
         newUser = newUser.setBirthdate(null);
         try{
