@@ -29,6 +29,8 @@ module.exports = function (config) {
 
         // list of files to exclude
         exclude: [
+            'resources/common/themes/**/*',
+            'resources/modules/test/**/*'
         ],
 
 

@@ -3,7 +3,7 @@
  */
 angular.module("liztube.home",[
     "ngRoute"
-]).config(function ($routeProvider,$locationProvider){
+]).config(function ($routeProvider){
     $routeProvider.when("/",{
         title: "LizTube - Home",
         page: "Home",
@@ -12,7 +12,7 @@ angular.module("liztube.home",[
     }).otherwise({
         redirectTo: '/404',
         title: "LizTube - 404",
-        page: "404 page non trouvé",
+        page: "404 : Page non trouvé",
         templateUrl:"404.html"
     });
 }).controller("homeCtrl", function($scope) {
