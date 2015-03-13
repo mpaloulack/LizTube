@@ -371,19 +371,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>--- GULP (coverage) ---</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>gulp</executable>
-                            <arguments>
-                                <argument>coverage</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>

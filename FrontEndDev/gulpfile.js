@@ -15,7 +15,6 @@
     htmlify = require('gulp-angular-htmlify'),
     ngHtml2Js = require("gulp-ng-html2js"),
     clean = require('gulp-clean'),
-    zip = require('gulp-zip'),
     replace = require('gulp-replace-task');//Delete files and folders
 
 
@@ -23,7 +22,6 @@
 var indexLocation = "./index.jsp",
     scriptsLocation = ['./resources/**/*.js','!./resources/**/*.spec.js'],
     viewsLocation = ['./resources/**/*.html'],
-    coverageLocation = ['./coverage/report-html/**'],
     imgLocation = ['./resources/img/**'],
     stylesLocation = ['./resources/**/*.less'];
 //Destination
@@ -33,7 +31,6 @@ var backEndDir = "./../src/main/webapp/",
     pluginsScriptsDestination = backEndDir + "app/dist/libs",
     stylesBaseDestination = backEndDir + 'app/dist/css',
     imgDestination = backEndDir + 'app/dist/img',
-    coverageDestination = '.',
     viewsDestination = backEndDir + 'app/dist/partials';
 //Args
 var env = args.env || 'dev';
@@ -124,12 +121,6 @@ gulp.task('quality', function () {
 gulp.task('images', function () {
     return gulp.src(imgLocation)
         .pipe(gulp.dest(imgDestination));
-});
-
-gulp.task('coverage', function () {
-    return gulp.src(coverageLocation)
-        .pipe(zip('coverage.zip'))
-        .pipe(gulp.dest(coverageDestination));
 });
 
 //Commands :
