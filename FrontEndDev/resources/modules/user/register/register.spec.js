@@ -11,7 +11,17 @@ describe('liztube.register', function() {
 	beforeEach(module('liztube.register'));
 	beforeEach(module('liztube.dataService.authService'));
 
-	var $scope, $rootScope, $location, authService, $q/*, $setValidity*/;
+	var $scope, $rootScope, $location, authService, $q, constants, $window, createController;
+
+    var mockConstants = {
+        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
+    };
+
+    beforeEach(function() {
+        module(function($provide) {
+            $provide.constant('constants', mockConstants);
+        });
+    });
 
 	beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_) {
 		$rootScope =_$rootScope_;
@@ -77,7 +87,7 @@ describe('liztube.register', function() {
 
     	it('should return an error message', function(){
             changePromiseResult(registerPromise, "failed");
-            expect(moastr.error).toHaveBeenCalledWith('An unexpected error occured. If the problem persists please contact the administrator.');
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR);
         });
 
 		it('should be a successful register', function() {

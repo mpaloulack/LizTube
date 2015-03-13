@@ -13,7 +13,7 @@ angular.module("liztube.register",[
         controller: 'registerCtrl',
         templateUrl: "register.html"
     });
-}).controller("registerCtrl", function($scope, $rootScope, authService, $location, moastr) {
+}).controller("registerCtrl", function($scope, $rootScope, authService, $location, moastr, constants) {
 
         $scope.errorRegister = '';
 
@@ -22,7 +22,7 @@ angular.module("liztube.register",[
             authService.register($scope.user).then(function () {
                 $location.path('/login');
             }, function () {
-                moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
+                moastr.error(constants.SERVER_ERROR);
             }).finally(function () {
                 $rootScope.$broadcast('loadingStatus', false);
             });
@@ -58,7 +58,7 @@ angular.module("liztube.register",[
             });
         }
     };
-}).directive('emailValidation', function(authService) {
+}).directive('emailValidation', function(authService, moastr) {
     return {
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {
@@ -75,12 +75,12 @@ angular.module("liztube.register",[
                     }
                     return true;
                 },function(){
-                    conosle.log("error check email");
+                    moastr.error(constants.SERVER_ERROR);
                 });
             };
         }
     };
-}).directive('pseudoValidation', function(authService) {
+}).directive('pseudoValidation', function(authService, moastr) {
     return {
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {
@@ -97,7 +97,7 @@ angular.module("liztube.register",[
                     }
                     return true;
                 },function(){
-                    conosle.log("error check pseudo");
+                    moastr.error(constants.SERVER_ERROR);
                 });
             };
         }

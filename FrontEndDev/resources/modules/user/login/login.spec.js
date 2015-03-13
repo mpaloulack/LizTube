@@ -9,10 +9,19 @@ describe('liztube.login', function() {
 	};
     
     beforeEach(module('liztube.login'));
-    //beforeEach(module('liztube.constants'));
     beforeEach(module('liztube.dataService.authService'));
 
     var createController, $scope, $rootScope, $location, authService, $window, $q, constants;
+
+    var mockConstants = {
+        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
+    };
+
+    beforeEach(function() {
+        module(function($provide) {
+            $provide.constant('constants', mockConstants);
+        });
+    });
 
     beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_) {
     	$rootScope =_$rootScope_;
@@ -111,7 +120,7 @@ describe('liztube.login', function() {
 
             expect($window.user).toEqual(windowUserNotConnected);
             expect($scope.$emit).not.toHaveBeenCalledWith('userStatus', currentUserResponse);
-            //expect(moastr.error).toHaveBeenCalledWith(constants.SERVER_ERROR);
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR);
         });
     });
 	
