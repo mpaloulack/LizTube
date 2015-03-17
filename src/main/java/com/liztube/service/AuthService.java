@@ -61,4 +61,6 @@ public class AuthService {
     public Boolean existEmail(@RequestBody SigninTestExistFacade signinTestExistFacade){
         return authBusiness.existEmail(signinTestExistFacade);
     }
+
+
 }
