@@ -3,5 +3,6 @@
  */
 angular.module("liztube.user",[
     "liztube.login",
-    "liztube.register"
+    "liztube.register",
+    "liztube.profile"
 ]);

@@ -9,6 +9,7 @@ angular.module("liztube",[
     "liztube.home",
     "liztube.user",
     "liztube.partial",
+
     "ngRoute",
     'ngMessages',
     'test'

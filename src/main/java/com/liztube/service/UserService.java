@@ -27,8 +27,8 @@ public class UserService {
      * @return
      * @throws com.liztube.exception.UserNotFoundException
      */
-    @RequestMapping(value = "/infoProfil",method = RequestMethod.GET)
-    public UserForRegistration getUserInfoProfil()  throws UserNotFoundException {
+    @RequestMapping(value = "/infoProfile",method = RequestMethod.GET)
+    public UserForRegistration getUserInfoProfile()  throws UserNotFoundException {
         return userBusiness.getUserInfo();
     }
 
@@ -37,7 +37,7 @@ public class UserService {
      * @return
      * @throws UserNotFoundException
      */
-    @RequestMapping(value = "/infoProfil",method = RequestMethod.POST)
+    @RequestMapping(value = "/infoProfile",method = RequestMethod.POST)
     public UserLiztube putUserInfo(@RequestBody UserForRegistration userInfo) throws UserNotFoundException, UserException {
         return userBusiness.updateUserInfo(userInfo);
     }

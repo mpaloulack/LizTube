@@ -1,7 +1,7 @@
 package com.liztube.business;
 
+import com.google.common.base.Strings;
 import com.liztube.entity.UserLiztube;
-import com.liztube.exception.SigninException;
 import com.liztube.exception.UserException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.UserLiztubeRepository;
@@ -11,6 +11,7 @@ import com.liztube.utils.facade.UserForRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Component;
+
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -46,8 +47,7 @@ public class UserBusiness {
                 .setEmail(userLiztube.getEmail())
                 .setFirstname(userLiztube.getFirstname())
                 .setLastname(userLiztube.getLastname())
-                .setBirthdate(userLiztube.getBirthdate())
-                .setIsfemale(userLiztube.getIsfemale());
+                .setBirthdate(userLiztube.getBirthdate());
 
         return userInfo;
     }
@@ -67,7 +67,6 @@ public class UserBusiness {
                 .setFirstname(userInfo.getFirstname())
                 .setLastname(userInfo.getLastname())
                 .setBirthdate(userInfo.getBirthdate())
-                .setIsfemale(userInfo.getIsfemale())
                 .setModificationdate(Timestamp.valueOf(LocalDateTime.now()));
 
 
@@ -83,7 +82,8 @@ public class UserBusiness {
         }
 
         //Password changed
-        if(!encoder.encodePassword(userInfo.getPassword(), null).equals(userLiztube.getPassword()) && !userInfo.getPassword().equals("")){
+        if(!Strings.isNullOrEmpty(userInfo.getPassword())){
+            System.out.println("password is null or empty");
             //Password well formatted
             if(!userInfo.getPassword().matches(authBusiness.PASSWORD_REGEX)){
                 throw new UserException("Not valid format for password", EnumError.SIGNIN_PASSWORD_FORMAT);

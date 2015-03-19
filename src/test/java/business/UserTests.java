@@ -8,7 +8,6 @@ import com.liztube.business.UserBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.entity.UserLiztube;
 import com.liztube.exception.UserException;
-import com.liztube.exception.UserException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.exceptionType.PublicException;
 import com.liztube.repository.UserLiztubeRepository;
@@ -62,6 +61,8 @@ public class UserTests {
 
     public UserLiztube userLiztube;
 
+    public UserForRegistration userForRegistration;
+
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
@@ -91,48 +92,39 @@ public class UserTests {
 
     //test de la récupération des infos utilisateurs
     @Test
-    public void userUpdate_should_persist_user_if_all_tests_passed_successfully() throws UserNotFoundException, UserException{
-        userLiztube = userBusiness.updateUserInfo(userUpdate);
+    public void user_should_get_user_infos_successfully() throws UserNotFoundException, UserException{
+        userForRegistration = userBusiness.getUserInfo();
 
-        assertThat(userLiztube).isNotNull();
-        assertThat(userLiztube.getBirthdate()).isEqualTo(userUpdate.getBirthdate());
-        assertThat(userLiztube.getEmail()).isEqualTo(userUpdate.getEmail());
+        assertThat(userForRegistration).isNotNull();
+        assertThat(userForRegistration.getBirthdate()).isEqualTo(userLiztube.getBirthdate());
+        assertThat(userForRegistration.getEmail()).isEqualTo(userLiztube.getEmail());
 
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userUpdate.getPassword(), null));
-        assertThat(userLiztube.getLastname()).isEqualTo(userUpdate.getLastname());
-        assertThat(userLiztube.getFirstname()).isEqualTo(userUpdate.getFirstname());
-        assertThat(userLiztube.getIsfemale()).isEqualTo(userUpdate.getIsfemale());
+        //assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userForRegistration.getPassword(), null));
+        assertThat(userForRegistration.getLastname()).isEqualTo(userLiztube.getLastname());
+        assertThat(userForRegistration.getFirstname()).isEqualTo(userLiztube.getFirstname());
     }
 
     //test pour la modification d'utilisateur
 
     @Test
     public void firstname_shoulb_be_changed_succesfully() throws UserNotFoundException, UserException{
-        assertThat(userLiztube.getFirstname()).isEqualToIgnoringCase("laurent");
+        assertThat(userLiztube.getFirstname()).isEqualTo("Laurent");
         userUpdate.setFirstname("Youcef");
         userLiztube = userBusiness.updateUserInfo(userUpdate);
-        assertThat(userLiztube.getFirstname()).isEqualToIgnoringCase("Youcef");
+        assertThat(userLiztube.getFirstname()).isEqualTo("Youcef");
 
     }
 
     @Test
     public void lastname_shoulb_be_changed_succesfully() throws UserNotFoundException, UserException{
-        assertThat(userLiztube.getLastname()).isEqualToIgnoringCase("Babin");
+        assertThat(userLiztube.getLastname()).isEqualTo("Babin");
         userUpdate.setLastname("BenZ");
         userLiztube = userBusiness.updateUserInfo(userUpdate);
-        assertThat(userLiztube.getLastname()).isEqualToIgnoringCase("BenZ");
+        assertThat(userLiztube.getLastname()).isEqualTo("BenZ");
 
     }
 
-    @Test
-    public void isfemale_shoulb_be_changed_succesfully() throws UserNotFoundException, UserException{
-        assertThat(userLiztube.getIsfemale()).isFalse();
-        userUpdate.setIsfemale(true);
-        userLiztube = userBusiness.updateUserInfo(userUpdate);
-        assertThat(userLiztube.getIsfemale()).isTrue();
-
-    }
 
     @Test
     public void birthdate_shoulb_be_changed_succesfully() throws UserNotFoundException, UserException{
@@ -151,6 +143,16 @@ public class UserTests {
 
         assertThat(userLiztube.getPassword()).isNotEmpty();
     }
+
+    @Test
+    public void password_should_be_encrypted() throws UserNotFoundException, UserException {
+        assertThat(userUpdate.getPassword()).isEqualTo("cisco");
+        UserLiztube userLiztube = userBusiness.updateUserInfo(userUpdate);
+
+        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userUpdate.getPassword(),null));
+    }
+
 
 
     @Test
@@ -173,6 +175,50 @@ public class UserTests {
             fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_password_too_short() throws UserNotFoundException, UserException {
+        userUpdate = userUpdate.setPassword("cisc");//4 characters
+        try{
+            userBusiness.updateUserInfo(userUpdate);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_password_too_long() throws UserNotFoundException, UserException {
+        userUpdate = userUpdate.setPassword("ciscociscociscociscociscociscociscociscociscociscoc");//51 characters
+        try{
+            userBusiness.updateUserInfo(userUpdate);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_firstname_empty() throws UserNotFoundException, UserException {
+        userUpdate = userUpdate.setFirstname("");
+        try{
+            userBusiness.updateUserInfo(userUpdate);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.SIGNIN_FIRSTNAME_SIZE);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_birthday_is_not_a_past_date() throws UserNotFoundException, UserException {
+        userUpdate = userUpdate.setBirthdate(Timestamp.valueOf(LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0)));
+        try{
+            userBusiness.updateUserInfo(userUpdate);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.SIGNIN_BIRTHDAY_PAST_DATE);
         }
     }
 }
