@@ -1,6 +1,5 @@
 package business;
 
-import com.excilys.ebi.spring.dbunit.config.DBOperation;
 import com.excilys.ebi.spring.dbunit.test.DataSet;
 import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
 import com.liztube.business.VideoBusiness;
@@ -35,7 +34,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,7 +47,7 @@ import static org.assertj.core.api.Assertions.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {JpaConfigs.class}, loader = AnnotationConfigContextLoader.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DataSetTestExecutionListener.class })
-@DataSet(value = "/data/UserDataset.xml", tearDownOperation = DBOperation.DELETE_ALL)
+@DataSet(value = "/data/UserDataset.xml")
 @TestPropertySource("/application.testing.properties")
 public class VideoBusinessTests {
 
@@ -77,6 +75,7 @@ public class VideoBusinessTests {
         User adminSpringUser = new User("spywen","cisco", userAuthorities);
         Authentication auth = new UsernamePasswordAuthenticationToken(adminSpringUser,null);
         SecurityContextHolder.getContext().setAuthentication(auth);
+
     }
 
     @After
@@ -88,12 +87,11 @@ public class VideoBusinessTests {
                 file.delete();
             }
         }
-
-        videoRepository.deleteAll();
     }
 
     @Test
     public void uploadVideo_should_raise_exception_if_not_mp4() throws IOException, UserNotFoundException, VideoException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.m4a");
         MockMultipartFile file = new MockMultipartFile("file", "video.m4a", "multipart/form-data", inputFile);
         try{
@@ -118,6 +116,7 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_return_key() throws IOException, UserNotFoundException, VideoException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -127,6 +126,7 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_raise_error_if_title_size_incorrect() throws IOException, UserNotFoundException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
         videoCreationFacade.setTitle("");
@@ -140,6 +140,7 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_raise_error_if_description_size_incorrect() throws IOException, UserNotFoundException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
         videoCreationFacade.setDescription("");
@@ -153,6 +154,7 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_save_file_on_server() throws IOException, UserNotFoundException, VideoException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -167,6 +169,7 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_persist_video_if_all_tests_passed_successfully() throws IOException, UserNotFoundException, VideoException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -177,5 +180,6 @@ public class VideoBusinessTests {
         assertThat(videoPersist.getDescription()).isEqualTo(videoCreationFacade.getDescription());
         assertThat(videoPersist.getIspublic()).isEqualTo(videoCreationFacade.isPublic());
         assertThat(videoPersist.getIspubliclink()).isEqualTo(videoCreationFacade.isPublicLink());
+        assertThat(videoRepository.findAll().size()).isEqualTo(1);
     }
 }
