@@ -16,13 +16,13 @@ describe('liztube.dataService.userService', function(){
 
     it('should get current info profil', function(){
         $httpBackend.expectGET('/user/infoProfile').respond();
-        userService.userProfil();
+        userService.userProfile();
         $httpBackend.flush();
     });
 
     it('should post for register', function(){
         $httpBackend.expectPOST('/user/infoProfile').respond();
-        userService.updateProfil({});
+        userService.updateProfile({});
         $httpBackend.flush();
     });
 });
