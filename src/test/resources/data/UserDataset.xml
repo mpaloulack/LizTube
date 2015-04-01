@@ -13,4 +13,6 @@
     <USER_ROLE USER_ID="2" ROLE_ID="1"/>
     <USER_ROLE USER_ID="2" ROLE_ID="3"/>
 
+    <VIDEO />
+
 </dataset>
