@@ -6,12 +6,19 @@ import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
 import com.liztube.repository.VideoRepository;
 import com.liztube.utils.EnumError;
-import com.liztube.utils.facade.VideoCreationFacade;
+import com.liztube.utils.facade.video.GetVideosFacade;
+import com.liztube.utils.facade.video.VideoCreationFacade;
+import com.liztube.utils.facade.video.VideoDataFacade;
+import com.liztube.utils.facade.video.VideoSearchFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +27,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.File;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -46,6 +55,7 @@ public class VideoBusiness {
     Environment environment;
 
     //region public methods
+
     /**
      *  Upload a video : validity checks, save file, create db entry
      * @param file
@@ -69,7 +79,8 @@ public class VideoBusiness {
                 .setIspublic(videoCreationFacade.isPublic())
                 .setIspubliclink(videoCreationFacade.isPublicLink())
                 .setKey(key)
-                .setOwner(user);
+                .setOwner(user)
+                .setCreationdate(Timestamp.valueOf(LocalDateTime.now()));
 
         //Entity validations Validations
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

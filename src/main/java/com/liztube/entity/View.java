@@ -1,6 +1,7 @@
 package com.liztube.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -42,7 +43,7 @@ public class View {
         this.user = user; return this;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="VIDEO", nullable=false, updatable = false, referencedColumnName = "KEYID")
     public Video getVideo() {
         return video;

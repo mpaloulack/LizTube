@@ -22,14 +22,14 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @Configuration
 @EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
-@ComponentScan(basePackages = {"com.liztube.security"})
+@ComponentScan(basePackages = {"com.liztube.security", "com.liztube.service"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private Environment environment;
+    /*@Autowired
+    private Environment environment;*/
     @Autowired
     JpaConfigs jpaConfigs;
 
-    private static final int PROPERTY_REMEMBER_ME_DELAY = 1209600;
+    //private static final int PROPERTY_REMEMBER_ME_DELAY = 1209600;
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -46,8 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                //.antMatchers("/api/admin/**").access("hasRole('ADMIN')")
             .and()
                 .formLogin()
+                .permitAll()
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/")
                 .passwordParameter("password")

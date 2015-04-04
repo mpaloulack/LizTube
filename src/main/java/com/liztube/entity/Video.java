@@ -1,10 +1,13 @@
 package com.liztube.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liztube.utils.EnumError;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Video class
@@ -17,9 +20,13 @@ public class Video {
     private String key;
     private String title;
     private String description;
+    private Timestamp creationdate;
     private UserLiztube owner;
     private Boolean ispublic;
     private Boolean ispubliclink;
+    private long videoRankAsMostViewed;
+    private long videoRankAsLastest;
+    private List<View> views;
     //endregion
 
     //region getter/setter
@@ -55,6 +62,16 @@ public class Video {
         this.description = description; return this;
     }
 
+    @Basic
+    @Column(name = "CREATIONDATE", nullable = false, insertable = true, updatable = false)
+    public Timestamp getCreationdate() {
+        return creationdate;
+    }
+
+    public Video setCreationdate(Timestamp creationdate) {
+        this.creationdate = creationdate; return this;
+    }
+
     @ManyToOne
     @JoinColumn(name="USER", nullable=false, referencedColumnName = "ID")
     @NotNull
@@ -85,6 +102,37 @@ public class Video {
     public Video setIspubliclink(Boolean ispubliclink) {
         this.ispubliclink = ispubliclink; return this;
     }
+
+    @Basic
+    @Column(name = "VIDEORANKASMOSTVIEWED", nullable = false, insertable = true, updatable = true)
+    public long getVideoRankAsMostViewed() {
+        return videoRankAsMostViewed;
+    }
+
+    public void setVideoRankAsMostViewed(long videoRankAsMostViewed) {
+        this.videoRankAsMostViewed = videoRankAsMostViewed;
+    }
+
+    @Basic
+    @Column(name = "VIDEORANKASLATEST", nullable = false, insertable = true, updatable = true)
+    public long getVideoRankAsLastest() {
+        return videoRankAsLastest;
+    }
+
+    public void setVideoRankAsLastest(long videoRankAsLastest) {
+        this.videoRankAsLastest = videoRankAsLastest;
+    }
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
+    public List<View> getViews() {
+        return views;
+    }
+
+    public void setViews(List<View> views) {
+        this.views = views;
+    }
+
     //endregion
 
     //region override methods

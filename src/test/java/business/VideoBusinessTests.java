@@ -11,7 +11,7 @@ import com.liztube.exception.exceptionType.PublicException;
 import com.liztube.repository.VideoRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
-import com.liztube.utils.facade.VideoCreationFacade;
+import com.liztube.utils.facade.video.VideoCreationFacade;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,6 +37,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,6 +182,8 @@ public class VideoBusinessTests {
         assertThat(videoPersist.getDescription()).isEqualTo(videoCreationFacade.getDescription());
         assertThat(videoPersist.getIspublic()).isEqualTo(videoCreationFacade.isPublic());
         assertThat(videoPersist.getIspubliclink()).isEqualTo(videoCreationFacade.isPublicLink());
+        assertThat(videoPersist.getViews().size()).isEqualTo(0);
+        assertThat(videoPersist.getCreationdate()).isEqualToIgnoringSeconds(Timestamp.valueOf(LocalDateTime.now()));
         assertThat(videoRepository.findAll().size()).isEqualTo(1);
     }
 }

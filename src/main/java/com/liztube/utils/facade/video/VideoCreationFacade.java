@@ -1,4 +1,4 @@
-package com.liztube.utils.facade;
+package com.liztube.utils.facade.video;
 
 /**
  * Facade which will be associated to the video uploaded which contains title, description and sharing attributes

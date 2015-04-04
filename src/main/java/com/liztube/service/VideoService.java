@@ -1,11 +1,13 @@
 package com.liztube.service;
 
+import com.liztube.business.SearchForVideosBusiness;
 import com.liztube.business.VideoBusiness;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
-import com.liztube.utils.EnumRole;
 import com.liztube.utils.GroupRoles;
-import com.liztube.utils.facade.VideoCreationFacade;
+import com.liztube.utils.facade.video.GetVideosFacade;
+import com.liztube.utils.facade.video.VideoCreationFacade;
+import com.liztube.utils.facade.video.VideoSearchFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +22,14 @@ public class VideoService {
 
     @Autowired
     VideoBusiness videoBusiness;
+    @Autowired
+    SearchForVideosBusiness searchForVideosBusiness;
 
     /**
      * Upload a video
      * @param file
      */
-    @PreAuthorize("hasRole('"+ GroupRoles.AUTHENTICATED +"')")
+    @PreAuthorize(GroupRoles.AUTHENTICATED)
     @RequestMapping(value="/upload", method = RequestMethod.POST, consumes = "multipart/form-data")
     @ResponseBody
     public String uploadVideo(@RequestParam(value="file", required=true) MultipartFile file,
@@ -37,4 +41,13 @@ public class VideoService {
         return videoBusiness.uploadVideo(file, videoCreationFacade);
     }
 
+    /**
+     * Get video for home page : /api/video?page=[int]
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public GetVideosFacade getVideosForHomePage(@RequestParam(value = "page", required = false) Integer page){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setPage((page == null) ? 1 : page);
+        return searchForVideosBusiness.GetVideos(videoSearchFacade);
+    }
 }
