@@ -1,12 +1,9 @@
 package com.liztube.utils.facade.video;
 
-import com.liztube.entity.Video;
-import sun.jvm.hotspot.debugger.Page;
-
 import java.util.List;
 
 /**
- * Created by laurent on 04/04/15.
+ * Facade to send videos found when searching for it
  */
 public class GetVideosFacade {
 
