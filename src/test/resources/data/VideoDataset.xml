@@ -17,4 +17,5 @@
     <VIDEO keyid="b" description="desc of b" ispublic="true" creationdate="2013-10-06 10:15:26" ispubliclink="true" title="B video" user="1" VIDEORANKASLATEST="2" VIDEORANKASMOSTVIEWED="2"/>
     <VIDEO keyid="c" description="desc of c" ispublic="true" creationdate="2013-10-07 10:15:26" ispubliclink="true" title="C video" user="1" VIDEORANKASLATEST="3" VIDEORANKASMOSTVIEWED="3"/>
 
+    <VIEW />
 </dataset>

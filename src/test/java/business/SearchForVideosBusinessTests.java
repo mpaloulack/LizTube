@@ -1,5 +1,6 @@
 package business;
 
+import com.excilys.ebi.spring.dbunit.config.DBOperation;
 import com.excilys.ebi.spring.dbunit.test.DataSet;
 import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
 import com.liztube.business.SearchForVideosBusiness;
