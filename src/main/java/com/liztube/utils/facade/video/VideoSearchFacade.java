@@ -23,6 +23,10 @@ public class VideoSearchFacade {
      * Default value set in the application properties if = 0
      */
     private int pagination;
+    /**
+     * Search video for a specific user
+     */
+    private long userId;
     //endregion
 
     //region getter/setter
@@ -57,6 +61,14 @@ public class VideoSearchFacade {
 
     public VideoSearchFacade setPagination(int pagination) {
         this.pagination = pagination; return this;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public VideoSearchFacade setUserId(long userId) {
+        this.userId = userId; return this;
     }
 
     //endregion

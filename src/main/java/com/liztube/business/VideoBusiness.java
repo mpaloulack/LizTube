@@ -64,7 +64,7 @@ public class VideoBusiness {
     public String uploadVideo(MultipartFile file, VideoCreationFacade videoCreationFacade) throws UserNotFoundException, VideoException {
 
         //Get connected user
-        UserLiztube user = authBusiness.getConnectedUser();
+        UserLiztube user = authBusiness.getConnectedUser(true);
 
         //Check validity of the file : video, mp4, not exceed 500Mo
         CheckVideoValidity(file);

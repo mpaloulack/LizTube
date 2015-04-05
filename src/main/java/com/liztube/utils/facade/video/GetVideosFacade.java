@@ -23,7 +23,7 @@ public class GetVideosFacade {
     /**
      * Total count of pages according to the pagination attribute value
      */
-    private long videosTotalPage;
+    private long totalPage;
     //endregion
 
     //region getter/setter
@@ -52,12 +52,12 @@ public class GetVideosFacade {
         this.videosTotalCount = videosTotalCount; return this;
     }
 
-    public long getVideosTotalPage() {
-        return videosTotalPage;
+    public long getTotalPage() {
+        return totalPage;
     }
 
-    public GetVideosFacade setVideosTotalPage(long videosTotalPage) {
-        this.videosTotalPage = videosTotalPage; return this;
+    public GetVideosFacade setTotalPage(long totalPage) {
+        this.totalPage = totalPage; return this;
     }
 
     //endregion

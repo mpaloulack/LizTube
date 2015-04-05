@@ -46,8 +46,10 @@ public class VideoService {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public GetVideosFacade getVideosForHomePage(@RequestParam(value = "page", required = false) Integer page){
-        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setPage((page == null) ? 1 : page);
+    public GetVideosFacade getVideosForHomePage(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "user", required = false) Integer userId) {
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade()
+                .setPage((page == null) ? 1 : page)
+                .setUserId((userId == null) ? 0 : userId);
         return searchForVideosBusiness.GetVideos(videoSearchFacade);
     }
 }

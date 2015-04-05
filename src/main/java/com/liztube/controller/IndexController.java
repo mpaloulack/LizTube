@@ -26,7 +26,7 @@ public class IndexController {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writerWithDefaultPrettyPrinter();
 
-        UserConnectedProfile userConnected = authBusiness.getUserConnectedProfile();
+        UserConnectedProfile userConnected = authBusiness.getUserConnectedProfile(false);
 
         String userConnectedStringified = null;
         try {

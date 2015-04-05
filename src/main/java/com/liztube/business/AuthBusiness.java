@@ -43,10 +43,10 @@ public class AuthBusiness {
      * Get partial user profile : Username (login) and roles
      * @return
      */
-    public UserConnectedProfile getUserConnectedProfile(){
+    public UserConnectedProfile getUserConnectedProfile(boolean logRequired){
         List<String> roles = new ArrayList<String>();
         try{
-            UserLiztube user = getConnectedUser();
+            UserLiztube user = getConnectedUser(logRequired);
             for(Role role : user.getRoles()){
                 roles.add(role.getName());
             }
@@ -85,7 +85,7 @@ public class AuthBusiness {
      * @return
      * @throws com.liztube.exception.UserNotFoundException
      */
-    public UserLiztube getConnectedUser() throws UserNotFoundException {
+    public UserLiztube getConnectedUser(boolean logRequired) throws UserNotFoundException {
         if (SecurityContextHolder.getContext() != null &&
                 SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
@@ -94,10 +94,16 @@ public class AuthBusiness {
                 String login = user.getUsername();
                 return userLiztubeRepository.findByEmailOrPseudo(login);
             }catch (Exception e){
-                throw new UserNotFoundException("Find user by login failed", USER_NOT_FOUND_EXCEPTION);
+                if(logRequired){
+                    throw new UserNotFoundException("Find user by login failed", USER_NOT_FOUND_EXCEPTION);
+                }
             }
         }
-        throw new UserNotFoundException("Session not found", USER_NOT_FOUND_EXCEPTION);
+        if(logRequired) {
+            throw new UserNotFoundException("Session not found", USER_NOT_FOUND_EXCEPTION);
+        }else{
+            return null;
+        }
     }
 
     /**

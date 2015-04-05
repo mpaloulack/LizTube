@@ -1,6 +1,8 @@
 package com.liztube.business;
 
+import com.liztube.entity.UserLiztube;
 import com.liztube.entity.Video;
+import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.VideoRepository;
 import com.liztube.utils.facade.video.GetVideosFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
@@ -35,7 +37,7 @@ public class SearchForVideosBusiness {
      * page attribute : [1;infinite]
      * @return
      */
-    public GetVideosFacade GetVideos(VideoSearchFacade videoSearchFacade){
+    public GetVideosFacade GetVideos(VideoSearchFacade videoSearchFacade) {
 
         //Get number of videos to return (get value send or get default value)
         int pagination = (videoSearchFacade.getPagination() == 0) ? Integer.parseInt(environment.getProperty("video.default.pagination")) : videoSearchFacade.getPagination();
@@ -47,7 +49,23 @@ public class SearchForVideosBusiness {
                 page, pagination, new Sort(
                 new Sort.Order(Sort.Direction.DESC, "creationdate")
         ));
-        Page pageFound = videoRepository.findAll(pageRequest);
+
+        Page pageFound = null;
+
+        //Search by user
+        if(videoSearchFacade.getUserId() != 0){
+            UserLiztube user = null;
+            try {
+                user = authBusiness.getConnectedUser(false);
+            } catch (UserNotFoundException e) {}
+            if(user != null && user.getId() == videoSearchFacade.getUserId()){
+                pageFound = videoRepository.findByOwner_Id(user.getId(), pageRequest);
+            }else{
+                pageFound = videoRepository.findByOwner_IdAndIspublic(videoSearchFacade.getUserId(), true, pageRequest);
+            }
+        }else{
+            pageFound = videoRepository.findByIspublic(true, pageRequest);
+        }
 
         //Get video facade
         List<VideoDataFacade> videosFound = new ArrayList<>();
@@ -58,11 +76,15 @@ public class SearchForVideosBusiness {
                         .setTitle(video.getTitle())
                         .setDescription(video.getDescription())
                         .setViews(video.getViews().size())
+                        .setOwnerId(video.getOwner().getId())
+                        .setOwnerPseudo(video.getOwner().getPseudo())
+                        .setPublic(video.getIspublic())
+                        .setPublicLink(video.getIspubliclink())
         ));
 
         return new GetVideosFacade()
                 .setVideosTotalCount(pageFound.getTotalElements())
-                .setVideosTotalPage(pageFound.getTotalPages())
+                .setTotalPage(pageFound.getTotalPages())
                 .setCurrentPage(videoSearchFacade.getPage())
                 .setVideos(videosFound);
     }

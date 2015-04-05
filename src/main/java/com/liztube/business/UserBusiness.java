@@ -41,7 +41,7 @@ public class UserBusiness {
      * @throws com.liztube.exception.UserNotFoundException
      */
     public UserForRegistration getUserInfo() throws UserNotFoundException {
-        UserLiztube userLiztube = authBusiness.getConnectedUser();
+        UserLiztube userLiztube = authBusiness.getConnectedUser(true);
 
         UserForRegistration userInfo = new UserForRegistration()
                 .setEmail(userLiztube.getEmail())
@@ -58,7 +58,7 @@ public class UserBusiness {
      * @throws com.liztube.exception.UserNotFoundException
      */
     public UserLiztube updateUserInfo(UserForRegistration userInfo) throws UserNotFoundException, UserException {
-        UserLiztube userLiztube = authBusiness.getConnectedUser();
+        UserLiztube userLiztube = authBusiness.getConnectedUser(true);
 
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
 

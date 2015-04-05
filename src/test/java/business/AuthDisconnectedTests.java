@@ -41,14 +41,19 @@ public class AuthDisconnectedTests {
 
     @Test
     public void getUserConnectedProfile_should_get_no_one(){
-        UserConnectedProfile userConnectedProfile = authBusiness.getUserConnectedProfile();
+        UserConnectedProfile userConnectedProfile = authBusiness.getUserConnectedProfile(true);
         assertThat(userConnectedProfile.getPseudo()).isEqualTo("");
         assertThat(userConnectedProfile.getRoles()).isEmpty();
     }
 
     @Test(expected = UserNotFoundException.class)
     public void getConnectedUser_should_raise_an_error() throws UserNotFoundException {
-        authBusiness.getConnectedUser();
+        authBusiness.getConnectedUser(true);
+    }
+
+    @Test
+    public void getConnectedUser_should_raise_no_error_but_return_null() throws UserNotFoundException {
+        assertThat(authBusiness.getConnectedUser(false)).isNull();
     }
 
     @Test

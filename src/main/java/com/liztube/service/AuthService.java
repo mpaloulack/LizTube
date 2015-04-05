@@ -28,7 +28,7 @@ public class AuthService {
      */
     @RequestMapping(value = "/currentProfil",method = RequestMethod.GET)
     public UserConnectedProfile getUserProfil() {
-        return authBusiness.getUserConnectedProfile();
+        return authBusiness.getUserConnectedProfile(true);
     }
 
     /**

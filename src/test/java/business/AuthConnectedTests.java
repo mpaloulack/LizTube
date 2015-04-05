@@ -62,7 +62,7 @@ public class AuthConnectedTests {
 
     @Test
     public void getUserConnectedProfile_should_get_profile_of_connected_user(){
-        UserConnectedProfile userConnectedProfile = authBusiness.getUserConnectedProfile();
+        UserConnectedProfile userConnectedProfile = authBusiness.getUserConnectedProfile(true);
         assertThat(userConnectedProfile.getPseudo()).isEqualTo("spywen");
         assertThat(userConnectedProfile.getRoles()).isNotEmpty();
         assertThat(userConnectedProfile.getRoles().size()).isEqualTo(2);
@@ -72,6 +72,6 @@ public class AuthConnectedTests {
     @Test
     public void getConnectedUser_should_get_connected_user_complete_profile() throws UserNotFoundException {
         UserLiztube userLiztubeToFound = userLiztubeRepository.findByPseudo("spywen");
-        assertThat(authBusiness.getConnectedUser().getId()).isEqualTo(userLiztubeToFound.getId());
+        assertThat(authBusiness.getConnectedUser(true).getId()).isEqualTo(userLiztubeToFound.getId());
     }
 }
