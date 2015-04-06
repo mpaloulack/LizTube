@@ -13,9 +13,9 @@
     <USER_ROLE USER_ID="2" ROLE_ID="1"/>
     <USER_ROLE USER_ID="2" ROLE_ID="3"/>
 
-    <VIDEO keyid="a" description="desc of a" ispublic="true" creationdate="2013-10-05 10:15:26" ispubliclink="true" title="A video" user="1" VIDEORANKASLATEST="1" VIDEORANKASMOSTVIEWED="1"/>
-    <VIDEO keyid="b" description="desc of b" ispublic="true" creationdate="2013-10-06 10:15:26" ispubliclink="true" title="B video" user="1" VIDEORANKASLATEST="2" VIDEORANKASMOSTVIEWED="2"/>
-    <VIDEO keyid="c" description="desc of c" ispublic="true" creationdate="2013-10-07 10:15:26" ispubliclink="true" title="C video" user="1" VIDEORANKASLATEST="3" VIDEORANKASMOSTVIEWED="3"/>
+    <VIDEO keyid="a" description="desc of a" ispublic="true" creationdate="2013-10-05 10:15:26" ispubliclink="true" title="A video" user="1" VIDEORANKASMOSTRECENT="1" VIDEORANKASMOSTVIEWED="1" VIDEORANKASMOSTSHARED="0"/>
+    <VIDEO keyid="b" description="desc of b" ispublic="true" creationdate="2013-10-06 10:15:26" ispubliclink="true" title="B video" user="1" VIDEORANKASMOSTRECENT="2" VIDEORANKASMOSTVIEWED="2" VIDEORANKASMOSTSHARED="0"/>
+    <VIDEO keyid="c" description="desc of c" ispublic="true" creationdate="2013-10-07 10:15:26" ispubliclink="true" title="C video" user="1" VIDEORANKASMOSTRECENT="3" VIDEORANKASMOSTVIEWED="3" VIDEORANKASMOSTSHARED="0"/>
 
     <VIEW />
 </dataset>

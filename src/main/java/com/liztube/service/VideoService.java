@@ -60,7 +60,42 @@ public class VideoService {
                 .setUserId((userId == null) ? 0 : userId)
                 .setKeyword((query == null) ? "" : query)
                 .setPagination((pagination == null) ? 0 : pagination)
-                .setOrderBy(EnumVideoOrderBy.DEFAULT);
+                .setOrderBy(EnumVideoOrderBy.HOMESUGGESTION);
+        return searchForVideosBusiness.GetVideos(videoSearchFacade);
+    }
+
+    /**
+     * Get video ordered by ... : /api/video/[mostviewed | mostrecent | mostshared](?
+     * page=[int]&
+     * pagination=[int]&
+     * user=[id]&
+     * q=[string encoded])
+     */
+    @RequestMapping(value = "/{orderBy}", method = RequestMethod.GET)
+    @ResponseBody
+    public GetVideosFacade getVideosOrderByMostViewed(  @PathVariable(value = "orderBy") String orderBy,
+                                                        @RequestParam(value = "page", required = false) Integer page,
+                                                        @RequestParam(value = "pagination", required = false) Integer pagination,
+                                                        @RequestParam(value = "user", required = false) Integer userId,
+                                                        @RequestParam(value = "q", required = false) String query) {
+        EnumVideoOrderBy enumVideoOrderBy = EnumVideoOrderBy.HOMESUGGESTION;
+        switch (orderBy){
+            case "mostviewed":
+                enumVideoOrderBy = EnumVideoOrderBy.MOSTVIEWED;
+                break;
+            case "mostrecent":
+                enumVideoOrderBy = EnumVideoOrderBy.MOSTRECENT;
+                break;
+            case "mostshared":
+                enumVideoOrderBy = EnumVideoOrderBy.MOSTSHARED;
+                break;
+        }
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade()
+                .setPage((page == null) ? 1 : page)
+                .setUserId((userId == null) ? 0 : userId)
+                .setKeyword((query == null) ? "" : query)
+                .setPagination((pagination == null) ? 0 : pagination)
+                .setOrderBy(enumVideoOrderBy);
         return searchForVideosBusiness.GetVideos(videoSearchFacade);
     }
 }

@@ -25,8 +25,13 @@ public class Video {
     private Boolean ispublic;
     private Boolean ispubliclink;
     private long videoRankAsMostViewed;
-    private long videoRankAsLastest;
+    private long videoRankAsMostRecent;
+    private long videoRankAsMostShared;
     private List<View> views;
+
+    //Transcient values
+    private long viewsCount;
+    private long privateViewsCount;
     //endregion
 
     //region getter/setter
@@ -114,13 +119,23 @@ public class Video {
     }
 
     @Basic
-    @Column(name = "VIDEORANKASLATEST", nullable = false, insertable = true, updatable = true)
-    public long getVideoRankAsLastest() {
-        return videoRankAsLastest;
+    @Column(name = "VIDEORANKASMOSTRECENT", nullable = false, insertable = true, updatable = true)
+    public long getVideoRankAsMostRecent() {
+        return videoRankAsMostRecent;
     }
 
-    public void setVideoRankAsLastest(long videoRankAsLastest) {
-        this.videoRankAsLastest = videoRankAsLastest;
+    public void setVideoRankAsMostRecent(long videoRankAsMostRecent) {
+        this.videoRankAsMostRecent = videoRankAsMostRecent;
+    }
+
+    @Basic
+    @Column(name = "VIDEORANKASMOSTSHARED", nullable = false, insertable = true, updatable = true)
+    public long getVideoRankAsMostShared() {
+        return videoRankAsMostShared;
+    }
+
+    public void setVideoRankAsMostShared(long videoRankAsMostShared) {
+        this.videoRankAsMostShared = videoRankAsMostShared;
     }
 
     @JsonIgnore
@@ -132,6 +147,26 @@ public class Video {
     public void setViews(List<View> views) {
         this.views = views;
     }
+
+    @Transient
+    public long getViewsCount() {
+        return getViews().size();
+    }
+
+    public void setViewsCount(long viewsCount) {}
+
+    @Transient
+    public long getPrivateViewsCount() {
+        long privateViewsCount = 0;
+        for(View v : getViews()){
+            if(v.isAsShared()){
+                privateViewsCount++;
+            }
+        }
+        return privateViewsCount;
+    }
+
+    public void setPrivateViewsCount(long privateViewsCount) {}
 
     //endregion
 

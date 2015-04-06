@@ -18,6 +18,7 @@ public class View {
     private UserLiztube user;
     private Video video;
     private Timestamp viewdate;
+    private boolean asShared;
     //endregion
 
     //region getter/setter
@@ -63,6 +64,17 @@ public class View {
     public View setViewdate(Timestamp viewdate) {
         this.viewdate = viewdate; return this;
     }
+
+    @Basic
+    @Column(name = "ASSHARED", nullable = false, insertable = true, updatable = true)
+    public boolean isAsShared() {
+        return asShared;
+    }
+
+    public void setAsShared(boolean asShared) {
+        this.asShared = asShared;
+    }
+
     //endregion
 
     //region override methods

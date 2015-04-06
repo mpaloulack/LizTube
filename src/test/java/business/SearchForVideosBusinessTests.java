@@ -164,7 +164,7 @@ public class SearchForVideosBusinessTests {
 
     //region search by order by
     @Test
-    public void defaultSearch_should_return_videos_ordered_by_most_viewed(){
+    public void should_return_videos_ordered_by_most_viewed(){
         VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setOrderBy(EnumVideoOrderBy.MOSTVIEWED);
         GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
         assertThat(videosFound.getVideosTotalCount()).isEqualTo(9);
@@ -172,11 +172,19 @@ public class SearchForVideosBusinessTests {
     }
 
     @Test
-    public void defaultSearch_should_return_videos_ordered_by_most_recent(){
+    public void should_return_videos_ordered_by_most_recent(){
         VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setOrderBy(EnumVideoOrderBy.MOSTRECENT);
         GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
         assertThat(videosFound.getVideosTotalCount()).isEqualTo(9);
         assertThat(videosFound.getVideos().get(0).getKey()).isEqualTo("e");
+    }
+
+    @Test
+    public void should_return_videos_ordered_by_most_shared(){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setOrderBy(EnumVideoOrderBy.MOSTSHARED);
+        GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
+        assertThat(videosFound.getVideosTotalCount()).isEqualTo(9);
+        assertThat(videosFound.getVideos().get(0).getKey()).isEqualTo("a");
     }
     //endregion
 

@@ -5,6 +5,8 @@ package com.liztube.utils;
  */
 public enum EnumVideoOrderBy {
     DEFAULT,
+    HOMESUGGESTION,
     MOSTVIEWED,
-    MOSTRECENT
+    MOSTRECENT,
+    MOSTSHARED,
 }

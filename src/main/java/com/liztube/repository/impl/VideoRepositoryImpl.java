@@ -8,6 +8,8 @@ import com.liztube.repository.custom.VideoRepositoryCustom;
 import com.liztube.utils.EnumVideoOrderBy;
 import com.liztube.utils.facade.video.VideoSearchFacadeForRepository;
 import javafx.util.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -23,6 +25,9 @@ public class VideoRepositoryImpl implements VideoRepositoryCustom {
 
     @PersistenceContext
     EntityManager em;
+
+    @Autowired
+    Environment environment;
 
     /**
      * See interface
@@ -89,9 +94,26 @@ public class VideoRepositoryImpl implements VideoRepositoryCustom {
      */
     private CriteriaQuery<Video> orderBy(CriteriaBuilder cb, CriteriaQuery<Video> query, Root<Video> video, EnumVideoOrderBy enumVideoOrderBy){
         if(enumVideoOrderBy.equals(EnumVideoOrderBy.MOSTRECENT)) {
-            return query.orderBy(cb.asc(video.get(Video_.videoRankAsLastest)));
+            return query.orderBy(cb.asc(video.get(Video_.videoRankAsMostRecent)));
         }else if(enumVideoOrderBy.equals(EnumVideoOrderBy.MOSTVIEWED)) {
             return query.orderBy(cb.asc(video.get(Video_.videoRankAsMostViewed)));
+        }else if (enumVideoOrderBy.equals(EnumVideoOrderBy.MOSTSHARED)){
+            return query.orderBy(cb.asc(video.get(Video_.videoRankAsMostShared)));
+        }else if(enumVideoOrderBy.equals(EnumVideoOrderBy.HOMESUGGESTION)){
+            int mostRecentRate = Integer.parseInt(environment.getProperty("video.home.suggestion.most.recent.rate"));
+            int mostViewedRate = Integer.parseInt(environment.getProperty("video.home.suggestion.most.viewed.rate"));
+            int mostSharedRate = Integer.parseInt(environment.getProperty("video.home.suggestion.most.shared.rate"));
+            return query.orderBy(
+                    cb.asc(
+                            cb.sum(
+                                    cb.sum(
+                                            cb.prod(mostViewedRate, video.get(Video_.videoRankAsMostViewed)),
+                                            cb.prod(mostSharedRate, video.get(Video_.videoRankAsMostShared))
+                                    ),
+                                    cb.prod(mostRecentRate, video.get(Video_.videoRankAsMostRecent))
+                            )
+                    )
+            );
         }
         return query.orderBy(cb.desc(video.get(Video_.creationdate)));
     }
