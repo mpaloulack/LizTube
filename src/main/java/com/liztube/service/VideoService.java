@@ -4,6 +4,7 @@ import com.liztube.business.SearchForVideosBusiness;
 import com.liztube.business.VideoBusiness;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
+import com.liztube.utils.EnumVideoOrderBy;
 import com.liztube.utils.GroupRoles;
 import com.liztube.utils.facade.video.GetVideosFacade;
 import com.liztube.utils.facade.video.VideoCreationFacade;
@@ -42,14 +43,24 @@ public class VideoService {
     }
 
     /**
-     * Get video for home page : /api/video?page=[int]
+     * Get video for home page : /api/video(?
+     * page=[int]&
+     * pagination=[int]&
+     * user=[id]&
+     * q=[string encoded])
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public GetVideosFacade getVideosForHomePage(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "user", required = false) Integer userId) {
+    public GetVideosFacade getVideosForHomePage(@RequestParam(value = "page", required = false) Integer page,
+                                                @RequestParam(value = "pagination", required = false) Integer pagination,
+                                                @RequestParam(value = "user", required = false) Integer userId,
+                                                @RequestParam(value = "q", required = false) String query) {
         VideoSearchFacade videoSearchFacade = new VideoSearchFacade()
                 .setPage((page == null) ? 1 : page)
-                .setUserId((userId == null) ? 0 : userId);
+                .setUserId((userId == null) ? 0 : userId)
+                .setKeyword((query == null) ? "" : query)
+                .setPagination((pagination == null) ? 0 : pagination)
+                .setOrderBy(EnumVideoOrderBy.DEFAULT);
         return searchForVideosBusiness.GetVideos(videoSearchFacade);
     }
 }

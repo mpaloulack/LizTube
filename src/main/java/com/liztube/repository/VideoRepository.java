@@ -15,5 +15,7 @@ public interface VideoRepository extends JpaRepository<Video, Long>, VideoReposi
     //Search methods
     Page<Video> findByIspublic(boolean isPublic, Pageable pageable);
     Page<Video> findByOwner_Id(long ownerId, Pageable pageable);
-    Page<Video> findByOwner_IdAndIspublic(long ownerId, boolean IsPublic, Pageable pageable);
+    Page<Video> findByOwner_IdAndIspublicTrue(long ownerId, Pageable pageable);
+
+    //ignoreCase
 }

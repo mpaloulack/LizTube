@@ -4,16 +4,16 @@ import com.liztube.entity.UserLiztube;
 import com.liztube.entity.Video;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.VideoRepository;
+import com.liztube.utils.EnumVideoOrderBy;
 import com.liztube.utils.facade.video.GetVideosFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
 import com.liztube.utils.facade.video.VideoSearchFacade;
+import com.liztube.utils.facade.video.VideoSearchFacadeForRepository;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,53 +39,75 @@ public class SearchForVideosBusiness {
      */
     public GetVideosFacade GetVideos(VideoSearchFacade videoSearchFacade) {
 
-        //Get number of videos to return (get value send or get default value)
-        int pagination = (videoSearchFacade.getPagination() == 0) ? Integer.parseInt(environment.getProperty("video.default.pagination")) : videoSearchFacade.getPagination();
-        //Get page asked for (we substract 1 because page go from 1 to infinite and pagination engine need to start to 0)
-        int page = videoSearchFacade.getPage() - 1;
+        VideoSearchFacadeForRepository vFacade = convertVideoSearchFacadeAsVideoSearchFacadeForRepository(videoSearchFacade);
 
-        //Search
-        final Pageable pageRequest = new PageRequest(
-                page, pagination, new Sort(
-                new Sort.Order(Sort.Direction.DESC, "creationdate")
-        ));
-
-        Page pageFound = null;
-
-        //Search by user
+        Pair<List<Video>, Long> response = null;
         if(videoSearchFacade.getUserId() != 0){
             UserLiztube user = null;
             try {
                 user = authBusiness.getConnectedUser(false);
             } catch (UserNotFoundException e) {}
             if(user != null && user.getId() == videoSearchFacade.getUserId()){
-                pageFound = videoRepository.findByOwner_Id(user.getId(), pageRequest);
+                response = videoRepository.findVideosByCriteria(vFacade.setOnlyPublic(false));
             }else{
-                pageFound = videoRepository.findByOwner_IdAndIspublic(videoSearchFacade.getUserId(), true, pageRequest);
+                response = videoRepository.findVideosByCriteria(vFacade.setOnlyPublic(true));
             }
         }else{
-            pageFound = videoRepository.findByIspublic(true, pageRequest);
+            response = videoRepository.findVideosByCriteria(vFacade.setOnlyPublic(true));
         }
 
-        //Get video facade
+        //Get pagination data
+        long totalItem = response.getValue();
+        double pages = totalItem / vFacade.getPagination();
+        double pageSup = totalItem % vFacade.getPagination();
+        int totalPage = (int)Math.round(pages) + ((pageSup != 0) ? 1 : 0);
+
+        //Get video list as facade objects
         List<VideoDataFacade> videosFound = new ArrayList<>();
-        List<Video> videos = pageFound.getContent();
-        String videoUrl = environment.getProperty("video.url");
-        videos.forEach((video) -> videosFound.add(new VideoDataFacade()
-                        .setUrl(videoUrl + video.getKey())
-                        .setTitle(video.getTitle())
-                        .setDescription(video.getDescription())
-                        .setViews(video.getViews().size())
-                        .setOwnerId(video.getOwner().getId())
-                        .setOwnerPseudo(video.getOwner().getPseudo())
-                        .setPublic(video.getIspublic())
-                        .setPublicLink(video.getIspubliclink())
+        response.getKey().forEach((v) -> videosFound.add(new VideoDataFacade()
+                        .setKey(v.getKey())
+                        .setTitle(v.getTitle())
+                        .setDescription(v.getDescription())
+                        .setViews(v.getViews().size())
+                        .setOwnerId(v.getOwner().getId())
+                        .setOwnerPseudo(v.getOwner().getPseudo())
+                        .setPublic(v.getIspublic())
+                        .setPublicLink(v.getIspubliclink())
+                        .setCreationDate(v.getCreationdate())
         ));
 
+        //Build response
         return new GetVideosFacade()
-                .setVideosTotalCount(pageFound.getTotalElements())
-                .setTotalPage(pageFound.getTotalPages())
-                .setCurrentPage(videoSearchFacade.getPage())
-                .setVideos(videosFound);
+                .setVideos(videosFound)
+                .setVideosTotalCount(totalItem)
+                .setTotalPage(totalPage)
+                .setCurrentPage(videoSearchFacade.getPage());
+    }
+
+    /**
+     * Analyse criteria, prepare them and add it to a adapted object for repository
+     * @param videoSearchFacade
+     * @return
+     */
+    private VideoSearchFacadeForRepository convertVideoSearchFacadeAsVideoSearchFacadeForRepository(VideoSearchFacade videoSearchFacade) {
+        //Get number of videos to return (get value send or get default value)
+        int pagination = (videoSearchFacade.getPagination() == 0) ? Integer.parseInt(environment.getProperty("video.default.pagination")) : videoSearchFacade.getPagination();
+        //Get page asked for (we substract 1 because page go from 1 to infinite and pagination engine need to start to 0)
+        int page = videoSearchFacade.getPage() == 0 ? 0 : videoSearchFacade.getPage() - 1;
+        //Get asked for user
+        int userId = videoSearchFacade.getUserId();
+        //Get asked for keywords
+        String unEncodedKeywords = com.liztube.utils.StringUtils.UrlDecoder(videoSearchFacade.getKeyword() != null ? videoSearchFacade.getKeyword().trim() : "");
+        String keywords = !StringUtils.isEmpty(unEncodedKeywords) ? unEncodedKeywords : null;
+        //Get order by attribute
+        EnumVideoOrderBy enumVideoOrderBy = videoSearchFacade.getOrderBy() == null ? EnumVideoOrderBy.DEFAULT : videoSearchFacade.getOrderBy();
+
+        return new VideoSearchFacadeForRepository()
+                .setPagination(pagination)
+                .setPage(page)
+                .setUserId(userId)
+                .setKeywords(keywords)
+                .setOrderBy(enumVideoOrderBy);
+
     }
 }

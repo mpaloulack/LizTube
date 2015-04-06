@@ -1,5 +1,7 @@
 package com.liztube.utils.facade.video;
 
+import java.sql.Timestamp;
+
 /**
  * Video data to send to the client when searching for example
  */
@@ -9,21 +11,22 @@ public class VideoDataFacade {
     private String title;
     private String description;
     private int views;
-    private String url;
+    private String key;
     private String ownerPseudo;
     private long ownerId;
     private boolean isPublic;
     private boolean isPublicLink;
+    private Timestamp creationDate;
     //endregion
 
     //region getter/setter
 
-    public String getUrl() {
-        return url;
+    public String getKey() {
+        return key;
     }
 
-    public VideoDataFacade setUrl(String url) {
-        this.url = url; return this;
+    public VideoDataFacade setKey(String key) {
+        this.key = key; return this;
     }
 
     public String getTitle() {
@@ -80,6 +83,14 @@ public class VideoDataFacade {
 
     public VideoDataFacade setPublicLink(boolean isPublicLink) {
         this.isPublicLink = isPublicLink; return this;
+    }
+
+    public Timestamp getCreationDate() {
+        return creationDate;
+    }
+
+    public VideoDataFacade setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate; return this;
     }
 
     //endregion

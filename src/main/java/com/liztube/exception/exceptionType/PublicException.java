@@ -51,7 +51,9 @@ public class PublicException extends InternalException {
     //endregion
 
     private void logException(){
-        logger.error(super.log(), this);
+        StringBuilder builder = new StringBuilder();
+        messages.forEach(builder::append);
+        logger.error(super.log() + ", Messages: " + builder.toString(), this);
     }
 
 }

@@ -5,6 +5,7 @@ import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
 import com.liztube.business.SearchForVideosBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.utils.EnumRole;
+import com.liztube.utils.EnumVideoOrderBy;
 import com.liztube.utils.facade.video.GetVideosFacade;
 import com.liztube.utils.facade.video.VideoSearchFacade;
 import org.junit.Before;
@@ -24,6 +25,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,12 +115,20 @@ public class SearchForVideosBusinessTests {
         assertThat(videosFound.getVideos().size()).isEqualTo(4);
         assertThat(videosFound.getVideos().get(3).getTitle()).isEqualTo("A video");
         assertThat(videosFound.getVideos().get(3).getDescription()).isEqualTo("desc of a");
-        assertThat(videosFound.getVideos().get(3).getUrl()).isEqualTo("/video?key=a");
+        assertThat(videosFound.getVideos().get(3).getKey()).isEqualTo("a");
         assertThat(videosFound.getVideos().get(3).getViews()).isEqualTo(2);
         assertThat(videosFound.getVideos().get(3).getOwnerId()).isEqualTo(1);
         assertThat(videosFound.getVideos().get(3).getOwnerPseudo()).isEqualTo("spywen");
         assertThat(videosFound.getVideos().get(3).isPublic()).isTrue();
         assertThat(videosFound.getVideos().get(3).isPublicLink()).isTrue();
+        assertThat(videosFound.getVideos().get(3).getCreationDate()).isEqualTo(Timestamp.valueOf(LocalDateTime.of(2013, Month.OCTOBER, 5, 10, 15, 26)));
+    }
+
+    @Test
+    public void defaultSearch_should_return_specified_count_of_videos(){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setPagination(2);
+        GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
+        assertThat(videosFound.getVideos().size()).isEqualTo(2);
     }
     //endregion
 
@@ -147,6 +159,57 @@ public class SearchForVideosBusinessTests {
         GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
         assertThat(videosFound.getVideos().size()).isEqualTo(4);
         assertThat(videosFound.getTotalPage()).isEqualTo(1);
+    }
+    //endregion
+
+    //region search by order by
+    @Test
+    public void defaultSearch_should_return_videos_ordered_by_most_viewed(){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setOrderBy(EnumVideoOrderBy.MOSTVIEWED);
+        GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
+        assertThat(videosFound.getVideosTotalCount()).isEqualTo(9);
+        assertThat(videosFound.getVideos().get(0).getKey()).isEqualTo("f");
+    }
+
+    @Test
+    public void defaultSearch_should_return_videos_ordered_by_most_recent(){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setOrderBy(EnumVideoOrderBy.MOSTRECENT);
+        GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
+        assertThat(videosFound.getVideosTotalCount()).isEqualTo(9);
+        assertThat(videosFound.getVideos().get(0).getKey()).isEqualTo("e");
+    }
+    //endregion
+
+    //region search by keyword
+    @Test
+    public void defaultSearch_should_return_video_with_title_in_there_title(){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setKeyword("TiTle");
+        GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
+        assertThat(videosFound.getVideos().size()).isEqualTo(1);
+        assertThat(videosFound.getVideos().get(0).getKey()).isEqualTo("b");
+    }
+
+    @Test
+    public void defaultSearch_should_return_video_with_description_in_their_description(){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setKeyword("descriptIon");
+        GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
+        assertThat(videosFound.getVideos().size()).isEqualTo(1);
+        assertThat(videosFound.getVideos().get(0).getKey()).isEqualTo("g");
+    }
+
+    @Test
+    public void defaultSearch_should_return_video_with_description_with_spaces(){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setKeyword("desCRip+ok");
+        GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
+        assertThat(videosFound.getVideos().size()).isEqualTo(1);
+        assertThat(videosFound.getVideos().get(0).getKey()).isEqualTo("j");
+    }
+
+    @Test
+    public void defaultSearch_should_return_video_with_owner_pseudo(){
+        VideoSearchFacade videoSearchFacade = new VideoSearchFacade().setKeyword("kMille");
+        GetVideosFacade videosFound = searchForVideosBusiness.GetVideos(videoSearchFacade);
+        assertThat(videosFound.getVideos().size()).isEqualTo(3);
     }
     //endregion
 

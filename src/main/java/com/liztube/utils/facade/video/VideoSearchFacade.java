@@ -1,5 +1,7 @@
 package com.liztube.utils.facade.video;
 
+import com.liztube.utils.EnumVideoOrderBy;
+
 /**
  * Facade which contains all the options to search for videos
  */
@@ -11,9 +13,9 @@ public class VideoSearchFacade {
      */
     private String keyword;
     /**
-     * Get videos most viewed if true else get lastest videos
+     * Order by
      */
-    private boolean videosMostViewed;
+    private EnumVideoOrderBy orderBy;
     /**
      * Page asked for
      */
@@ -26,7 +28,7 @@ public class VideoSearchFacade {
     /**
      * Search video for a specific user
      */
-    private long userId;
+    private int userId;
     //endregion
 
     //region getter/setter
@@ -39,12 +41,12 @@ public class VideoSearchFacade {
         this.keyword = keyword; return this;
     }
 
-    public boolean isVideosMostViewed() {
-        return videosMostViewed;
+    public EnumVideoOrderBy getOrderBy() {
+        return orderBy;
     }
 
-    public VideoSearchFacade setVideosMostViewed(boolean videosMostViewed) {
-        this.videosMostViewed = videosMostViewed; return this;
+    public VideoSearchFacade setOrderBy(EnumVideoOrderBy orderBy) {
+        this.orderBy = orderBy; return this;
     }
 
     public int getPage() {
@@ -63,11 +65,11 @@ public class VideoSearchFacade {
         this.pagination = pagination; return this;
     }
 
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public VideoSearchFacade setUserId(long userId) {
+    public VideoSearchFacade setUserId(int userId) {
         this.userId = userId; return this;
     }
 
