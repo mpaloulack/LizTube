@@ -1,0 +1,35 @@
+<div id="upload">
+    <div>
+        <div layout="column" layout-align="center center" class="login">
+            <form class="form-upload" ng-submit="submit()" name="formUpload">
+                <md-toolbar class="md-accent">
+                    <h2 class="md-toolbar-tools">
+                        <span><img src="app/dist/img/favicon.png" width="27px"> Uploader une vidéo</span>
+                    </h2>
+                </md-toolbar>
+                <div>
+                    <md-input-container>
+                        <label><i class="fa fa-video-camera"></i> Titre</label>
+                        <input type="text" name="title" required ng-model="video.title"/>
+                        <div ng-messages="formUpload.title.$error">
+                            <div ng-message="required">Title is required</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <label><i class="fa fa-newspaper-o"></i> Description</label>
+                        <textarea ng-model="video.description" name="description" columns="1" md-maxlength="150"></textarea>
+                        <div ng-messages="formUpload.description.$error">
+                            <div ng-message="required">Description is required</div>
+                        </div>
+                    </md-input-container>
+                    <md-button class=" md-warn" aria-label="uploadVideo" ng-file-select ng-model="video.files" ng-multiple="multiple">
+                        <i class="fa fa-video-camera"></i> Séléctionner une vidéo
+                    </md-button>
+                </div>
+                <div layout="row" layout-align="end center" class="login-footer">
+                    <md-button type="submit" class="md-accent md-raised margin-right" ng-disabled="formUpload.$invalid"><i class="fa fa-check"></i> Uploader</md-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

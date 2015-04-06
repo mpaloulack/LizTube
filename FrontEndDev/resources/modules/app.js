@@ -9,10 +9,8 @@ angular.module("liztube",[
     "liztube.home",
     "liztube.user",
     "liztube.partial",
-
     "ngRoute",
-    'ngMessages',
-    'test'
+    'ngMessages'
 ]).config(function ($routeProvider,$locationProvider,RestangularProvider){
     $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('api/');
@@ -22,6 +20,9 @@ angular.module("liztube",[
     });
     $scope.$on('userStatus', function(event, user) {
         $scope.$broadcast('userIsConnected', user);
+    });
+    $scope.$on('loadingUploadVideo', function(event, video) {
+        $scope.$broadcast('loadingUploadVideoForHeader', video);
     });
 }).run(function($rootScope) {
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
