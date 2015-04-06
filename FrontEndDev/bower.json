@@ -67,7 +67,7 @@
         ]
       }
     },
-    "angular-messages": {
+	"angular-messages": {
       "main": {
         "dev": [
           "angular-messages.js"
@@ -78,16 +78,16 @@
         ]
       }
     },
-    "font-awesome": {
+	"font-awesome" : {
       "main": {
         "dev": [
           "css/font-awesome.css",
-          "fonts/*"
+		  "fonts/*"
         ],
         "prod": [
           "css/font-awesome.min.css",
           "css/font-awesome.css.map",
-          "fonts/*"
+		  "fonts/*"
         ]
       }
     }

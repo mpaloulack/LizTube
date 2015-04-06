@@ -28,12 +28,14 @@
                 </md-toolbar>
                 <md-content ng-controller="RightSideBarCtrl" class="md-padding">
                     <br/>
-                    <md-progress-linear ng-show="videoLoading" class="md-accent" md-mode="determinate" value="{{uploadRate}}"></md-progress-linear>
-                    <div>{{percent}}</div>
-                    <upload-video id="uploadVideo"></upload-video>
                     <md-button ng-click="closeRightBar()">
                         Fermer le menu
                     </md-button>
+                    <div layout="row" layout-align="end end" class="uploadButton">
+                        <md-button class="md-fab md-warn" aria-label="uploadVideo">
+                            <i class="fa fa-video-camera"></i>
+                        </md-button>
+                    </div>
                 </md-content>
             </md-sidenav>
         </section>

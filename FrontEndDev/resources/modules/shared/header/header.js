@@ -3,20 +3,10 @@
  */
 angular.module("liztube.header",[
     "liztube.userStatus",
-    "liztube.upload.video",
     "ngRoute"
 ]).controller("headerCtrl", function($scope, $mdSidenav) {
 
     $scope.isLoading = false;
-    $scope.videoLoading = false;
-    $scope.uploadRate = 0;
-
-
-    $scope.$on('loadingUploadVideoForHeader', function(event, video) {
-        $scope.videoLoading = true;
-        $scope.uploadRate = video;
-        $scope.percent = video + "%";
-    });
 
     $scope.$on('loadingStatusForHeader', function(event, bool) {
         $scope.isLoading= bool;
