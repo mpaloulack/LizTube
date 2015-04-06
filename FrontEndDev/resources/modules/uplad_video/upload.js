@@ -2,6 +2,7 @@ angular.module('liztube.upload.video', [
     'ngRoute',
     'angularFileUpload' //https://github.com/danialfarid/angular-file-upload
 ]).config(function ($routeProvider,$locationProvider){
+
     $routeProvider.when("/upload",{
         title: "LizTube - vidéo upload",
         page: "Upload",
