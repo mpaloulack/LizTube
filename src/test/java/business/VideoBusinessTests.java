@@ -232,6 +232,17 @@ public class VideoBusinessTests {
     }
 
     @Test
+    public void getVideo_should_return_raised_an_error_if_video_private_and_user_not_connected() throws VideoException, UserNotFoundException {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        try{
+            videoBusiness.get("f");
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_NOT_AVAILABLE);
+        }
+    }
+
+    @Test
     public void getVideo_should_return_video_if_private_but_have_public_link() throws VideoException, UserNotFoundException {
         VideoDataFacade videoFound = videoBusiness.get("e");
         assertThat(videoFound.getKey()).isEqualTo("e");
