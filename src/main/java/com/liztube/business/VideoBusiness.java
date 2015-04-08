@@ -29,10 +29,7 @@ import javax.validation.ValidatorFactory;
 import java.io.File;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Business of video entity
@@ -50,11 +47,41 @@ public class VideoBusiness {
     public static final String VIDEO_UPLOAD_FILE_EMPTY     = "File is empty.";
     public static final String VIDEO_UPLOAD_NO_VALID_TYPE  = "Not valid type of file uploaded.";
     public static final String VIDEO_UPLOAD_TOO_HEAVY      = "File size exceed {0} Mo.";
+    public static final String VIDEO_NOT_FOUND = "Video not found";
 
     @Autowired
     Environment environment;
 
     //region public methods
+
+    /**
+     * Get video data
+     * @return
+     */
+    public VideoDataFacade get(String key) throws VideoException {
+        Video video = videoRepository.findByKey(key);
+        if(video==null){
+            throw new VideoException("Get video - video not found", Arrays.asList(VIDEO_NOT_FOUND));
+        }
+        return new VideoDataFacade()
+                .setKey(video.getKey())
+                .setTitle(video.getTitle())
+                .setDescription(video.getDescription())
+                .setCreationDate(video.getCreationdate())
+                .setOwnerId(video.getOwner().getId())
+                .setOwnerPseudo(video.getOwner().getPseudo())
+                .setPublic(video.getIspublic())
+                .setPublicLink(video.getIspubliclink())
+                .setViews(video.getViews().size());
+    }
+
+    /**
+     * Update video data
+     * @return
+     */
+    public boolean update(VideoDataFacade videoDataFacade){
+        return true;
+    }
 
     /**
      *  Upload a video : validity checks, save file, create db entry

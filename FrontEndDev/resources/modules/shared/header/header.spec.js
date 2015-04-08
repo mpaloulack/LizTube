@@ -10,7 +10,7 @@ describe('liztube.header', function(){
 
     var $mdSidenav = function(test){
         return {
-            toggleRight: function(){
+            toggle: function(){
                 return true;
             }
         };
@@ -65,13 +65,12 @@ describe('liztube.header', function(){
     });
 
     /*describe('toggleRight method', function(){
-
         beforeEach(function(){
-            spyOn($mdSidenav('right'),'toggle').and.callThrough();
-            $scope.toggleRight();
+            spyOn($mdSidenav('right'), 'toggle').and.callThrough();
         });
 
         it('Should toggleRight open/close', function(){
+            $scope.toggleRight();
             expect($mdSidenav('right').toggle).toHaveBeenCalled();
         });
 

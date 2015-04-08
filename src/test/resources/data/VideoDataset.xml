@@ -17,5 +17,6 @@
     <VIDEO keyid="b" description="desc of b" ispublic="true" creationdate="2013-10-06 10:15:26" ispubliclink="true" title="B video" user="1" VIDEORANKASMOSTRECENT="2" VIDEORANKASMOSTVIEWED="2" VIDEORANKASMOSTSHARED="0"/>
     <VIDEO keyid="c" description="desc of c" ispublic="true" creationdate="2013-10-07 10:15:26" ispubliclink="true" title="C video" user="1" VIDEORANKASMOSTRECENT="3" VIDEORANKASMOSTVIEWED="3" VIDEORANKASMOSTSHARED="0"/>
 
-    <VIEW />
+    <VIEW id="1" viewdate="2013-10-12 10:15:26" user="2" video="a" asshared="false" />
+    <VIEW id="2" viewdate="2013-10-12 10:50:26" user="2" video="a" asshared="true" />
 </dataset>

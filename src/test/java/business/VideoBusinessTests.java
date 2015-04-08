@@ -12,6 +12,7 @@ import com.liztube.repository.VideoRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
 import com.liztube.utils.facade.video.VideoCreationFacade;
+import com.liztube.utils.facade.video.VideoDataFacade;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -49,10 +50,11 @@ import static org.assertj.core.api.Assertions.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {JpaConfigs.class}, loader = AnnotationConfigContextLoader.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DataSetTestExecutionListener.class })
-@DataSet(value = "/data/UserDataset.xml")
+@DataSet(value = "/data/VideoDataset.xml")
 @TestPropertySource("/application.testing.properties")
 public class VideoBusinessTests {
 
+    //region preparation
     @Autowired
     VideoBusiness videoBusiness;
     @Autowired
@@ -90,10 +92,11 @@ public class VideoBusinessTests {
             }
         }
     }
+    //endregion
 
+    //region upload
     @Test
     public void uploadVideo_should_raise_exception_if_not_mp4() throws IOException, UserNotFoundException, VideoException {
-        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.m4a");
         MockMultipartFile file = new MockMultipartFile("file", "video.m4a", "multipart/form-data", inputFile);
         try{
@@ -118,7 +121,6 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_return_key() throws IOException, UserNotFoundException, VideoException {
-        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -128,7 +130,6 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_raise_error_if_title_size_incorrect() throws IOException, UserNotFoundException {
-        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
         videoCreationFacade.setTitle("");
@@ -142,7 +143,6 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_raise_error_if_description_size_incorrect() throws IOException, UserNotFoundException {
-        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
         videoCreationFacade.setDescription("");
@@ -156,7 +156,6 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_save_file_on_server() throws IOException, UserNotFoundException, VideoException {
-        assertThat(videoRepository.findAll().size()).isEqualTo(0);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -171,7 +170,7 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_persist_video_if_all_tests_passed_successfully() throws IOException, UserNotFoundException, VideoException {
-        assertThat(videoRepository.findAll().size()).isEqualTo(0);
+        assertThat(videoRepository.findAll().size()).isEqualTo(3);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -184,6 +183,34 @@ public class VideoBusinessTests {
         assertThat(videoPersist.getIspubliclink()).isEqualTo(videoCreationFacade.isPublicLink());
         assertThat(videoPersist.getViews().size()).isEqualTo(0);
         assertThat(videoPersist.getCreationdate()).isEqualToIgnoringSeconds(Timestamp.valueOf(LocalDateTime.now()));
-        assertThat(videoRepository.findAll().size()).isEqualTo(1);
+        assertThat(videoRepository.findAll().size()).isEqualTo(4);
     }
+    //endregion
+
+    //region get
+    @Test
+    public void getVideo_should_return_video_data() throws VideoException {
+        Video videoInDb = videoRepository.findByKey("a");
+        VideoDataFacade videoFound = videoBusiness.get("a");
+        assertThat(videoFound.getKey()).isEqualTo("a");
+        assertThat(videoFound.getTitle()).isEqualTo(videoInDb.getTitle());
+        assertThat(videoFound.getDescription()).isEqualTo(videoInDb.getDescription());
+        assertThat(videoFound.getCreationDate()).isEqualTo(videoInDb.getCreationdate());
+        assertThat(videoFound.getOwnerId()).isEqualTo(videoInDb.getOwner().getId());
+        assertThat(videoFound.getOwnerPseudo()).isEqualTo(videoInDb.getOwner().getPseudo());
+        assertThat(videoFound.isPublic()).isEqualTo(videoInDb.getIspublic());
+        assertThat(videoFound.isPublicLink()).isEqualTo(videoInDb.getIspubliclink());
+        assertThat(videoFound.getViews()).isEqualTo(2);
+    }
+
+    @Test
+    public void getVideo_should_return_an_error_if_video_not_found() throws VideoException {
+        try{
+            VideoDataFacade videoFound = videoBusiness.get("KEYWHICHNOTEXIST");
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_NOT_FOUND);
+        }
+    }
+    //endregion
 }
