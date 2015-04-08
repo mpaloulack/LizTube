@@ -51,7 +51,7 @@ public class VideoService {
      */
     @RequestMapping(value="/{key}", method = RequestMethod.GET)
     @ResponseBody
-    public VideoDataFacade get(@PathVariable(value = "key") String key) throws VideoException {
+    public VideoDataFacade get(@PathVariable(value = "key") String key) throws VideoException, UserNotFoundException {
         return videoBusiness.get(key);
     }
 

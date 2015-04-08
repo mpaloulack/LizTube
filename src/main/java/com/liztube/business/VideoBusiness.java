@@ -48,6 +48,7 @@ public class VideoBusiness {
     public static final String VIDEO_UPLOAD_NO_VALID_TYPE  = "Not valid type of file uploaded.";
     public static final String VIDEO_UPLOAD_TOO_HEAVY      = "File size exceed {0} Mo.";
     public static final String VIDEO_NOT_FOUND = "Video not found";
+    public static final String VIDEO_NOT_AVAILABLE = "Video not available. this is a private video.";
 
     @Autowired
     Environment environment;
@@ -55,13 +56,19 @@ public class VideoBusiness {
     //region public methods
 
     /**
-     * Get video data
+     * Get video data and test rights (private, public and user connected is owner)
      * @return
      */
-    public VideoDataFacade get(String key) throws VideoException {
+    public VideoDataFacade get(String key) throws VideoException, UserNotFoundException {
         Video video = videoRepository.findByKey(key);
-        if(video==null){
+        if(video == null){
             throw new VideoException("Get video - video not found", Arrays.asList(VIDEO_NOT_FOUND));
+        }
+        if(!video.getIspublic() && !video.getIspubliclink()){
+            UserLiztube user = authBusiness.getConnectedUser(false);
+            if(user.getId()!=video.getOwner().getId()){
+                throw new VideoException("Get video - video not available isPublic: "+video.getIspublic()+", isPublicLink: "+video.getIspubliclink(), Arrays.asList(VIDEO_NOT_AVAILABLE));
+            }
         }
         return new VideoDataFacade()
                 .setKey(video.getKey())

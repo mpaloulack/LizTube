@@ -4,7 +4,6 @@ import com.excilys.ebi.spring.dbunit.test.DataSet;
 import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
 import com.liztube.config.JpaConfigs;
 import com.liztube.entity.Video;
-import com.liztube.entity.Video_;
 import com.liztube.repository.VideoRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,8 +35,8 @@ public class VideoRepositoryTests {
                 new Sort.Order(Sort.Direction.DESC, "creationdate")
         ));
         List<Video> videos = videoRepository.findAll(pageRequest).getContent();
-        assertThat(videos.get(0).getKey()).isEqualTo("c");
-        assertThat(videos.size()).isEqualTo(3);
+        assertThat(videos.get(0).getKey()).isEqualTo("f");
+        assertThat(videos.size()).isEqualTo(6);
     }
 
     @Test
@@ -48,7 +47,7 @@ public class VideoRepositoryTests {
         ));
         List<Video> videos = videoRepository.findAll(pageRequest).getContent();
         assertThat(videos.get(0).getKey()).isEqualTo("a");
-        assertThat(videos.size()).isEqualTo(3);
+        assertThat(videos.size()).isEqualTo(6);
     }
 
     @Test

@@ -170,7 +170,7 @@ public class VideoBusinessTests {
 
     @Test
     public void uploadVideo_should_persist_video_if_all_tests_passed_successfully() throws IOException, UserNotFoundException, VideoException {
-        assertThat(videoRepository.findAll().size()).isEqualTo(3);
+        assertThat(videoRepository.findAll().size()).isEqualTo(6);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -183,13 +183,13 @@ public class VideoBusinessTests {
         assertThat(videoPersist.getIspubliclink()).isEqualTo(videoCreationFacade.isPublicLink());
         assertThat(videoPersist.getViews().size()).isEqualTo(0);
         assertThat(videoPersist.getCreationdate()).isEqualToIgnoringSeconds(Timestamp.valueOf(LocalDateTime.now()));
-        assertThat(videoRepository.findAll().size()).isEqualTo(4);
+        assertThat(videoRepository.findAll().size()).isEqualTo(7);
     }
     //endregion
 
     //region get
     @Test
-    public void getVideo_should_return_video_data() throws VideoException {
+    public void getVideo_should_return_video_data() throws VideoException, UserNotFoundException {
         Video videoInDb = videoRepository.findByKey("a");
         VideoDataFacade videoFound = videoBusiness.get("a");
         assertThat(videoFound.getKey()).isEqualTo("a");
@@ -198,19 +198,45 @@ public class VideoBusinessTests {
         assertThat(videoFound.getCreationDate()).isEqualTo(videoInDb.getCreationdate());
         assertThat(videoFound.getOwnerId()).isEqualTo(videoInDb.getOwner().getId());
         assertThat(videoFound.getOwnerPseudo()).isEqualTo(videoInDb.getOwner().getPseudo());
-        assertThat(videoFound.isPublic()).isEqualTo(videoInDb.getIspublic());
-        assertThat(videoFound.isPublicLink()).isEqualTo(videoInDb.getIspubliclink());
+        assertThat(videoFound.isPublic()).isTrue();
+        assertThat(videoFound.isPublicLink()).isTrue();
         assertThat(videoFound.getViews()).isEqualTo(2);
     }
 
     @Test
-    public void getVideo_should_return_an_error_if_video_not_found() throws VideoException {
+    public void getVideo_should_return_an_error_if_video_not_found() {
         try{
-            VideoDataFacade videoFound = videoBusiness.get("KEYWHICHNOTEXIST");
+            videoBusiness.get("KEYWHICHNOTEXIST");
             fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(videoBusiness.VIDEO_NOT_FOUND);
         }
+    }
+
+    @Test
+    public void getVideo_should_return_an_error_if_video_is_private() {
+        try{
+            videoBusiness.get("f");
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_NOT_AVAILABLE);
+        }
+    }
+
+    @Test
+    public void getVideo_should_return_video_if_private_but_asked_by_owner() throws VideoException, UserNotFoundException {
+        VideoDataFacade videoFound = videoBusiness.get("d");
+        assertThat(videoFound.getKey()).isEqualTo("d");
+        assertThat(videoFound.isPublic()).isFalse();
+        assertThat(videoFound.isPublicLink()).isFalse();
+    }
+
+    @Test
+    public void getVideo_should_return_video_if_private_but_have_public_link() throws VideoException, UserNotFoundException {
+        VideoDataFacade videoFound = videoBusiness.get("e");
+        assertThat(videoFound.getKey()).isEqualTo("e");
+        assertThat(videoFound.isPublic()).isFalse();
+        assertThat(videoFound.isPublicLink()).isTrue();
     }
     //endregion
 }
