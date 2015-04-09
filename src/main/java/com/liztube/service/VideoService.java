@@ -63,7 +63,7 @@ public class VideoService {
     @PreAuthorize(GroupRoles.AUTHENTICATED)
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    public boolean update(@RequestBody VideoDataFacade videoDataFacade) {
+    public String update(@RequestBody VideoDataFacade videoDataFacade) throws VideoException, UserNotFoundException {
         return videoBusiness.update(videoDataFacade);
     }
 

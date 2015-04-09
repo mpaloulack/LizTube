@@ -250,4 +250,56 @@ public class VideoBusinessTests {
         assertThat(videoFound.isPublicLink()).isTrue();
     }
     //endregion
+
+    //region update
+    @Test
+    public void updateVideo_should_update_video() throws VideoException, UserNotFoundException {
+        String key = videoBusiness.update(new VideoDataFacade()
+                .setKey("a")
+                .setTitle("z")
+                .setDescription("desc of z")
+                .setPublic(false)
+                .setPublicLink(false));
+        Video videoUpdated = videoRepository.findByKey("a");
+        assertThat(key).isEqualTo("a");
+        assertThat(videoUpdated.getTitle()).isEqualTo("z");
+        assertThat(videoUpdated.getDescription()).isEqualTo("desc of z");
+        assertThat(videoUpdated.getIspublic()).isFalse();
+        assertThat(videoUpdated.getIspubliclink()).isFalse();
+    }
+
+    @Test
+    public void updateVideo_should_raise_an_error_when_video_not_found() throws VideoException, UserNotFoundException {
+        try{
+            videoBusiness.update(new VideoDataFacade()
+                    .setKey("DONTEXISTKEY"));
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_NOT_FOUND);
+        }
+    }
+
+    @Test
+    public void updateVideo_should_raise_an_error_when_user_not_connected() throws VideoException, UserNotFoundException {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        try{
+            videoBusiness.update(new VideoDataFacade()
+                    .setKey("a"));
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_UPDATE_USER_IS_NOT_VIDEO_OWNER);
+        }
+    }
+
+    @Test
+    public void updateVideo_should_raise_an_error_when_user_is_not_video_owner() throws VideoException, UserNotFoundException {
+        try{
+            videoBusiness.update(new VideoDataFacade()
+                    .setKey("f"));
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_UPDATE_USER_IS_NOT_VIDEO_OWNER);
+        }
+    }
+    //endregion
 }
