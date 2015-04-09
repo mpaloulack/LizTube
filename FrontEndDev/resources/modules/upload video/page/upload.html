@@ -16,24 +16,28 @@
                         </div>
                     </md-input-container>
                     <md-input-container>
-                        <label><i class="fa fa-newspaper-o"></i> Description</label>
+                        <label><i class="fa fa-newspaper-o"></i> Déscription</label>
                         <textarea ng-model="video.description" name="description" required="required" columns="1" md-maxlength="1000"></textarea>
                         <div ng-messages="formUpload.description.$error">
                             <div ng-message="required">La déscription est requis</div>
-                            <div ng-message="md-maxlength">La déscription ne dois pas dépasser 1000 caractèreq</div>
+                            <div ng-message="md-maxlength">La déscription ne dois pas dépasser 1000 caractères</div>
                         </div>
                     </md-input-container>
                     <div layout="column" layout-align="center center">
-                        <h4 class="no-margin">Sélectionner le type de confidentialité (Publique/privé) :</h4>
-                        <md-select class="no-margin" placeholder="Publique" name="confidentiality" ng-model="video.confidentiality" required="required">
-                            <md-option value="1">Publique</md-option>
-                            <md-option value="0">Privé</md-option>
-                        </md-select>
-                        <div ng-messages="formUpload.confidentialité.$error">
+                        <h4 class="no-margin">Sélectionner le type de confidentialité :</h4>
+                        <md-radio-group class="no-margin md-primary" name="confidentiality" ng-model="video.confidentiality" required="required" aria-label="confidentiality"  layout="row" layout-align="center center">
+                            <md-radio-button value="1">Publique</md-radio-button>
+                            <md-radio-button value="0">Privé</md-radio-button>
+                            <md-radio-button value="2">Disponible par lien</md-radio-button>
+                        </md-radio-group>
+                        <div ng-messages="formUpload.confidentiality.$error">
                             <div ng-message="required">la confidentialité est requis</div>
                         </div>
+                        <md-whiteframe class="md-whiteframe-z1 padding" layout layout-align="center center">
+                            <span><i class="fa fa-warning"></i> Disponible par lien : n'pparaitre pas dans les résultats recherche; Disponible que pour ceux qui ont le lien de la vidéo</span>
+                        </md-whiteframe>
                     </div>
-                    <h4>Sélectionner une vidéo ou glissé/déposer :</h4>
+                    <h4>Sélectionner une vidéo ou glissé/déposé :</h4>
                     <md-input-container md-theme="sub-bar">
                         <md-button class="md-primary md-raised" name="file" aria-label="uploadVideo" ng-model-rejected="rejFiles" ng-file-select ng-model="video.files" ng-multiple="false"><i class="fa fa-video-camera"></i> Sélectionner une vidéo</md-button>
                     </md-input-container>

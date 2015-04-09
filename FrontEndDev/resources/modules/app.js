@@ -24,8 +24,11 @@ angular.module("liztube",[
     $scope.$on('loadingUploadVideo', function(event, video) {
         $scope.$broadcast('loadingUploadVideoForHeader', video);
     });
-    $scope.$on('notification', function(event, bool) {
-        $scope.$broadcast('notificationForHeader', bool);
+    $scope.$on('addNotification', function(event, bool) {
+        $scope.$broadcast('addNotificationForHeader', bool);
+    });
+    $scope.$on('removeNotification', function(event, bool) {
+        $scope.$broadcast('removeNotificationForHeader', bool);
     });
 }).run(function($rootScope,$window,$location) {
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
