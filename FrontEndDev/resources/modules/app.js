@@ -9,10 +9,8 @@ angular.module("liztube",[
     "liztube.home",
     "liztube.user",
     "liztube.partial",
-
     "ngRoute",
-    'ngMessages',
-    'test'
+    'ngMessages'
 ]).config(function ($routeProvider,$locationProvider,RestangularProvider){
     $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('api/');
@@ -23,14 +21,23 @@ angular.module("liztube",[
     $scope.$on('userStatus', function(event, user) {
         $scope.$broadcast('userIsConnected', user);
     });
-}).run(function($rootScope) {
+    $scope.$on('loadingUploadVideo', function(event, video) {
+        $scope.$broadcast('loadingUploadVideoForHeader', video);
+    });
+    $scope.$on('notification', function(event, bool) {
+        $scope.$broadcast('notificationForHeader', bool);
+    });
+}).run(function($rootScope,$window,$location) {
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
         if (current.$$route && current.$$route.resolve) {
             // Show a loading message until promises are not resolved
             $rootScope.isViewLoading = true;
         }
+        if ($window.user.pseudo === ""){
+            $location.path('/login');
+        }
     });
-    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+    $rootScope.$on('$routeChangeSuccess', function (event, current, previous ) {
         $rootScope.isViewLoading = false;
         if (current.hasOwnProperty('$$route')) {
             $rootScope.title = current.$$route.title;

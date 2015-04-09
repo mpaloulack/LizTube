@@ -5,7 +5,7 @@ angular.module("liztube.home",[
     "ngRoute"
 ]).config(function ($routeProvider){
     $routeProvider.when("/",{
-        title: "LizTube - Home",
+        title: "LizTube - Acceuil",
         page: "Home",
         controller: 'homeCtrl',
         templateUrl: "home.html"

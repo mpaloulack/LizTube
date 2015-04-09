@@ -13,6 +13,7 @@
 
             <md-button ng-click="toggleRight()" class="btn-size" aria-label>
                 <i class="fa fa-bars fa-font-size"></i>
+                <span ng-show="showNotification" class="notify">{{notification}}</span>
             </md-button>
             <span>
                 <is-connected type="forHeaderBar" id="isConnected"></is-connected>
@@ -28,14 +29,19 @@
                 </md-toolbar>
                 <md-content ng-controller="RightSideBarCtrl" class="md-padding">
                     <br/>
-                    <md-button ng-click="closeRightBar()">
-                        Fermer le menu
-                    </md-button>
-                    <div layout="row" layout-align="end end" class="uploadButton">
-                        <md-button class="md-fab md-warn" aria-label="uploadVideo">
-                            <i class="fa fa-video-camera"></i>
-                        </md-button>
+                    <div ng-show="videoLoading">
+                        <h4>{{fileName}}</h4>
+                        <md-progress-linear class="md-primary margin-bottom" md-mode="determinate" value="{{uploadRate}}"></md-progress-linear>
+                        <div>
+                            <md-button class="pull-right" ng-if="uploadRate == '100'" ng-click="closeProgressBar()"><i class="fa fa-close"></i></md-button>
+                            <div class="pull-left">{{percent}}</div>
+                        </div>
+                        <div class="clear"></div>
                     </div>
+                    <upload-video id="uploadVideo"></upload-video>
+                    <md-button ng-click="closeRightBar()">
+                        <i class="fa fa-close"></i> Fermer le menu
+                    </md-button>
                 </md-content>
             </md-sidenav>
         </section>
