@@ -1,50 +1,38 @@
 /**
- * Created by maxime on 17/03/2015.
+ * Created by maxime on 08/04/2015.
  */
-angular.module("liztube.profile",[
+angular.module("liztube.updateprofile",[
     "ngRoute",
     "liztube.moastr",
     "liztube.dataService.userService",
-    'ngMessages',
-    'ui.gravatar'
+    'ngMessages'
 ]).config(function ($routeProvider,$locationProvider){
-    $routeProvider.when("/profile",{
-        title: "LizTube - My profile",
-        page: "Profile",
-        controller: 'profileCtrl',
-        templateUrl: "profile.html"
+    $routeProvider.when("/updateprofile",{
+        title: "LizTube - Mise à jour du profil",
+        page: "Mise à jour du profil",
+        controller: 'updateProfileCtrl',
+        templateUrl: "updateprofile.html"
     });
-}).config([
-    'gravatarServiceProvider', function(gravatarServiceProvider) {
-        gravatarServiceProvider.defaults = {
-            size     : 150,
-            "default": 'mm'  // Mystery man as default for missing avatars
-        };
-    }
-]).controller("profileCtrl", function($scope, $rootScope, userService, $window, $location, moastr, constants) {
+}).controller("updateProfileCtrl", function($scope, $rootScope, userService, $location, moastr, constants) {
 
     userService.userProfile().then(function(user){
         $scope.user = user;
 
         var date = new Date($scope.user.birthdate);
 
-        $scope.user.birthdate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        console.log($scope.user.birthdate);    }, function(){
+        $scope.user.birthdate = new Date(date.getFullYear(), date.getMonth(), date.getDate());},
+        function(){
         moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
     });
 
-   $scope.errorUpdate = '';
+    $scope.errorUpdate = '';
 
 
 
-      $scope.update = function () {
-          console.log($scope.user.firstname);
+    $scope.update = function () {
         $rootScope.$broadcast('loadingStatus', true);
         userService.updateProfile($scope.user).then(function () {
-            //$location.path('/profile');
-            if($scope.user.password === null){
-                $scope.user.password = "";
-            }
+
         }, function () {
             moastr.error(constants.SERVER_ERROR);
         }).finally(function () {
@@ -52,15 +40,15 @@ angular.module("liztube.profile",[
         });
     };
 
-})/*.directive('emailValidation', function(authService, moastr, $scope) {
+}).directive('emailValidation', function(userService, moastr) {
     return {
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {
             ctrl.$asyncValidators.emailValid = function(modelValue, viewValue) {
                 var value = modelValue || viewValue;
 
-                return authService.emailExist(value).then(function(bool){
-                    if (bool && value != $scope.user.email) {
+                return userService.emailExistUpdate(value).then(function(bool){
+                    if (bool) {
                         ctrl.$setValidity("emailValidation", false);
                         return undefined;
                     }else{
@@ -74,4 +62,4 @@ angular.module("liztube.profile",[
             };
         }
     };
-})*/;
+});

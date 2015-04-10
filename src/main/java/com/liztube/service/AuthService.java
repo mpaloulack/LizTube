@@ -1,16 +1,13 @@
 package com.liztube.service;
 
 import com.liztube.business.AuthBusiness;
-import com.liztube.entity.UserLiztube;
 import com.liztube.exception.SigninException;
 import com.liztube.exception.UserNotFoundException;
-import com.liztube.utils.facade.SigninTestExistFacade;
+import com.liztube.utils.facade.TestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import com.liztube.utils.facade.UserForRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 /**
  * Service which provide all the method concerning the authentication of an user (login, signin, get user profile...)
@@ -44,22 +41,22 @@ public class AuthService {
 
     /**
      * Determine if a pseudo is already used
-     * @param signinTestExistFacade
+     * @param testExistFacade
      * @return
      */
     @RequestMapping(value = "/pseudo", method = RequestMethod.POST)
-    public Boolean existPseudo(@RequestBody SigninTestExistFacade signinTestExistFacade){
-        return authBusiness.existPseudo(signinTestExistFacade);
+    public Boolean existPseudo(@RequestBody TestExistFacade testExistFacade){
+        return authBusiness.existPseudo(testExistFacade);
     }
 
     /**
      * Determine if an email is already used
-     * @param signinTestExistFacade
+     * @param testExistFacade
      * @return
      */
     @RequestMapping(value = "/email", method = RequestMethod.POST)
-    public Boolean existEmail(@RequestBody SigninTestExistFacade signinTestExistFacade){
-        return authBusiness.existEmail(signinTestExistFacade);
+    public Boolean existEmail(@RequestBody TestExistFacade testExistFacade){
+        return authBusiness.existEmail(testExistFacade);
     }
 
 

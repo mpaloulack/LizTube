@@ -7,14 +7,13 @@ import com.liztube.business.AuthBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.UserLiztubeRepository;
-import com.liztube.utils.facade.SigninTestExistFacade;
+import com.liztube.utils.facade.TestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -58,21 +57,21 @@ public class AuthDisconnectedTests {
 
     @Test
     public void existEmail_should_find_someone_with_same_email(){
-        assertThat(authBusiness.existEmail(new SigninTestExistFacade().setValue("spywen@hotmail.fr"))).isTrue();
+        assertThat(authBusiness.existEmail(new TestExistFacade().setValue("spywen@hotmail.fr"))).isTrue();
     }
 
     @Test
     public void existEmail_should_not_find_someone_with_same_email(){
-        assertThat(authBusiness.existEmail(new SigninTestExistFacade().setValue("unknown@hotmail.fr"))).isFalse();
+        assertThat(authBusiness.existEmail(new TestExistFacade().setValue("unknown@hotmail.fr"))).isFalse();
     }
 
     @Test
     public void existPseudo_should_find_someone_with_same_pseudo(){
-        assertThat(authBusiness.existPseudo(new SigninTestExistFacade().setValue("spywen"))).isTrue();
+        assertThat(authBusiness.existPseudo(new TestExistFacade().setValue("spywen"))).isTrue();
     }
 
     @Test
     public void existPseudo_should_not_find_someone_with_same_pseudo(){
-        assertThat(authBusiness.existEmail(new SigninTestExistFacade().setValue("unknown"))).isFalse();
+        assertThat(authBusiness.existEmail(new TestExistFacade().setValue("unknown"))).isFalse();
     }
 }
