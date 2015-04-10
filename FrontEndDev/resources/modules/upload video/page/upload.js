@@ -10,27 +10,26 @@ angular.module('liztube.upload.video.page', [
     });
 })
 .controller('FileUploadController', function($scope, moastr, constants) {
-    var isPublic = false;
-    var isPublicLink = false;
+    $scope.isPublic = false;
+    $scope.isPublicLink = false;
     $scope.submit= function() {
-        var files = $scope.video.files;
-        if (files && files.length) {
+        if ($scope.video.files && $scope.video.files.length) {
             if($scope.video.confidentiality == '0'){
-                isPublic = false;
-                isPublicLink = false;
+                $scope.isPublic = false;
+                $scope.isPublicLink = false;
             }else if($scope.video.confidentiality == '1'){
-                isPublic = true;
-                isPublicLink = true;
+                $scope.isPublic = true;
+                $scope.isPublicLink = true;
             }else{
-                isPublic = false;
-                isPublicLink = true;
+                $scope.isPublic = false;
+                $scope.isPublicLink = true;
             }
             video = {
                 file: $scope.video.files[0],
                 title: $scope.video.title,
                 description: $scope.video.description,
-                isPublic: isPublic,
-                isPublicLink: isPublicLink
+                isPublic: $scope.isPublic,
+                isPublicLink: $scope.isPublicLink
             };
             $scope.$emit('loadingUploadVideo', video);
             $scope.$emit('addNotification', true);
@@ -43,15 +42,15 @@ angular.module('liztube.upload.video.page', [
             $scope.isValidFile($scope.video);
         }
     });
-    $scope.isValidFile = function(video){
-        if(video.files && video.files.length){
-            if(video.files[0].type != "video/mp4") {
-                moastr.error(constants.FILE_TYPE_ERROR, 'left right bottom');
-            }else{
-                if ($scope.video.files[0].size > constants.FILE_SIZE_ALLOWED) {
-                    moastr.error(constants.FILE_SIZE_ERROR, 'left right bottom');
-                }
+$scope.isValidFile = function(video){
+    if(video.files && video.files.length){
+        if(video.files[0].type != "video/mp4") {
+            moastr.error(constants.FILE_TYPE_ERROR, 'left right bottom');
+        }else{
+            if (video.files[0].size > constants.FILE_SIZE_ALLOWED) {
+                moastr.error(constants.FILE_SIZE_ERROR, 'left right bottom');
             }
         }
-    };
+    }
+};
 });
