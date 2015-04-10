@@ -29,28 +29,13 @@ angular.module("liztube.profile",[
         var date = new Date($scope.user.birthdate);
 
         $scope.user.birthdate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        console.log($scope.user.birthdate);    }, function(){
+        }, function(){
         moastr.error(constants.SERVER_ERROR,'left right bottom');
+
     });
 
    $scope.errorUpdate = '';
 
-
-
-      $scope.update = function () {
-          console.log($scope.user.firstname);
-        $rootScope.$broadcast('loadingStatus', true);
-        userService.updateProfile($scope.user).then(function () {
-            //$location.path('/profile');
-            if($scope.user.password === null){
-                $scope.user.password = "";
-            }
-        }, function () {
-            moastr.error(constants.SERVER_ERROR, 'left right bottom');
-        }).finally(function () {
-            $rootScope.$broadcast('loadingStatus', false);
-        });
-    };
 
 })/*.directive('emailValidation', function(authService, moastr, $scope) {
     return {

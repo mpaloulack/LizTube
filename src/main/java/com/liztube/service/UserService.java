@@ -50,8 +50,8 @@ public class UserService {
      * @throws UserNotFoundException
      * @throws UserException
      */
-   @RequestMapping(value = "/password", method = RequestMethod.PUT)
-    public String changeUserPassword(UserPasswordFacade userPasswordFacade) throws UserNotFoundException, UserException {
+   @RequestMapping(value = "/password", method = RequestMethod.PATCH)
+    public String changeUserPassword(@RequestBody UserPasswordFacade userPasswordFacade) throws UserNotFoundException, UserException {
         return userBusiness.changeUserPassword(userPasswordFacade);
     }
 

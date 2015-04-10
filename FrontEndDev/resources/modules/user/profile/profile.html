@@ -4,14 +4,15 @@
             <div class="header-profile">
                     <md-toolbar class="profile-bar md-accent">
                         <h2 class="md-toolbar-tools">
-                            <span><img src="app/dist/img/favicon.png" width="27px"> Mon profil</span>
+                            <span ><img src="app/dist/img/favicon.png" width="27px"> Mon profil</span>
 
                         </h2>
                     </md-toolbar>
                     <div class="profile-content">
                         <div layout layout-sm="row">
                             <div layout layout-sm="column">
-                                <img gravatar-src-once="user.email">
+                                <a href="https://fr.gravatar.com/" target="_blank"><img gravatar-src-once="user.email"></a>
+
                             </div>
                             <div flex layout layout-sm="column">
                                 <div  class="info-profile">
@@ -31,6 +32,9 @@
                             <div layout="row" layout-align="end end" class="updateProfile">
                                 <md-button class="md-fab" aria-label="Eat cake" ng-href="/updateprofile" md-component-id="right">
                                     <md-icon md-font-icon="fa fa-pencil-square-o" ng-style="{'font-size':'32px'}"></md-icon>
+                                </md-button>
+                                <md-button class="md-fab" aria-label="Eat cake" ng-href="/updatepassword" md-component-id="right">
+                                    <md-icon md-font-icon="fa fa-key" ng-style="{'font-size':'32px'}"></md-icon>
                                 </md-button>
                             </div>
                         </div>

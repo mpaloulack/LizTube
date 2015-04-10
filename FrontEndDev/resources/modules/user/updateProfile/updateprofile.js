@@ -31,12 +31,16 @@ angular.module("liztube.updateprofile",[
 
     $scope.update = function () {
         $rootScope.$broadcast('loadingStatus', true);
+
+        console.log("sexe : "+ $scope.user.isfemale);
+
         userService.updateProfile($scope.user).then(function () {
 
         }, function () {
             moastr.error(constants.SERVER_ERROR, 'left right bottom');
         }).finally(function () {
             $rootScope.$broadcast('loadingStatus', false);
+            $location.path('/profile');
         });
     };
 
