@@ -22,6 +22,8 @@ module.exports = function (config) {
             'bower_components/angular-route/angular-route.js',
             'bower_components/restangular/dist/restangular.js',
             'bower_components/angular-messages/angular-messages.js',
+            'bower_components/ng-file-upload/angular-file-upload-shim.js',
+            'bower_components/ng-file-upload/angular-file-upload-all.js',
             'resources/**/*.js',
             'resources/**/*.spec.js'
         ],

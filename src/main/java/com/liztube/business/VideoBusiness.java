@@ -29,10 +29,7 @@ import javax.validation.ValidatorFactory;
 import java.io.File;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Business of video entity
@@ -50,11 +47,69 @@ public class VideoBusiness {
     public static final String VIDEO_UPLOAD_FILE_EMPTY     = "File is empty.";
     public static final String VIDEO_UPLOAD_NO_VALID_TYPE  = "Not valid type of file uploaded.";
     public static final String VIDEO_UPLOAD_TOO_HEAVY      = "File size exceed {0} Mo.";
+    public static final String VIDEO_NOT_FOUND = "Video not found";
+    public static final String VIDEO_NOT_AVAILABLE = "Video not available. This is a private video.";
+    public static final String VIDEO_UPDATE_USER_IS_NOT_VIDEO_OWNER = "Don't have sufficient rights to edit this video.";
 
     @Autowired
     Environment environment;
 
     //region public methods
+
+    /**
+     * Get video data and test rights (private, public and user connected is owner)
+     * @return
+     */
+    public VideoDataFacade get(String key) throws VideoException, UserNotFoundException {
+        Video video = videoRepository.findByKey(key);
+        if(video == null){
+            throw new VideoException("Get video - video not found", Arrays.asList(VIDEO_NOT_FOUND));
+        }
+        if(!video.getIspublic() && !video.getIspubliclink()){
+            UserLiztube user = authBusiness.getConnectedUser(false);
+            if(user == null || user.getId() != video.getOwner().getId()){
+                throw new VideoException("Get video - video not available isPublic: "+video.getIspublic()+", isPublicLink: "+video.getIspubliclink(), Arrays.asList(VIDEO_NOT_AVAILABLE));
+            }
+        }
+        return new VideoDataFacade()
+                .setKey(video.getKey())
+                .setTitle(video.getTitle())
+                .setDescription(video.getDescription())
+                .setCreationDate(video.getCreationdate())
+                .setOwnerId(video.getOwner().getId())
+                .setOwnerPseudo(video.getOwner().getPseudo())
+                .setPublic(video.getIspublic())
+                .setPublicLink(video.getIspubliclink())
+                .setViews(video.getViews().size());
+    }
+
+    /**
+     * Update video data
+     * @return
+     */
+    public String update(VideoDataFacade videoDataFacade) throws VideoException, UserNotFoundException {
+        Video video = videoRepository.findByKey(videoDataFacade.getKey());
+        if(video == null){
+            throw new VideoException("Update video - video not found", Arrays.asList(VIDEO_NOT_FOUND));
+        }
+        UserLiztube user = authBusiness.getConnectedUser(false);
+        if(user == null || user.getId() != video.getOwner().getId()){
+            throw new VideoException("Update video - user don't have right to edit video", Arrays.asList(VIDEO_UPDATE_USER_IS_NOT_VIDEO_OWNER));
+        }
+        video.setTitle(videoDataFacade.getTitle())
+                .setDescription(videoDataFacade.getDescription())
+                .setIspublic(videoDataFacade.isPublic())
+                .setIspubliclink(videoDataFacade.isPublicLink());
+
+        //Entity validations
+        CheckVideoEntityValidity(video);
+
+        //Update video in DB
+        video = videoRepository.saveAndFlush(video);
+
+        //Send back the video key
+        return video.getKey();
+    }
 
     /**
      *  Upload a video : validity checks, save file, create db entry
@@ -82,17 +137,8 @@ public class VideoBusiness {
                 .setOwner(user)
                 .setCreationdate(Timestamp.valueOf(LocalDateTime.now()));
 
-        //Entity validations Validations
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Video>> constraintViolations = validator.validate(video);
-        if(constraintViolations.size() > 0){
-            List<String> errorMessages = new ArrayList<>();
-            for(ConstraintViolation<Video> constraintViolation : constraintViolations){
-                errorMessages.add(constraintViolation.getMessage());
-            }
-            throw new VideoException("save video check attributes validity", errorMessages);
-        }
+        //Entity validations
+        CheckVideoEntityValidity(video);
 
         //Save video file
         try {
@@ -136,6 +182,23 @@ public class VideoBusiness {
         //Raised potential errors
         if(errorMessages.size()>0){
             throw new VideoException("check validity",errorMessages);
+        }
+    }
+
+    /**
+     * Check video entity validity
+     * @param video
+     */
+    private void CheckVideoEntityValidity(Video video) throws VideoException {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Video>> constraintViolations = validator.validate(video);
+        if(constraintViolations.size() > 0){
+            List<String> errorMessages = new ArrayList<>();
+            for(ConstraintViolation<Video> constraintViolation : constraintViolations){
+                errorMessages.add(constraintViolation.getMessage());
+            }
+            throw new VideoException("save video check attributes validity", errorMessages);
         }
     }
     //endregion

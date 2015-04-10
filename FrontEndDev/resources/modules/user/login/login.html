@@ -12,14 +12,14 @@
                     <label><i class="fa fa-user"></i> Email ou Pseudo</label>
                     <input type="text" name="username" required ng-model="login"/>
                     <div ng-messages="formLogin.username.$error">
-                        <div ng-message="required">Login is required</div>
+                        <div ng-message="required">L'email ou le pseudo est requis</div>
                     </div>
                 </md-input-container>
                 <md-input-container>
                     <label><i class="fa fa-lock"></i> Mot de passe</label>
                     <input type="password" name="password" required ng-model="password">
                     <div ng-messages="formLogin.password.$error">
-                        <div ng-message="required">Password is required</div>
+                        <div ng-message="required">Le mot de passe est requis</div>
                     </div>
                 </md-input-container>
             </div>
