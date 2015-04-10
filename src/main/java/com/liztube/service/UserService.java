@@ -2,10 +2,11 @@ package com.liztube.service;
 
 import com.liztube.business.UserBusiness;
 import com.liztube.entity.UserLiztube;
-import com.liztube.exception.SigninException;
 import com.liztube.exception.UserException;
 import com.liztube.exception.UserNotFoundException;
-import com.liztube.utils.facade.UserForRegistration;
+import com.liztube.utils.facade.TestExistFacade;
+import com.liztube.utils.facade.UserFacade;
+import com.liztube.utils.facade.UserPasswordFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,18 +28,41 @@ public class UserService {
      * @return
      * @throws com.liztube.exception.UserNotFoundException
      */
-    @RequestMapping(value = "/infoProfile",method = RequestMethod.GET)
-    public UserForRegistration getUserInfoProfile()  throws UserNotFoundException {
+    @RequestMapping(method = RequestMethod.GET)
+    public UserFacade getUserInfoProfile()  throws UserNotFoundException {
         return userBusiness.getUserInfo();
     }
 
     /**
-     * Put infos user profile
+     * Update user data
      * @return
      * @throws UserNotFoundException
      */
-    @RequestMapping(value = "/infoProfile",method = RequestMethod.POST)
-    public UserLiztube putUserInfo(@RequestBody UserForRegistration userInfo) throws UserNotFoundException, UserException {
+    @RequestMapping(method = RequestMethod.PUT)
+    public UserLiztube updateUserInfo(@RequestBody UserFacade userInfo) throws UserNotFoundException, UserException {
         return userBusiness.updateUserInfo(userInfo);
+    }
+
+    /**
+     * Update password
+     * @param userPasswordFacade
+     * @return
+     * @throws UserNotFoundException
+     * @throws UserException
+     */
+   @RequestMapping(value = "/password", method = RequestMethod.PATCH)
+    public String changeUserPassword(@RequestBody UserPasswordFacade userPasswordFacade) throws UserNotFoundException, UserException {
+        return userBusiness.changeUserPassword(userPasswordFacade);
+    }
+
+
+    /**
+     * Determine if an email is already used
+     * @param testExistFacade
+     * @return
+     */
+    @RequestMapping(value = "/email", method = RequestMethod.POST)
+    public Boolean existEmailUpdate(@RequestBody TestExistFacade testExistFacade) throws UserNotFoundException {
+        return userBusiness.existEmailUpdate(testExistFacade);
     }
 }

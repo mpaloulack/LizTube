@@ -5,7 +5,8 @@ angular.module("liztube.profile",[
     "ngRoute",
     "liztube.moastr",
     "liztube.dataService.userService",
-    'ngMessages'
+    'ngMessages',
+    'ui.gravatar'
 ]).config(function ($routeProvider,$locationProvider){
     $routeProvider.when("/profile",{
         title: "LizTube - My profile",
@@ -13,7 +14,14 @@ angular.module("liztube.profile",[
         controller: 'profileCtrl',
         templateUrl: "profile.html"
     });
-}).controller("profileCtrl", function($scope, $rootScope, userService, $window, $location, moastr, constants) {
+}).config([
+    'gravatarServiceProvider', function(gravatarServiceProvider) {
+        gravatarServiceProvider.defaults = {
+            size     : 150,
+            "default": 'mm'  // Mystery man as default for missing avatars
+        };
+    }
+]).controller("profileCtrl", function($scope, $rootScope, userService, $window, $location, moastr, constants) {
 
     userService.userProfile().then(function(user){
         $scope.user = user;
@@ -21,28 +29,13 @@ angular.module("liztube.profile",[
         var date = new Date($scope.user.birthdate);
 
         $scope.user.birthdate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        console.log($scope.user.birthdate);    }, function(){
-        moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
+        }, function(){
+        moastr.error(constants.SERVER_ERROR,'left right bottom');
+
     });
 
    $scope.errorUpdate = '';
 
-
-
-      $scope.update = function () {
-          console.log($scope.user.firstname);
-        $rootScope.$broadcast('loadingStatus', true);
-        userService.updateProfile($scope.user).then(function () {
-            //$location.path('/profile');
-            if($scope.user.password === null){
-                $scope.user.password = "";
-            }
-        }, function () {
-            moastr.error(constants.SERVER_ERROR);
-        }).finally(function () {
-            $rootScope.$broadcast('loadingStatus', false);
-        });
-    };
 
 })/*.directive('emailValidation', function(authService, moastr, $scope) {
     return {

@@ -13,7 +13,9 @@ import com.liztube.exception.exceptionType.PublicException;
 import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
+import com.liztube.utils.facade.UserFacade;
 import com.liztube.utils.facade.UserForRegistration;
+import com.liztube.utils.facade.UserPasswordFacade;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -61,23 +63,28 @@ public class UserTests {
 
     public UserLiztube userLiztube;
 
-    public UserForRegistration userForRegistration;
+    public UserFacade userForRegistration;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    public UserForRegistration userUpdate;
+    public UserFacade userUpdate;
+
+    public UserPasswordFacade userPasswordFacade;
 
     @Before
     public void SetUp(){
         Timestamp birthday = Timestamp.valueOf(LocalDateTime.of(1991, Month.FEBRUARY, 1, 0, 0));
-        userUpdate = new UserForRegistration().setPseudo("userUpdate")
+        userUpdate = new UserFacade().setPseudo("userUpdate")
                 .setBirthdate(birthday)
                 .setEmail("userInfos@hotmail.fr")
                 .setFirstname("user")
                 .setLastname("user")
-                .setIsfemale(false)
-                .setPassword("cisco");
+                .setIsfemale(false);
+
+        userPasswordFacade = new UserPasswordFacade()
+                .setNewPassword("liztube")
+                .setOldPassword("cisco");
 
         userLiztube = userLiztubeRepository.findByPseudo("spywen");
 
@@ -136,21 +143,20 @@ public class UserTests {
     }
 
     @Test
-    public void password_should_be_not_changed() throws  UserException, UserNotFoundException{
-        userUpdate.setPassword("");
-        assertThat(userUpdate.getPassword()).isEqualTo("");
-        UserLiztube userLiztube = userBusiness.updateUserInfo(userUpdate);
-
-        assertThat(userLiztube.getPassword()).isNotEmpty();
+    public void check_old_password_should_be_correspond()throws UserNotFoundException, UserException {
+        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userPasswordFacade.getOldPassword(), null));
     }
+
 
     @Test
     public void password_should_be_encrypted() throws UserNotFoundException, UserException {
-        assertThat(userUpdate.getPassword()).isEqualTo("cisco");
-        UserLiztube userLiztube = userBusiness.updateUserInfo(userUpdate);
-
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userUpdate.getPassword(),null));
+        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userPasswordFacade.getOldPassword(), null));
+
+        userBusiness.changeUserPassword(userPasswordFacade);
+        UserLiztube userLiztube = userBusiness.updateUserInfo(userUpdate);
+        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userPasswordFacade.getNewPassword(),null));
     }
 
 
@@ -180,9 +186,9 @@ public class UserTests {
 
     @Test
     public void should_raise_an_error_if_password_too_short() throws UserNotFoundException, UserException {
-        userUpdate = userUpdate.setPassword("cisc");//4 characters
+        userPasswordFacade = userPasswordFacade.setNewPassword("cisc");//4 characters
         try{
-            userBusiness.updateUserInfo(userUpdate);
+            userBusiness.changeUserPassword(userPasswordFacade);
             fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
@@ -191,9 +197,9 @@ public class UserTests {
 
     @Test
     public void should_raise_an_error_if_password_too_long() throws UserNotFoundException, UserException {
-        userUpdate = userUpdate.setPassword("ciscociscociscociscociscociscociscociscociscociscoc");//51 characters
+        userPasswordFacade = userPasswordFacade.setNewPassword("ciscociscociscociscociscociscociscociscociscociscoc");//51 characters
         try{
-            userBusiness.updateUserInfo(userUpdate);
+            userBusiness.changeUserPassword(userPasswordFacade);
             fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);

@@ -34,7 +34,7 @@ describe('liztube.home', function(){
             location.path('/');
             $rootScope.$digest();
             expect(route.current.controller).toBe('homeCtrl');
-            expect(route.current.title).toBe('LizTube - Home');
+            expect(route.current.title).toBe('LizTube - Accueil');
             expect(route.current.page).toBe('Home');
         });
     });

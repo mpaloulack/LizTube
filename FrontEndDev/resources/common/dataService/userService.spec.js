@@ -15,14 +15,20 @@ describe('liztube.dataService.userService', function(){
     });
 
     it('should get current info profil', function(){
-        $httpBackend.expectGET('/user/infoProfile').respond();
+        $httpBackend.expectGET('/user').respond();
         userService.userProfile();
         $httpBackend.flush();
     });
 
-    it('should post for register', function(){
-        $httpBackend.expectPOST('/user/infoProfile').respond();
+    it('should put for user profile', function(){
+        $httpBackend.expectPUT('/user').respond();
         userService.updateProfile({});
+        $httpBackend.flush();
+    });
+
+    it('should put password user ', function(){
+        $httpBackend.expectPATCH('/user/password').respond();
+        userService.updatePassword({});
         $httpBackend.flush();
     });
 });

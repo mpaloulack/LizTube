@@ -12,20 +12,40 @@ angular.module('liztube.dataService.userService', [
 
     return {
         userProfile : userProfile,
-        updateProfile : updateProfile
+        updateProfile : updateProfile,
+        emailExistUpdate : emailExistUpdate,
+        updatePassword : updatePassword
     };
 
     /**
      Get current user info
      **/
     function userProfile() {
-        return baseUser().one('infoProfile').get();
+        return baseUser().get();
     }
 
     /**
-     Post update  user info
+     PUT update  user info
      **/
     function updateProfile(user) {
-        return baseUser().post('infoProfile', user);
+        return baseUser().customPUT(user);
+    }
+
+    /**
+     PUT update password
+     **/
+    function updatePassword(passwords){
+        //return Restangular.one("user/password").patch(passwords);
+        return baseUser().one("password").patch(passwords);
+    }
+
+    /**
+     * POST check if email changed and if exist
+    **/
+    function emailExistUpdate(email) {
+        var emailObj = {
+            'value':email
+        };
+        return baseAuth().post('email', emailObj);
     }
 });

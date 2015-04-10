@@ -1,8 +1,11 @@
 describe('liztube.header', function(){
 
     beforeEach(module('liztube.header'));
+    beforeEach(module('liztube.userStatus'));
+    beforeEach(module('ngRoute'));
+    beforeEach(module('liztube.upload.video'));
+    var createController, $scope, $rootScope, $mdSidenav;
 
-    var createController, $scope,$rootScope,$mdSidenav;
 
     beforeEach(inject(function (_$rootScope_) {
         $rootScope =_$rootScope_;
@@ -14,6 +17,12 @@ describe('liztube.header', function(){
                 return true;
             }
         };
+    };
+
+    var moastr = {
+        error: function(message){
+            return message;
+        }
     };
 
     beforeEach(inject(function ($controller) {
@@ -34,6 +43,38 @@ describe('liztube.header', function(){
 
         it('scope variables initialized', function(){
             expect($scope.isLoading).toEqual(false);
+            expect($scope.showNotification).toEqual(false);
+            expect($scope.notification).toEqual(0);
+        });
+
+    });
+
+    describe('addNotification when scope init to boolean', function(){
+
+        beforeEach(function(){
+            $scope.showNotification = false;
+            $scope.notification = 0;
+        });
+
+        it('should put showNotification to boolean if a addNotification event is broadcast with boolean', function(){
+            $scope.$broadcast('addNotificationForHeader', true);
+            expect($scope.showNotification).toEqual(true);
+            expect($scope.notification).toEqual(1);
+        });
+
+    });
+
+    describe('removeNotificationForHeader when scope init to boolean', function(){
+
+        beforeEach(function(){
+            $scope.showNotification = true;
+            $scope.notification = 1;
+        });
+
+        it('should put notification to -1 if a removeNotificationForHeader event is broadcast with boolean', function(){
+            $scope.$broadcast('removeNotificationForHeader', true);
+            expect($scope.notification).toEqual(0);
+            expect($scope.showNotification).toEqual(false);
         });
 
     });

@@ -11,7 +11,19 @@ describe('liztube.userStatus',function(){
     beforeEach(module('liztube.userStatus'));
     beforeEach(module('liztube.dataService.authService'));
 
-    var createController, $scope, $rootScope, $location, authService, $window, $q, $mdSidenav, $templateCache;
+    var createController, $scope, $rootScope, $location, authService, $window, $q, $mdSidenav, $templateCache, constants;
+
+    var mockConstants = {
+        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
+    };
+
+    beforeEach(function() {
+        module(function($provide) {
+            $provide.constant('constants', mockConstants);
+        });
+    });
+
+
     beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_, _$templateCache_) {
         $rootScope =_$rootScope_;
         $location = _$location_;
@@ -85,7 +97,7 @@ describe('liztube.userStatus',function(){
         it('Should not broadcast logout message if error', function(){
             changePromiseResult(logoutPromise, "failed");
             expect($scope.$emit).not.toHaveBeenCalledWith('userStatus', undefined);
-            expect(moastr.error).toHaveBeenCalledWith('An unexpected error occured. If the problem persists please contact the administrator.');
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
         });
 
     });

@@ -5,7 +5,7 @@ angular.module("liztube.userStatus",[
     "liztube.dataService.authService",
     "liztube.moastr",
     "ngRoute"
-]).controller("connectedCtrl", function($scope,$rootScope,$window, authService,$location,$mdSidenav,moastr) {
+]).controller("connectedCtrl", function($scope,$rootScope,$window, authService,$location,$mdSidenav,moastr, constants) {
     $scope.$on('userIsConnected', function(event, user) {
         if(_.isUndefined(user)){
             $scope.pseudo = '';
@@ -21,7 +21,7 @@ angular.module("liztube.userStatus",[
 
             $location.path("/");
         }, function(){
-            moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
+            moastr.error(constants.SERVER_ERROR,'left right bottom');
         });
     };
 

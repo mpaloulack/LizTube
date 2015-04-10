@@ -3,11 +3,25 @@
  */
 angular.module("liztube.header",[
     "liztube.userStatus",
-    "ngRoute"
+    "ngRoute",
+    "liztube.upload.video"
 ]).controller("headerCtrl", function($scope, $mdSidenav) {
 
-    $scope.isLoading = false;
+    $scope.notification = 0;
+    $scope.showNotification = false;
+    $scope.$on('addNotificationForHeader', function(event, bool) {
+        $scope.showNotification = bool;
+        $scope.notification = $scope.notification + 1;
+    });
 
+    $scope.$on('removeNotificationForHeader', function(event, bool) {
+        $scope.notification = $scope.notification - 1;
+        if($scope.notification === 0){
+            $scope.showNotification = false;
+        }
+    });
+
+    $scope.isLoading = false;
     $scope.$on('loadingStatusForHeader', function(event, bool) {
         $scope.isLoading= bool;
     });

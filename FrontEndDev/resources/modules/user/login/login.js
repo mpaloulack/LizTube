@@ -24,10 +24,10 @@ angular.module("liztube.login",[
                 $scope.$emit('userStatus', currentUser);
                 $location.path('/');
             },function(){
-                moastr.error(constants.SERVER_ERROR);
+                moastr.error(constants.SERVER_ERROR,'left right bottom');
             });
         },function(){
-            moastr.error('Bad credentials');
+            moastr.error('Bad credentials', 'left right bottom');
         }).finally(function(){
             $scope.$emit('loadingStatus', false);
         });

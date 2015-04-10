@@ -1,13 +1,13 @@
 package com.liztube.business;
 
-import com.google.common.base.Strings;
 import com.liztube.entity.UserLiztube;
 import com.liztube.exception.UserException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.EnumError;
-import com.liztube.utils.facade.SigninTestExistFacade;
-import com.liztube.utils.facade.UserForRegistration;
+import com.liztube.utils.facade.TestExistFacade;
+import com.liztube.utils.facade.UserFacade;
+import com.liztube.utils.facade.UserPasswordFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -40,14 +40,16 @@ public class UserBusiness {
      * @return userInfo
      * @throws com.liztube.exception.UserNotFoundException
      */
-    public UserForRegistration getUserInfo() throws UserNotFoundException {
+    public UserFacade getUserInfo() throws UserNotFoundException {
         UserLiztube userLiztube = authBusiness.getConnectedUser(true);
 
-        UserForRegistration userInfo = new UserForRegistration()
+        UserFacade userInfo = new UserFacade()
                 .setEmail(userLiztube.getEmail())
                 .setFirstname(userLiztube.getFirstname())
                 .setLastname(userLiztube.getLastname())
-                .setBirthdate(userLiztube.getBirthdate());
+                .setBirthdate(userLiztube.getBirthdate())
+                .setPseudo(userLiztube.getPseudo())
+                .setIsfemale(userLiztube.getIsfemale());
 
         return userInfo;
     }
@@ -57,38 +59,27 @@ public class UserBusiness {
      * @return userInfo
      * @throws com.liztube.exception.UserNotFoundException
      */
-    public UserLiztube updateUserInfo(UserForRegistration userInfo) throws UserNotFoundException, UserException {
+    public UserLiztube updateUserInfo(UserFacade userInfo) throws UserNotFoundException, UserException {
         UserLiztube userLiztube = authBusiness.getConnectedUser(true);
 
-        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
 
         //update user persistent
         userLiztube
                 .setFirstname(userInfo.getFirstname())
                 .setLastname(userInfo.getLastname())
                 .setBirthdate(userInfo.getBirthdate())
+                .setIsfemale(userInfo.getIsfemale())
                 .setModificationdate(Timestamp.valueOf(LocalDateTime.now()));
 
 
         //verify email if modify
         if (!userInfo.getEmail().equals(userLiztube.getEmail())){
-            System.out.println("email non égale");
-            if(authBusiness.existEmail(new SigninTestExistFacade().setValue(userInfo.getEmail())) || authBusiness.existPseudo(new SigninTestExistFacade().setValue(userInfo.getPseudo()))){
+            if(authBusiness.existEmail(new TestExistFacade().setValue(userInfo.getEmail()))){
                 List<String> errorMessages = new ArrayList<>();
                 errorMessages.add(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
                 throw new UserException("email already exist", errorMessages);
             }
             userLiztube.setEmail(userInfo.getEmail());
-        }
-
-        //Password changed
-        if(!Strings.isNullOrEmpty(userInfo.getPassword())){
-            System.out.println("password is null or empty");
-            //Password well formatted
-            if(!userInfo.getPassword().matches(authBusiness.PASSWORD_REGEX)){
-                throw new UserException("Not valid format for password", EnumError.SIGNIN_PASSWORD_FORMAT);
-            }
-            userLiztube.setPassword(encoder.encodePassword(userInfo.getPassword(), null));
         }
 
         //Entity validations Validations
@@ -107,4 +98,59 @@ public class UserBusiness {
 
         return userLiztube;
     }
+
+    /**
+     * Change password user
+     * @param userPassword
+     * @return
+     * @throws UserNotFoundException
+     * @throws UserException
+     */
+    public String changeUserPassword(UserPasswordFacade userPassword) throws UserNotFoundException, UserException{
+        UserLiztube userLiztube = authBusiness.getConnectedUser(true);
+
+        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+        System.out.println("old password type : "+ userPassword.getOldPassword() +"\nold password  : "+ userLiztube.getPassword() + "\nold password type : "+ encoder.encodePassword(userPassword.getOldPassword(), null));
+        //check old password
+        if (userLiztube.getPassword().equals(encoder.encodePassword(userPassword.getOldPassword(), null))){
+            //Password well formatted
+            if(!userPassword.getNewPassword().matches(authBusiness.PASSWORD_REGEX)){
+                throw new UserException("Not valid format for password", EnumError.SIGNIN_PASSWORD_FORMAT);
+            }
+            userLiztube.setPassword(encoder.encodePassword(userPassword.getNewPassword(), null));
+        }else{
+            throw new UserException("old password not corresponding ", EnumError.SIGNIN_PASSWORD_FORMAT);
+        }
+
+        //Entity validations Validations
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<UserLiztube>> constraintViolations = validator.validate(userLiztube);
+        if(constraintViolations.size() > 0){
+            List<String> errorMessages = new ArrayList<>();
+            for(ConstraintViolation<UserLiztube> constraintViolation : constraintViolations){
+                errorMessages.add(constraintViolation.getMessage());
+            }
+            throw new UserException("Not valid format entity", errorMessages);
+        }
+
+        userLiztubeRepository.saveAndFlush(userLiztube);
+
+        return "Password changed successful";
+    }
+
+
+    /**
+     * Define if the an email is already registered
+     * @param testExistFacade
+     * @return
+     */
+    public Boolean existEmailUpdate(TestExistFacade testExistFacade) throws UserNotFoundException {
+        UserLiztube userLiztube = authBusiness.getConnectedUser(true);
+        if(userLiztubeRepository.countByEmail(testExistFacade.getValue()) == 0 && userLiztube.getEmail().equals("spywen@hotmail.fr")){
+            return false;
+        }
+        return true;
+    }
+
 }

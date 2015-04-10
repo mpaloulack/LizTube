@@ -8,7 +8,7 @@ import com.liztube.repository.RoleRepository;
 import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
-import com.liztube.utils.facade.SigninTestExistFacade;
+import com.liztube.utils.facade.TestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import com.liztube.utils.facade.UserForRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,11 +58,11 @@ public class AuthBusiness {
 
     /**
      * Define if the an email is already registered
-     * @param signinTestExistFacade
+     * @param testExistFacade
      * @return
      */
-    public Boolean existEmail(SigninTestExistFacade signinTestExistFacade){
-        if(userLiztubeRepository.countByEmail(signinTestExistFacade.getValue()) == 0){
+    public Boolean existEmail(TestExistFacade testExistFacade){
+        if(userLiztubeRepository.countByEmail(testExistFacade.getValue()) == 0){
             return false;
         }
         return true;
@@ -70,11 +70,11 @@ public class AuthBusiness {
 
     /**
      * Define if the a pseudo is already registered
-     * @param signinTestExistFacade
+     * @param testExistFacade
      * @return
      */
-    public Boolean existPseudo(SigninTestExistFacade signinTestExistFacade){
-        if(userLiztubeRepository.countByPseudo(signinTestExistFacade.getValue()) == 0){
+    public Boolean existPseudo(TestExistFacade testExistFacade){
+        if(userLiztubeRepository.countByPseudo(testExistFacade.getValue()) == 0){
             return false;
         }
         return true;
@@ -130,7 +130,7 @@ public class AuthBusiness {
                 .setRegisterdate(Timestamp.valueOf(LocalDateTime.now()));
 
         //User already exist
-        if(existEmail(new SigninTestExistFacade().setValue(user.getEmail())) || existPseudo(new SigninTestExistFacade().setValue(user.getPseudo()))){
+        if(existEmail(new TestExistFacade().setValue(user.getEmail())) || existPseudo(new TestExistFacade().setValue(user.getPseudo()))){
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
             throw new SigninException("email or pseudo already exist", errorMessages);

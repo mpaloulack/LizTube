@@ -1,0 +1,9 @@
+<div ng-show="videoLoading">
+    <h4>{{fileName}}</h4>
+    <md-progress-linear class="md-primary margin-bottom" md-mode="determinate" value="{{uploadRate}}"></md-progress-linear>
+    <div>
+        <md-button class="pull-right" ng-if="uploadRate == '100'" ng-click="closeProgressBar()"><i class="fa fa-close"></i></md-button>
+        <div class="pull-left">{{percent}}</div>
+    </div>
+    <div class="clear"></div>
+</div>
