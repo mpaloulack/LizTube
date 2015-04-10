@@ -68,6 +68,7 @@ public class UserBusiness {
                 .setFirstname(userInfo.getFirstname())
                 .setLastname(userInfo.getLastname())
                 .setBirthdate(userInfo.getBirthdate())
+                .setIsfemale(userInfo.getIsfemale())
                 .setModificationdate(Timestamp.valueOf(LocalDateTime.now()));
 
 
@@ -109,6 +110,7 @@ public class UserBusiness {
         UserLiztube userLiztube = authBusiness.getConnectedUser(true);
 
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+        System.out.println("old password type : "+ userPassword.getOldPassword() +"\nold password  : "+ userLiztube.getPassword() + "\nold password type : "+ encoder.encodePassword(userPassword.getOldPassword(), null));
         //check old password
         if (userLiztube.getPassword().equals(encoder.encodePassword(userPassword.getOldPassword(), null))){
             //Password well formatted

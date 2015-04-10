@@ -17,14 +17,18 @@ angular.module("liztube.updatepassword",[
 
     $scope.errorUpdate = '';
 
+
+
     $scope.update = function () {
+        console.log("oldpassword " + $scope.password.oldPassword );
+        console.log("newPassword " + $scope.password.newPassword );
         $rootScope.$broadcast('loadingStatus', true);
         userService.updatePassword($scope.password).then(function () {
             $location.path('/profile');
         }, function () {
             moastr.error(constants.SERVER_ERROR, 'left right bottom');
         }).finally(function () {
-            $rootScope.$broadcast('loadingStatus', false);
+            $scope.$emit('loadingStatus', false);
         });
     };
 

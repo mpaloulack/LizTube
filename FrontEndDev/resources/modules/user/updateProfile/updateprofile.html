@@ -26,16 +26,6 @@
                             <div ng-message="maxlength">Le prénom est trop long</div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex>
-                        <label><i class="fa fa-user"></i> Pseudo</label>
-                        <input type="text" name="pseudo" ng-model="user.pseudo" ng-minlength="3" ng-maxlength="50" required pseudo-validation ng-model-options="{ updateOn: 'blur' }"/>
-                        <div ng-messages="formupdate-profile.pseudo.$error">
-                            <div ng-message="required">Le pseudo est requis</div>
-                            <div ng-message="pseudoValidation">Pseudo déjà utilisé</div>
-                            <div ng-message="minlength">Le pseudo est trop court</div>
-                            <div ng-message="maxlength">Le pseudo est trop long</div>
-                        </div>
-                    </md-input-container>
                 </div>
                 <div layout layout-sm="column">
                     <md-input-container flex>

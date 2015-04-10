@@ -28,14 +28,15 @@ angular.module('liztube.dataService.userService', [
      PUT update  user info
      **/
     function updateProfile(user) {
-        return baseUser().put(user);
+        return baseUser().customPUT(user);
     }
 
     /**
      PUT update password
      **/
     function updatePassword(passwords){
-        return baseUser("password").put(passwords);
+        //return Restangular.one("user/password").patch(passwords);
+        return baseUser().one("password").patch(passwords);
     }
 
     /**

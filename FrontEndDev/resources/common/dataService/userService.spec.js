@@ -25,4 +25,10 @@ describe('liztube.dataService.userService', function(){
         userService.updateProfile({});
         $httpBackend.flush();
     });
+
+    it('should put password user ', function(){
+        $httpBackend.expectPATCH('/user/password').respond();
+        userService.updatePassword({});
+        $httpBackend.flush();
+    });
 });
