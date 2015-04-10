@@ -8,7 +8,8 @@ describe('liztube.upload.video', function(){
     var createController, $scope, $rootScope, $http, $upload, constants, moastr;
 
     var mockConstants = {
-        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
+        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
+        UPLOAD_DONE: "Téléchargement de la vidéo terminer"
     };
 
     beforeEach(function() {
@@ -21,6 +22,14 @@ describe('liztube.upload.video', function(){
         $rootScope =_$rootScope_;
         $http = _$http_;
     }));
+
+    var $mdSidenav = function(test){
+        return {
+            toggle: function(){
+                return true;
+            }
+        };
+    };
 
     var moastr = {
         error: function(message){
@@ -36,7 +45,8 @@ describe('liztube.upload.video', function(){
                 '$http': $http,
                 '$upload': $upload,
                 'constants': constants,
-                'moastr': moastr
+                'moastr': moastr,
+                '$mdSidenav': $mdSidenav
             });
         };
     }));

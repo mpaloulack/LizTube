@@ -3,7 +3,7 @@ angular.module("liztube.upload.video",[
     "ngRoute",
     "liztube.upload.video.page",
     'angularFileUpload' //https://github.com/danialfarid/angular-file-upload
-]).controller("uploadVideoCtrl", function($scope, $http, $upload, constants, moastr) {
+]).controller("uploadVideoCtrl", function($scope, $http, $upload, constants, moastr, $mdSidenav) {
 
     $scope.uploadRate = 0;
     $scope.fileName = "";
@@ -27,11 +27,12 @@ angular.module("liztube.upload.video",[
             $scope.uploadRate = parseInt(100.0 * evt.loaded / evt.total);
             $scope.percent = parseInt(100.0 * evt.loaded / evt.total) + "%";
         }).success(function (data, status, headers, config) {
+            moastr.successMin(constants.UPLOAD_DONE, 'top right');
             console.log('file "' + config.file.name + '" uploaded. Response: ' +
             JSON.stringify(data));
         }).error(function (data, status, headers, config){
             console.log("data " +data.messages);
-            moastr.error(constants.SERVER_ERROR);
+            moastr.error(constants.SERVER_ERROR, 'left right bottom');
         });
     });
 

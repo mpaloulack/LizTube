@@ -102,7 +102,7 @@ describe('liztube.login', function() {
 
         it('should return an error message', function(){
             changePromiseResult(loginPromise, "failed");
-            expect(moastr.error).toHaveBeenCalledWith('Bad credentials');
+            expect(moastr.error).toHaveBeenCalledWith('Bad credentials','left right bottom');
         });
 
         it('should be a successful authentication', function(){
@@ -120,7 +120,7 @@ describe('liztube.login', function() {
 
             expect($window.user).toEqual(windowUserNotConnected);
             expect($scope.$emit).not.toHaveBeenCalledWith('userStatus', currentUserResponse);
-            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR);
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
         });
     });
 	

@@ -22,7 +22,7 @@ angular.module("liztube.updatepassword",[
         userService.updatePassword($scope.password).then(function () {
             $location.path('/profile');
         }, function () {
-            moastr.error(constants.SERVER_ERROR);
+            moastr.error(constants.SERVER_ERROR, 'left right bottom');
         }).finally(function () {
             $rootScope.$broadcast('loadingStatus', false);
         });

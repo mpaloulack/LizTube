@@ -87,7 +87,7 @@ describe('liztube.register', function() {
 
     	it('should return an error message', function(){
             changePromiseResult(registerPromise, "failed");
-            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR);
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
         });
 
 		it('should be a successful register', function() {

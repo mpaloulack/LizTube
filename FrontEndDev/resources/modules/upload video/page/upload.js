@@ -35,7 +35,7 @@ angular.module('liztube.upload.video.page', [
             $scope.$emit('loadingUploadVideo', video);
             $scope.$emit('addNotification', true);
         }else{
-            moastr.error(constants.NO_FILE_SELECTED);
+            moastr.error(constants.NO_FILE_SELECTED, 'left right bottom');
         }
     };
     $scope.$watch('video.files', function() {
@@ -46,10 +46,10 @@ angular.module('liztube.upload.video.page', [
     $scope.isValidFile = function(video){
         if(video.files && video.files.length){
             if(video.files[0].type != "video/mp4") {
-                moastr.error(constants.FILE_TYPE_ERROR);
+                moastr.error(constants.FILE_TYPE_ERROR, 'left right bottom');
             }else{
                 if ($scope.video.files[0].size > constants.FILE_SIZE_ALLOWED) {
-                    moastr.error(constants.FILE_SIZE_ERROR);
+                    moastr.error(constants.FILE_SIZE_ERROR, 'left right bottom');
                 }
             }
         }

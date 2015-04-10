@@ -30,7 +30,7 @@ angular.module("liztube.profile",[
 
         $scope.user.birthdate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
         console.log($scope.user.birthdate);    }, function(){
-        moastr.error('An unexpected error occured. If the problem persists please contact the administrator.');
+        moastr.error(constants.SERVER_ERROR,'left right bottom');
     });
 
    $scope.errorUpdate = '';
@@ -46,7 +46,7 @@ angular.module("liztube.profile",[
                 $scope.user.password = "";
             }
         }, function () {
-            moastr.error(constants.SERVER_ERROR);
+            moastr.error(constants.SERVER_ERROR, 'left right bottom');
         }).finally(function () {
             $rootScope.$broadcast('loadingStatus', false);
         });

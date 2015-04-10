@@ -22,7 +22,7 @@ angular.module("liztube.register",[
             authService.register($scope.user).then(function () {
                 $location.path('/login');
             }, function () {
-                moastr.error(constants.SERVER_ERROR);
+                moastr.error(constants.SERVER_ERROR, 'left right bottom');
             }).finally(function () {
                 $rootScope.$broadcast('loadingStatus', false);
             });
@@ -75,7 +75,7 @@ angular.module("liztube.register",[
                     }
                     return true;
                 },function(){
-                    moastr.error(constants.SERVER_ERROR);
+                    moastr.error(constants.SERVER_ERROR, 'left right bottom');
                 });
             };
         }
@@ -97,7 +97,7 @@ angular.module("liztube.register",[
                     }
                     return true;
                 },function(){
-                    moastr.error(constants.SERVER_ERROR);
+                    moastr.error(constants.SERVER_ERROR, 'left right bottom');
                 });
             };
         }

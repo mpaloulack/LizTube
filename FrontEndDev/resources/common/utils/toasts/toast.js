@@ -4,26 +4,51 @@ angular.module("liztube.moastr",[
     return {
         error:error,
         success:success,
-        info:info
+        info:info,
+        errorMin:errorMin,
+        successMin:successMin,
+        infoMin:infoMin
     };
 
-    function error(message){
+    function error(message, position){
         $mdToast.show({
-            template: '<md-toast class="moastr error"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
+            template: '<md-toast class="moastr full error"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
             hideDelay: 6000,
-            position: 'left right bottom'
+            position: position
         });
     }
-    function success(message){
+    function success(message, position){
         $mdToast.show({
-            template: '<md-toast class="moastr success"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
+            template: '<md-toast class="moastr full success"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
             hideDelay: 6000,
-            position: 'left right bottom'
+            position: position
         });
     }
-    function info(message){
+    function info(message, position){
         $mdToast.show({
-            template: '<md-toast class="moastr info"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
+            template: '<md-toast class="moastr full info"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
+            hideDelay: 6000,
+            position: position
+        });
+    }
+
+    function errorMin(message, position){
+        $mdToast.show({
+            template: '<md-toast class="moastr min error"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
+            hideDelay: 6000,
+            position: position
+        });
+    }
+    function successMin(message, position){
+        $mdToast.show({
+            template: '<md-toast class="moastr min success"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
+            hideDelay: 6000,
+            position: position
+        });
+    }
+    function infoMin(message, position){
+        $mdToast.show({
+            template: '<md-toast class="moastr min info"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
             hideDelay: 6000,
             position: 'left right bottom'
         });
