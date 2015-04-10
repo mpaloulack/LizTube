@@ -5,20 +5,21 @@ package com.liztube.utils;
  */
 public class EnumError {
     //SIGNIN
-    public static final String SIGNIN_FIRSTNAME_SIZE        = "#1001";
-    public static final String SIGNIN_LASTNAME_SIZE         = "#1002";
-    public static final String SIGNIN_PSEUDO_SIZE           = "#1003";
-    public static final String SIGNIN_BIRTHDAY_NOTNULL      = "#1004";
-    public static final String SIGNIN_BIRTHDAY_PAST_DATE    = "#1005";
-    public static final String SIGNIN_EMAIL_FORMAT          = "#1006";
-    public static final String SIGNIN_EMAIL_SIZE            = "#1007";
-    public static final String SIGNIN_REGISTER_NOTNULL      = "#1008";
-    public static final String SIGNIN_REGISTER_PAST_DATE    = "#1009";
-    public static final String SIGNIN_MODIFICATION_NOTNULL  = "#1010";
-    public static final String SIGNIN_ISFEMALE_NOTNULL      = "#1011";
-    public static final String SIGNIN_ISACTIVE_NOTNULL      = "#1012";
-    public static final String SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED      = "#1013";
-    public static final String SIGNIN_PASSWORD_FORMAT       = "#1014";
+    public static final String USER_FIRSTNAME_SIZE = "#1001";
+    public static final String USER_LASTNAME_SIZE = "#1002";
+    public static final String USER_PSEUDO_SIZE = "#1003";
+    public static final String USER_BIRTHDAY_NOTNULL = "#1004";
+    public static final String USER_BIRTHDAY_PAST_DATE = "#1005";
+    public static final String USER_EMAIL_FORMAT = "#1006";
+    public static final String USER_EMAIL_SIZE = "#1007";
+    public static final String USER_REGISTER_NOTNULL = "#1008";
+    public static final String USER_REGISTER_PAST_DATE = "#1009";
+    public static final String USER_MODIFICATION_NOTNULL = "#1010";
+    public static final String USER_ISFEMALE_NOTNULL = "#1011";
+    public static final String USER_ISACTIVE_NOTNULL = "#1012";
+    public static final String USER_EMAIL_OR_PSEUDO_ALREADY_USED = "#1013";
+    public static final String USER_PASSWORD_FORMAT = "#1014";
+    public static final String USER_OLD_PASSWORD_INVALID = "#1015";
 
     //VIDEO
     public static final String VIDEO_TITLE_SIZE            = "#1051";

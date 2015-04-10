@@ -5,14 +5,12 @@ package com.liztube.utils.facade;
  */
 public class UserPasswordFacade {
 
-    //Region attribute
+    //region attribute
     private String oldPassword;
     private String newPassword;
     //endregion
 
-    //getter and setter
-
-
+    //region getter and setter
     public String getOldPassword() {
         return oldPassword;
     }
@@ -28,4 +26,5 @@ public class UserPasswordFacade {
     public UserPasswordFacade setNewPassword(String newPassword) {
         this.newPassword = newPassword;return this;
     }
+    //endregion
 }

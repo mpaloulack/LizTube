@@ -14,7 +14,6 @@ import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
 import com.liztube.utils.facade.UserFacade;
-import com.liztube.utils.facade.UserForRegistration;
 import com.liztube.utils.facade.UserPasswordFacade;
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,7 +34,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -63,19 +61,17 @@ public class UserTests {
 
     public UserLiztube userLiztube;
 
-    public UserFacade userForRegistration;
-
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    public UserFacade userUpdate;
+    public UserFacade userToUpdate;
 
     public UserPasswordFacade userPasswordFacade;
 
     @Before
     public void SetUp(){
         Timestamp birthday = Timestamp.valueOf(LocalDateTime.of(1991, Month.FEBRUARY, 1, 0, 0));
-        userUpdate = new UserFacade().setPseudo("userUpdate")
+        userToUpdate = new UserFacade().setPseudo("userUpdate")
                 .setBirthdate(birthday)
                 .setEmail("userInfos@hotmail.fr")
                 .setFirstname("user")
@@ -97,91 +93,147 @@ public class UserTests {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
-    //test de la récupération des infos utilisateurs
+    //region get user profile
     @Test
     public void user_should_get_user_infos_successfully() throws UserNotFoundException, UserException{
-        userForRegistration = userBusiness.getUserInfo();
+        UserFacade userForRegistration = userBusiness.getUserInfo();
 
         assertThat(userForRegistration).isNotNull();
         assertThat(userForRegistration.getBirthdate()).isEqualTo(userLiztube.getBirthdate());
         assertThat(userForRegistration.getEmail()).isEqualTo(userLiztube.getEmail());
-
-        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        //assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userForRegistration.getPassword(), null));
         assertThat(userForRegistration.getLastname()).isEqualTo(userLiztube.getLastname());
         assertThat(userForRegistration.getFirstname()).isEqualTo(userLiztube.getFirstname());
     }
+    //endregion
 
-    //test pour la modification d'utilisateur
-
+    //region update user
     @Test
-    public void firstname_shoulb_be_changed_succesfully() throws UserNotFoundException, UserException{
+    public void firstname_should_be_changed_successfully() throws UserNotFoundException, UserException{
         assertThat(userLiztube.getFirstname()).isEqualTo("Laurent");
-        userUpdate.setFirstname("Youcef");
-        userLiztube = userBusiness.updateUserInfo(userUpdate);
+        userToUpdate.setFirstname("Youcef");
+        userLiztube = userBusiness.updateUserInfo(userToUpdate);
         assertThat(userLiztube.getFirstname()).isEqualTo("Youcef");
 
     }
 
     @Test
-    public void lastname_shoulb_be_changed_succesfully() throws UserNotFoundException, UserException{
+    public void lastname_should_be_changed_successfully() throws UserNotFoundException, UserException{
         assertThat(userLiztube.getLastname()).isEqualTo("Babin");
-        userUpdate.setLastname("BenZ");
-        userLiztube = userBusiness.updateUserInfo(userUpdate);
+        userToUpdate.setLastname("BenZ");
+        userLiztube = userBusiness.updateUserInfo(userToUpdate);
         assertThat(userLiztube.getLastname()).isEqualTo("BenZ");
-
     }
 
-
     @Test
-    public void birthdate_shoulb_be_changed_succesfully() throws UserNotFoundException, UserException{
+    public void birthdate_should_be_changed_successfully() throws UserNotFoundException, UserException{
         assertThat(userLiztube.getBirthdate()).isEqualTo(Timestamp.valueOf(LocalDateTime.of(2013, Month.OCTOBER, 5, 10, 15, 26)));
-        userUpdate.setBirthdate(Timestamp.valueOf(LocalDateTime.of(2005, Month.MAY, 6, 0, 0)));
-        userLiztube = userBusiness.updateUserInfo(userUpdate);
+        userToUpdate.setBirthdate(Timestamp.valueOf(LocalDateTime.of(2005, Month.MAY, 6, 0, 0)));
+        userLiztube = userBusiness.updateUserInfo(userToUpdate);
         assertThat(userLiztube.getBirthdate()).isEqualTo(Timestamp.valueOf(LocalDateTime.of(2005, Month.MAY, 6, 0, 0)));
-
     }
-
-    @Test
-    public void check_old_password_should_be_correspond()throws UserNotFoundException, UserException {
-        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userPasswordFacade.getOldPassword(), null));
-    }
-
-
-    @Test
-    public void password_should_be_encrypted() throws UserNotFoundException, UserException {
-        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userPasswordFacade.getOldPassword(), null));
-
-        userBusiness.changeUserPassword(userPasswordFacade);
-        UserLiztube userLiztube = userBusiness.updateUserInfo(userUpdate);
-        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userPasswordFacade.getNewPassword(),null));
-    }
-
-
 
     @Test
     public void date_modification_changed_should_be_filled() throws UserException, UserNotFoundException {
-        Timestamp before = Timestamp.valueOf(LocalDateTime.now());
-        UserLiztube userLiztube = userBusiness.updateUserInfo(userUpdate);
-        Timestamp after = Timestamp.valueOf(LocalDateTime.now());
-
-        assertThat(userLiztube.getModificationdate()).isBetween(before, after);
+        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        userLiztube = userBusiness.updateUserInfo(userToUpdate);
+        assertThat(userLiztube.getModificationdate()).isEqualToIgnoringSeconds(now);
     }
 
-    //Other errors manage by entity validations
-
-   @Test
-    public void should_raise_an_error_if_email_already_used(){
-        userUpdate = userUpdate.setEmail("kmille@hotmail.fr");
-
+    @Test
+    public void should_raise_an_error_if_user_not_connected() throws UserException {
+        SecurityContextHolder.getContext().setAuthentication(null);
         try{
-            userBusiness.updateUserInfo(userUpdate);
+            userBusiness.updateUserInfo(userToUpdate);
+            fail("Should throw exception");
+        }catch (UserNotFoundException e){
+            assertThat(e.getMessages()).contains(authBusiness.USER_NOT_FOUND_EXCEPTION);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_email_already_used(){
+        userToUpdate = userToUpdate.setEmail("kmille@hotmail.fr");
+        try{
+            userBusiness.updateUserInfo(userToUpdate);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
+            assertThat(e.getMessages()).contains(EnumError.USER_EMAIL_OR_PSEUDO_ALREADY_USED);
         }
+    }
+
+    @Test
+    public void should_raise_an_error_if_pseudo_already_used(){
+        userToUpdate = userToUpdate.setPseudo("kmille");
+        try{
+            userBusiness.updateUserInfo(userToUpdate);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.USER_EMAIL_OR_PSEUDO_ALREADY_USED);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_firstname_empty() throws UserNotFoundException, UserException {
+        userToUpdate = userToUpdate.setFirstname("");
+        try{
+            userBusiness.updateUserInfo(userToUpdate);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.USER_FIRSTNAME_SIZE);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_lastname_empty() throws UserNotFoundException, UserException {
+        userToUpdate = userToUpdate.setLastname("");
+        try{
+            userBusiness.updateUserInfo(userToUpdate);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.USER_LASTNAME_SIZE);
+        }
+    }
+
+    @Test
+    public void should_raise_an_error_if_birthday_is_not_a_past_date() throws UserNotFoundException, UserException {
+        userToUpdate = userToUpdate.setBirthdate(Timestamp.valueOf(LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0)));
+        try{
+            userBusiness.updateUserInfo(userToUpdate);
+            fail("Should throw exception");
+        }catch (PublicException e){
+            assertThat(e.getMessages()).contains(EnumError.USER_BIRTHDAY_PAST_DATE);
+        }
+    }
+    //endregion
+
+    //region change password
+    @Test
+    public void change_password_should_raise_an_error_if_user_not_connected() throws UserException {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        try{
+            userBusiness.changeUserPassword(userPasswordFacade);
+            fail("Should throw exception");
+        }catch (UserNotFoundException e){
+            assertThat(e.getMessages()).contains(authBusiness.USER_NOT_FOUND_EXCEPTION);
+        }
+    }
+
+    @Test
+    public void should_failed_because_old_password_false() throws UserNotFoundException {
+        try{
+            userBusiness.changeUserPassword(userPasswordFacade.setOldPassword("OLDPWDINVALID"));
+            fail("Should throw exception");
+        }catch (UserException e){
+            assertThat(e.getMessages()).contains(EnumError.USER_OLD_PASSWORD_INVALID);
+        }
+    }
+
+    @Test
+    public void should_successfully_change_password() throws UserNotFoundException, UserException {
+        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+        userBusiness.changeUserPassword(userPasswordFacade);
+        userLiztube = userLiztubeRepository.findByPseudo("spywen");
+        assertThat(userLiztube.getPassword()).isEqualTo(encoder.encodePassword(userPasswordFacade.getNewPassword(),null));
     }
 
     @Test
@@ -191,7 +243,7 @@ public class UserTests {
             userBusiness.changeUserPassword(userPasswordFacade);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
+            assertThat(e.getMessages()).contains(EnumError.USER_PASSWORD_FORMAT);
         }
     }
 
@@ -202,29 +254,9 @@ public class UserTests {
             userBusiness.changeUserPassword(userPasswordFacade);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
+            assertThat(e.getMessages()).contains(EnumError.USER_PASSWORD_FORMAT);
         }
     }
+    //endregion
 
-    @Test
-    public void should_raise_an_error_if_firstname_empty() throws UserNotFoundException, UserException {
-        userUpdate = userUpdate.setFirstname("");
-        try{
-            userBusiness.updateUserInfo(userUpdate);
-            fail("Should throw exception");
-        }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_FIRSTNAME_SIZE);
-        }
-    }
-
-    @Test
-    public void should_raise_an_error_if_birthday_is_not_a_past_date() throws UserNotFoundException, UserException {
-        userUpdate = userUpdate.setBirthdate(Timestamp.valueOf(LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0)));
-        try{
-            userBusiness.updateUserInfo(userUpdate);
-            fail("Should throw exception");
-        }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_BIRTHDAY_PAST_DATE);
-        }
-    }
 }

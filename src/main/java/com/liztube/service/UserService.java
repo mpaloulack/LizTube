@@ -51,18 +51,7 @@ public class UserService {
      * @throws UserException
      */
    @RequestMapping(value = "/password", method = RequestMethod.PATCH)
-    public String changeUserPassword(@RequestBody UserPasswordFacade userPasswordFacade) throws UserNotFoundException, UserException {
+    public boolean changeUserPassword(@RequestBody UserPasswordFacade userPasswordFacade) throws UserNotFoundException, UserException {
         return userBusiness.changeUserPassword(userPasswordFacade);
-    }
-
-
-    /**
-     * Determine if an email is already used
-     * @param testExistFacade
-     * @return
-     */
-    @RequestMapping(value = "/email", method = RequestMethod.POST)
-    public Boolean existEmailUpdate(@RequestBody TestExistFacade testExistFacade) throws UserNotFoundException {
-        return userBusiness.existEmailUpdate(testExistFacade);
     }
 }

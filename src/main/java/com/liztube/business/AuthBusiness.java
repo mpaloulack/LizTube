@@ -8,6 +8,7 @@ import com.liztube.repository.RoleRepository;
 import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
+import com.liztube.utils.Regex;
 import com.liztube.utils.facade.TestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import com.liztube.utils.facade.UserForRegistration;
@@ -34,7 +35,6 @@ public class AuthBusiness {
     public UserLiztubeRepository userLiztubeRepository;
 
     public static final String USER_NOT_FOUND_EXCEPTION = "You are not connected.";
-    public static final String PASSWORD_REGEX = "^.{5,50}$";//Password should contain between 5 and 50 characters (a password with 5 or 50 characters is valid)
 
     @Autowired
     public RoleRepository roleRepository;
@@ -132,13 +132,13 @@ public class AuthBusiness {
         //User already exist
         if(existEmail(new TestExistFacade().setValue(user.getEmail())) || existPseudo(new TestExistFacade().setValue(user.getPseudo()))){
             List<String> errorMessages = new ArrayList<>();
-            errorMessages.add(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
+            errorMessages.add(EnumError.USER_EMAIL_OR_PSEUDO_ALREADY_USED);
             throw new SigninException("email or pseudo already exist", errorMessages);
         }
 
         //Password well formatted
-        if(!userForRegistration.getPassword().matches(PASSWORD_REGEX)){
-            throw new SigninException("Not valid format for password", EnumError.SIGNIN_PASSWORD_FORMAT);
+        if(!userForRegistration.getPassword().matches(Regex.PASSWORD_REGEX)){
+            throw new SigninException("Not valid format for password", EnumError.USER_PASSWORD_FORMAT);
         }
 
         //Entity validations Validations

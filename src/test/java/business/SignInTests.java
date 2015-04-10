@@ -1,6 +1,5 @@
 package business;
 
-import com.excilys.ebi.spring.dbunit.config.DBOperation;
 import com.excilys.ebi.spring.dbunit.test.DataSet;
 import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
 import com.liztube.business.AuthBusiness;
@@ -112,7 +111,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
+            assertThat(e.getMessages()).contains(EnumError.USER_PASSWORD_FORMAT);
         }
     }
 
@@ -123,7 +122,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PASSWORD_FORMAT);
+            assertThat(e.getMessages()).contains(EnumError.USER_PASSWORD_FORMAT);
         }
     }
 
@@ -134,7 +133,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_FIRSTNAME_SIZE);
+            assertThat(e.getMessages()).contains(EnumError.USER_FIRSTNAME_SIZE);
         }
     }
 
@@ -145,7 +144,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_LASTNAME_SIZE);
+            assertThat(e.getMessages()).contains(EnumError.USER_LASTNAME_SIZE);
         }
     }
 
@@ -156,7 +155,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PSEUDO_SIZE);
+            assertThat(e.getMessages()).contains(EnumError.USER_PSEUDO_SIZE);
         }
     }
 
@@ -167,7 +166,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_PSEUDO_SIZE);
+            assertThat(e.getMessages()).contains(EnumError.USER_PSEUDO_SIZE);
         }
     }
 
@@ -178,7 +177,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_BIRTHDAY_NOTNULL);
+            assertThat(e.getMessages()).contains(EnumError.USER_BIRTHDAY_NOTNULL);
         }
     }
 
@@ -189,7 +188,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_BIRTHDAY_PAST_DATE);
+            assertThat(e.getMessages()).contains(EnumError.USER_BIRTHDAY_PAST_DATE);
         }
     }
 
@@ -200,7 +199,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_FORMAT);
+            assertThat(e.getMessages()).contains(EnumError.USER_EMAIL_FORMAT);
         }
     }
 
@@ -211,7 +210,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_SIZE);
+            assertThat(e.getMessages()).contains(EnumError.USER_EMAIL_SIZE);
         }
     }
 
@@ -222,7 +221,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_ISFEMALE_NOTNULL);
+            assertThat(e.getMessages()).contains(EnumError.USER_ISFEMALE_NOTNULL);
         }
     }
 
@@ -233,7 +232,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
+            assertThat(e.getMessages()).contains(EnumError.USER_EMAIL_OR_PSEUDO_ALREADY_USED);
         }
     }
 
@@ -244,7 +243,7 @@ public class SignInTests {
             authBusiness.signIn(newUser);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.SIGNIN_EMAIL_OR_PSEUDO_ALREADY_USED);
+            assertThat(e.getMessages()).contains(EnumError.USER_EMAIL_OR_PSEUDO_ALREADY_USED);
         }
     }
 
