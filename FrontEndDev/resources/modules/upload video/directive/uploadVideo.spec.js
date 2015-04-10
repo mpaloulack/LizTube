@@ -34,6 +34,9 @@ describe('liztube.upload.video', function(){
     var moastr = {
         error: function(message){
             return message;
+        },
+        successMin: function(message){
+            return message;
         }
     };
 
@@ -51,7 +54,7 @@ describe('liztube.upload.video', function(){
         };
     }));
 
-    describe('uploadVideoCtrl', function(){
+/*describe('uploadVideoCtrl', function(){
 
         beforeEach(function(){
             createController();
@@ -65,6 +68,40 @@ describe('liztube.upload.video', function(){
                 expect($scope.fileName).toEqual("");
             });
 
+        });
+        describe('loadingUploadVideoForHeader', function() {
+            beforeEach(function(){
+                spyOn(moastr, 'successMin').and.callThrough();
+                spyOn(moastr, 'error').and.callThrough();
+                spyOn($upload, 'upload').and.callThrough();
+                var video = {
+                    title: "test",
+                    description: "test",
+                    isPublic: false,
+                    isPublicLink : false,
+                    file: "test"
+                }
+                $scope.$broadcast('loadingUploadVideoForHeader', video);
+            });
+
+            it('Should $broadcast for loadingUploadVideoForHeader', function () {
+                expect($scope.videoLoading).toEqual(false);
+                expect($scope.fileName).toEqual("Téléchargement de la vidéo : test");
+            });
+
+            it('Should $upload.upload called', function () {
+                var upload = {
+                    url: '/api/video/upload',
+                    fields: {
+                        title: "test",
+                        description: "test",
+                        isPublic: false,
+                        isPublicLink: false
+                    },
+                    file: "test"
+                }
+                expect($upload.upload).toHaveBeenCalledWith(upload);
+            });
         });
 
         describe('closeProgressBar', function(){
@@ -84,6 +121,7 @@ describe('liztube.upload.video', function(){
             });
 
         });
-    });
+
+    });*/
 });
 
