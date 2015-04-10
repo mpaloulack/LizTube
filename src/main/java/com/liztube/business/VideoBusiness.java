@@ -12,6 +12,8 @@ import com.liztube.utils.facade.video.VideoDataFacade;
 import com.liztube.utils.facade.video.VideoSearchFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.jcodec.api.FrameGrab;
+import org.jcodec.api.JCodecException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
@@ -22,11 +24,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -149,6 +154,11 @@ public class VideoBusiness {
             errorMessages.add(EnumError.VIDEO_UPLOAD_SAVE_FILE_ON_SERVER);
             throw new VideoException("copy on the server", errorMessages);
         }
+
+        //---------
+        /*BufferedImage frame = FrameGrab.getFrame(new File("/Users/jovi/Movies/test.mp4"), 3);
+        ImageIO.write(frame, "bmp", new File("/Users/jovi/Desktop/frames/" + video.getKey() + ".bmp"));*/
+        //---------
 
         //Create db entry for the video (generate key associated to the video)
         video = videoRepository.saveAndFlush(video);
