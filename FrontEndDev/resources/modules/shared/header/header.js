@@ -9,23 +9,38 @@ angular.module("liztube.header",[
 
     $scope.notification = 0;
     $scope.showNotification = false;
+    $scope.isLoading = false;
+
+    /**
+     * Add a notification
+     */
     $scope.$on('addNotificationForHeader', function(event, bool) {
         $scope.showNotification = bool;
         $scope.notification = $scope.notification + 1;
     });
 
+    /**
+     * Remove a notification
+     */
     $scope.$on('removeNotificationForHeader', function(event, bool) {
-        $scope.notification = $scope.notification - 1;
-        if($scope.notification === 0){
-            $scope.showNotification = false;
+        if($scope.notification > 0){
+            $scope.notification = $scope.notification - 1;
+            if($scope.notification === 0){
+                $scope.showNotification = false;
+            }
         }
     });
 
-    $scope.isLoading = false;
+    /**
+     * Set loading status
+     */
     $scope.$on('loadingStatusForHeader', function(event, bool) {
         $scope.isLoading= bool;
     });
 
+    /**
+     * Open or close (toggle) side nav part
+     */
     $scope.toggleRight = function() {
         $mdSidenav('right').toggle();
     };

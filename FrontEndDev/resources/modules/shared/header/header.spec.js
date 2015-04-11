@@ -49,14 +49,14 @@ describe('liztube.header', function(){
 
     });
 
-    describe('addNotification when scope init to boolean', function(){
+    describe('on addNotification', function(){
 
         beforeEach(function(){
             $scope.showNotification = false;
             $scope.notification = 0;
         });
 
-        it('should put showNotification to boolean if a addNotification event is broadcast with boolean', function(){
+        it('should put showNotification to boolean if a addNotification event is broadcast and add 1 to the notification count', function(){
             $scope.$broadcast('addNotificationForHeader', true);
             expect($scope.showNotification).toEqual(true);
             expect($scope.notification).toEqual(1);
@@ -64,46 +64,56 @@ describe('liztube.header', function(){
 
     });
 
-    describe('removeNotificationForHeader when scope init to boolean', function(){
+    describe('on removeNotificationForHeader', function(){
 
         beforeEach(function(){
             $scope.showNotification = true;
-            $scope.notification = 1;
         });
 
-        it('should put notification to -1 if a removeNotificationForHeader event is broadcast with boolean', function(){
+        it('should soustract 1 to notification count', function(){
+            $scope.notification = 1;
             $scope.$broadcast('removeNotificationForHeader', true);
             expect($scope.notification).toEqual(0);
+        });
+
+        it('should keep showNotification to true if some notification are left', function(){
+            $scope.notification = 2;
+            $scope.$broadcast('removeNotificationForHeader', true);
+            expect($scope.showNotification).toEqual(true);
+        });
+
+        it('should set showNotification to false if no notification are left', function(){
+            $scope.notification = 1;
+            $scope.$broadcast('removeNotificationForHeader', true);
             expect($scope.showNotification).toEqual(false);
+        });
+
+        it('should do nothing if no notification are left', function(){
+            $scope.notification = 0;
+            $scope.showNotification = false;
+            $scope.$broadcast('removeNotificationForHeader', true);
+            expect($scope.showNotification).toEqual(false);
+            expect($scope.notification).toEqual(0);
         });
 
     });
 
-    describe('loadingStatus when scope init to false', function(){
-
-        beforeEach(function(){
-            $scope.isLoading = false;
-        });
+    describe('set loading status', function(){
 
         it('should put isLoading to true if a loadingStatus event is broadcast with true', function(){
+            $scope.isLoading = false;
             $scope.$broadcast('loadingStatusForHeader', true);
             expect($scope.isLoading).toEqual(true);
         });
 
-    });
-
-    describe('loadingStatus when scope init to true', function(){
-
-        beforeEach(function(){
-            $scope.isLoading = true;
-        });
-
         it('should put isLoading to false if a loadingStatus event is broadcast with false', function(){
+            $scope.isLoading = true;
             $scope.$broadcast('loadingStatusForHeader', false);
             expect($scope.isLoading).toEqual(false);
         });
 
     });
+
 
     /*describe('toggleRight method', function(){
         beforeEach(function(){
