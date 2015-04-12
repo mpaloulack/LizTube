@@ -12,6 +12,8 @@ import com.liztube.utils.facade.video.VideoDataFacade;
 import com.liztube.utils.facade.video.VideoSearchFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
@@ -99,7 +101,7 @@ public class VideoBusiness {
         video.setTitle(videoDataFacade.getTitle())
                 .setDescription(videoDataFacade.getDescription())
                 .setIspublic(videoDataFacade.isPublic())
-                .setIspubliclink(videoDataFacade.isPublicLink());
+                .setIspubliclink(!videoDataFacade.isPublic() ? false : videoDataFacade.isPublicLink());
 
         //Entity validations
         CheckVideoEntityValidity(video);
@@ -132,7 +134,7 @@ public class VideoBusiness {
                 .setTitle(videoCreationFacade.getTitle())
                 .setDescription(videoCreationFacade.getDescription())
                 .setIspublic(videoCreationFacade.isPublic())
-                .setIspubliclink(videoCreationFacade.isPublicLink())
+                .setIspubliclink(!videoCreationFacade.isPublic() ? false : videoCreationFacade.isPublicLink())
                 .setKey(key)
                 .setOwner(user)
                 .setCreationdate(Timestamp.valueOf(LocalDateTime.now()));
@@ -145,6 +147,7 @@ public class VideoBusiness {
             //transfer video to the video library
             file.transferTo(new File(videoLibrary.getFile().getAbsolutePath() + File.separator + key));
         } catch (Exception e) {
+            e.printStackTrace();
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add(EnumError.VIDEO_UPLOAD_SAVE_FILE_ON_SERVER);
             throw new VideoException("copy on the server", errorMessages);

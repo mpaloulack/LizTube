@@ -58,7 +58,7 @@ public class Video {
 
     @Lob
     @Column(name = "DESCRIPTION", nullable = true, insertable = true, updatable = true, length = 1000)
-    @Size(min = 1, max = 1000, message = EnumError.VIDEO_DESCRIPTION_SIZE)
+    @Size(min = 0, max = 1000, message = EnumError.VIDEO_DESCRIPTION_SIZE)
     public String getDescription() {
         return description;
     }

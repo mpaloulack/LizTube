@@ -3,15 +3,19 @@ angular.module('liztube.upload.video.page', [
     'ngRoute'
 ]).config(function ($routeProvider,$locationProvider){
     $routeProvider.when("/upload",{
-        title: "LizTube - vidéo upload",
+        title: "LizTube - Upload",
         page: "Upload",
         controller: 'FileUploadController',
         templateUrl: "upload.html"
     });
-})
-.controller('FileUploadController', function($scope, moastr, constants) {
+}).controller('FileUploadController', function($scope, moastr, constants) {
+
     $scope.isPublic = false;
     $scope.isPublicLink = false;
+
+    /**
+     * Upload a video
+     */
     $scope.submit= function() {
         if ($scope.video.files && $scope.video.files.length) {
             if($scope.video.confidentiality == '0'){
@@ -24,7 +28,7 @@ angular.module('liztube.upload.video.page', [
                 $scope.isPublic = false;
                 $scope.isPublicLink = true;
             }
-            video = {
+            var video = {
                 file: $scope.video.files[0],
                 title: $scope.video.title,
                 description: $scope.video.description,
@@ -37,20 +41,29 @@ angular.module('liztube.upload.video.page', [
             moastr.error(constants.NO_FILE_SELECTED, 'left right bottom');
         }
     };
+
+    /**
+     * Watch to valid video file
+     */
     $scope.$watch('video.files', function() {
         if($scope.video){
             $scope.isValidFile($scope.video);
         }
     });
-$scope.isValidFile = function(video){
-    if(video.files && video.files.length){
-        if(video.files[0].type != "video/mp4") {
-            moastr.error(constants.FILE_TYPE_ERROR, 'left right bottom');
-        }else{
-            if (video.files[0].size > constants.FILE_SIZE_ALLOWED) {
-                moastr.error(constants.FILE_SIZE_ERROR, 'left right bottom');
+
+    /**
+     * Method to analyse and define if video is valid
+     * @param video
+     */
+    $scope.isValidFile = function(video){
+        if(video.files && video.files.length){
+            if(video.files[0].type != "video/mp4") {
+                moastr.error(constants.FILE_TYPE_ERROR, 'left right bottom');
+            }else{
+                if (video.files[0].size > constants.FILE_SIZE_ALLOWED) {
+                    moastr.error(constants.FILE_SIZE_ERROR, 'left right bottom');
+                }
             }
         }
-    }
-};
+    };
 });

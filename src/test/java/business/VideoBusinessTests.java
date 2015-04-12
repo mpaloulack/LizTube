@@ -142,19 +142,6 @@ public class VideoBusinessTests {
     }
 
     @Test
-    public void uploadVideo_should_raise_error_if_description_size_incorrect() throws IOException, UserNotFoundException {
-        FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
-        MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
-        videoCreationFacade.setDescription("");
-        try{
-            videoBusiness.uploadVideo(file, videoCreationFacade);
-            fail("Should throw exception");
-        }catch (PublicException e){
-            assertThat(e.getMessages()).contains(EnumError.VIDEO_DESCRIPTION_SIZE);
-        }
-    }
-
-    @Test
     public void uploadVideo_should_save_file_on_server() throws IOException, UserNotFoundException, VideoException {
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
@@ -184,6 +171,18 @@ public class VideoBusinessTests {
         assertThat(videoPersist.getViews().size()).isEqualTo(0);
         assertThat(videoPersist.getCreationdate()).isEqualToIgnoringSeconds(Timestamp.valueOf(LocalDateTime.now()));
         assertThat(videoRepository.findAll().size()).isEqualTo(7);
+    }
+
+    @Test
+    public void uploadVideo_should_persist_video_if_all_tests_passed_successfully_as_private_and_should_set_publicLink_as_false_automaticaly() throws IOException, UserNotFoundException, VideoException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(6);
+        FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
+        MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
+
+        String key = videoBusiness.uploadVideo(file, videoCreationFacade.setPublicLink(true));
+        Video videoPersist = videoRepository.findByKey(key);
+        assertThat(videoPersist.getIspublic()).isEqualTo(videoCreationFacade.isPublic());
+        assertThat(videoPersist.getIspubliclink()).isEqualTo(!videoCreationFacade.isPublicLink());
     }
     //endregion
 
@@ -260,6 +259,22 @@ public class VideoBusinessTests {
                 .setDescription("desc of z")
                 .setPublic(false)
                 .setPublicLink(false));
+        Video videoUpdated = videoRepository.findByKey("a");
+        assertThat(key).isEqualTo("a");
+        assertThat(videoUpdated.getTitle()).isEqualTo("z");
+        assertThat(videoUpdated.getDescription()).isEqualTo("desc of z");
+        assertThat(videoUpdated.getIspublic()).isFalse();
+        assertThat(videoUpdated.getIspubliclink()).isFalse();
+    }
+
+    @Test
+    public void updateVideo_should_update_video_as_private_then_publicLink_should_be_set_to_false() throws VideoException, UserNotFoundException {
+        String key = videoBusiness.update(new VideoDataFacade()
+                .setKey("a")
+                .setTitle("z")
+                .setDescription("desc of z")
+                .setPublic(false)
+                .setPublicLink(true));
         Video videoUpdated = videoRepository.findByKey("a");
         assertThat(key).isEqualTo("a");
         assertThat(videoUpdated.getTitle()).isEqualTo("z");

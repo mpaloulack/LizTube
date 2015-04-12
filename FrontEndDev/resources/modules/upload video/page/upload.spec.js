@@ -3,7 +3,7 @@ describe('liztube.upload.video', function(){
     beforeEach(module('liztube.moastr'));
     beforeEach(module('ngRoute'));
     beforeEach(module('liztube.upload.video.page'));
-    var createController, $scope, $rootScope, constants, moastr;
+    var createController, $scope, $rootScope, constants, moastr, route, location;
 
     var mockConstants = {
         SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
@@ -20,8 +20,10 @@ describe('liztube.upload.video', function(){
         });
     });
 
-    beforeEach(inject(function (_$rootScope_) {
+    beforeEach(inject(function (_$rootScope_, _$route_, _$location_) {
         $rootScope =_$rootScope_;
+        route = _$route_;
+        location = _$location_;
     }));
 
     var moastr = {
@@ -40,6 +42,22 @@ describe('liztube.upload.video', function(){
             });
         };
     }));
+
+    describe('Upload route', function() {
+        beforeEach(inject(
+            function($httpBackend) {
+                $httpBackend.expectGET('upload.html')
+                    .respond(200);
+            }));
+
+        it('should load the upload page on successful load of /upload', function() {
+            location.path('/upload');
+            $rootScope.$digest();
+            expect(route.current.controller).toBe('FileUploadController');
+            expect(route.current.title).toBe('LizTube - Upload');
+            expect(route.current.page).toBe('Upload');
+        });
+    });
 
     describe('FileUploadController', function(){
 
@@ -72,22 +90,24 @@ describe('liztube.upload.video', function(){
             it('if $scope.video.files is empty then moastr should be raised NO_FILE_SELECTED', function(){
                 $scope.submit();
                 expect(moastr.error).toHaveBeenCalledWith(mockConstants.NO_FILE_SELECTED, 'left right bottom');
+                expect($scope.$emit).not.toHaveBeenCalled();
             });
 
             it('if $scope.video.files.length is empty then moastr should be raised NO_FILE_SELECTED', function(){
                 $scope.video.files = {length: null}
                 $scope.submit();
                 expect(moastr.error).toHaveBeenCalledWith(mockConstants.NO_FILE_SELECTED, 'left right bottom');
+                expect($scope.$emit).not.toHaveBeenCalled();
             });
 
-            it('if $scope.video.files is not empty, Should set isPublic & isPublicLink to false if video.confidentiality equal 0', function(){
+            it('if video.confidentiality equal 0 should set isPublic & isPublicLink to false', function(){
                 $scope.video.files = {length: '5'}
                 $scope.submit();
                 expect($scope.isPublic).toEqual(false);
                 expect($scope.isPublicLink).toEqual(false);
             });
 
-            it('if $scope.video.files is not empty,Should set isPublic & isPublicLink to true if video.confidentiality equal 1', function(){
+            it('if video.confidentiality equal 1 should set isPublic & isPublicLink to true', function(){
                 $scope.video.files = {length: '5'}
                 $scope.video.confidentiality = '1';
                 $scope.submit();
@@ -95,12 +115,27 @@ describe('liztube.upload.video', function(){
                 expect($scope.isPublicLink).toEqual(true);
             });
 
-            it('if $scope.video.files is not empty,Should set isPublic to false & isPublicLink to true if video.confidentiality equal 2', function(){
+            it('if video.confidentiality equal 2 should set isPublic to false & isPublicLink to true', function(){
                 $scope.video.files = {length: '5'}
                 $scope.video.confidentiality = '2';
                 $scope.submit();
                 expect($scope.isPublic).toEqual(false);
                 expect($scope.isPublicLink).toEqual(true);
+            });
+
+            it('should add a notification by emit and emit a loadingUploadVideo event', function(){
+                $scope.video.files = {length: '5'}
+                $scope.video.confidentiality = '2';
+                var video = {
+                    file: $scope.video.files[0],
+                    title: $scope.video.title,
+                    description: $scope.video.description,
+                    isPublic: false,
+                    isPublicLink: true
+                };
+                $scope.submit();
+                expect($scope.$emit).toHaveBeenCalledWith('loadingUploadVideo', video);
+                expect($scope.$emit).toHaveBeenCalledWith('addNotification', true);
             });
         });
 
@@ -134,7 +169,7 @@ describe('liztube.upload.video', function(){
                 spyOn(moastr, 'error').and.callThrough();
             });
 
-            it('if video.files is empty  then check other test', function(){
+            it('if video.files is empty then check other test', function(){
                 var video = {};
                 $scope.isValidFile(video);
                 expect(moastr.error).not.toHaveBeenCalled();
@@ -146,7 +181,7 @@ describe('liztube.upload.video', function(){
                 expect(moastr.error).not.toHaveBeenCalled();
             });
 
-            it('if video.files[0].size > constants.FILE_SIZE_ALLOWED then moastr should be raised FILE_SIZE_ERROR', function(){
+            it('should raise an error if file size not allowed', function(){
                 var video = {
                     length: '5',
                     files: [{
@@ -158,7 +193,7 @@ describe('liztube.upload.video', function(){
                 expect(moastr.error).toHaveBeenCalledWith(mockConstants.FILE_SIZE_ERROR, 'left right bottom');
             });
 
-            it('if video.files is not empty and type is mp4 then enter in else statement', function(){
+            it('should raise an error if file type is not allowed', function(){
                 var video = {
                     length: '5',
                     files: [{

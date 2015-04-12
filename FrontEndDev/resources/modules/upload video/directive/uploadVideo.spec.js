@@ -5,11 +5,20 @@ describe('liztube.upload.video', function(){
     beforeEach(module('liztube.upload.video.page'));
     beforeEach(module('liztube.upload.video'));
     beforeEach(module('angularFileUpload'));
-    var createController, $scope, $rootScope, $http, $upload, constants, moastr;
+    var createController, $scope, $rootScope, $http, $upload, constants, moastr, $q;
 
     var mockConstants = {
         SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
-        UPLOAD_DONE: "Téléchargement de la vidéo terminer"
+        UPLOAD_DONE: "Téléchargement de la vidéo terminer",
+        DOWNLOAD_ON_AIR_FILE_NAME: "Téléchargement de la vidéo : "
+    };
+
+    var changePromiseResult = function (promise, status, value) {
+        if (status === 'resolve')
+            promise.resolve(value);
+        else
+            promise.reject(value);
+        $rootScope.$digest();
     };
 
     beforeEach(function() {
@@ -18,9 +27,11 @@ describe('liztube.upload.video', function(){
         });
     });
 
-    beforeEach(inject(function (_$rootScope_,_$http_) {
+    beforeEach(inject(function (_$rootScope_,_$http_, _$upload_, _$q_) {
         $rootScope =_$rootScope_;
         $http = _$http_;
+        $upload = _$upload_;
+        $q = _$q_;
     }));
 
     var $mdSidenav = function(test){
@@ -47,14 +58,14 @@ describe('liztube.upload.video', function(){
                 '$scope': $scope,
                 '$http': $http,
                 '$upload': $upload,
-                'constants': constants,
+                'constants': mockConstants,
                 'moastr': moastr,
                 '$mdSidenav': $mdSidenav
             });
         };
     }));
 
-/*describe('uploadVideoCtrl', function(){
+describe('uploadVideoCtrl', function(){
 
         beforeEach(function(){
             createController();
@@ -69,8 +80,11 @@ describe('liztube.upload.video', function(){
             });
 
         });
-        describe('loadingUploadVideoForHeader', function() {
+
+        describe('on loadingUploadVideoForHeader', function() {
+
             beforeEach(function(){
+                $scope.videoLoading = false;
                 spyOn(moastr, 'successMin').and.callThrough();
                 spyOn(moastr, 'error').and.callThrough();
                 spyOn($upload, 'upload').and.callThrough();
@@ -80,28 +94,19 @@ describe('liztube.upload.video', function(){
                     isPublic: false,
                     isPublicLink : false,
                     file: "test"
-                }
+                };
                 $scope.$broadcast('loadingUploadVideoForHeader', video);
             });
 
-            it('Should $broadcast for loadingUploadVideoForHeader', function () {
-                expect($scope.videoLoading).toEqual(false);
-                expect($scope.fileName).toEqual("Téléchargement de la vidéo : test");
+            it('should set videoLoading to true and create download file title', function () {
+                expect($scope.videoLoading).toEqual(true);
+                expect($scope.fileName).toEqual(mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + "test");
             });
 
-            it('Should $upload.upload called', function () {
-                var upload = {
-                    url: '/api/video/upload',
-                    fields: {
-                        title: "test",
-                        description: "test",
-                        isPublic: false,
-                        isPublicLink: false
-                    },
-                    file: "test"
-                }
-                expect($upload.upload).toHaveBeenCalledWith(upload);
+            it('$upload.upload should have been called', function () {
+                expect($upload.upload).toHaveBeenCalled();
             });
+
         });
 
         describe('closeProgressBar', function(){
@@ -122,6 +127,6 @@ describe('liztube.upload.video', function(){
 
         });
 
-    });*/
+    });
 });
 
