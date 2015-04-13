@@ -12,7 +12,7 @@ angular.module('liztube.upload.video.page', [
 
     $scope.isPublic = false;
     $scope.isPublicLink = false;
-
+    $scope.fileName = "";
     /**
      * Upload a video
      */
@@ -62,6 +62,8 @@ angular.module('liztube.upload.video.page', [
             }else{
                 if (video.files[0].size > constants.FILE_SIZE_ALLOWED) {
                     moastr.error(constants.FILE_SIZE_ERROR, 'left right bottom');
+                }else{
+                    $scope.fileName = video.files[0].name;
                 }
             }
         }

@@ -50,7 +50,7 @@ angular.module("liztube.moastr",[
         $mdToast.show({
             template: '<md-toast class="moastr min info"><span flex><i class="fa fa-exclamation-triangle"></i> '+message+'</span></md-toast>',
             hideDelay: 6000,
-            position: 'left right bottom'
+            position: position
         });
     }
 });

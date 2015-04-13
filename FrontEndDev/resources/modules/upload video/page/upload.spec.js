@@ -70,6 +70,7 @@ describe('liztube.upload.video', function(){
             it('scope variables initialized', function(){
                 expect($scope.isPublic).toEqual(false);
                 expect($scope.isPublicLink).toEqual(false);
+                expect($scope.fileName).toEqual("");
             });
 
         });
@@ -191,6 +192,19 @@ describe('liztube.upload.video', function(){
                 };
                 $scope.isValidFile(video);
                 expect(moastr.error).toHaveBeenCalledWith(mockConstants.FILE_SIZE_ERROR, 'left right bottom');
+            });
+
+            it('should not raise an error if file size is allowed', function(){
+                var video = {
+                    length: '5',
+                    files: [{
+                        type: 'video/mp4',
+                        size: 5242883,
+                        name: "test"
+                    }]
+                };
+                $scope.isValidFile(video);
+                expect($scope.fileName).toEqual(video.files[0].name);
             });
 
             it('should raise an error if file type is not allowed', function(){
