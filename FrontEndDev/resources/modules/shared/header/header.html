@@ -27,12 +27,20 @@
                 <md-toolbar class="md-medium-tall" layout-align="center center">
                     <is-connected type="forSideBar" id="isConnected"></is-connected>
                 </md-toolbar>
-                <md-content ng-controller="RightSideBarCtrl" class="md-padding">
-                    <br/>
+                <md-content>
+                    <h3 class="menu-h3 margin-h3"><i class="fa fa-ellipsis-v"></i> Menu</h3>
+                </md-content>
+                <md-content flex layout="column" layout-align="start start">
+                    <md-button ng-href="/" ng-click="closeRightBar()" class="btn menu-btn"><i class="fa fa-home"></i> Accueil</md-button>
+                    <md-button ng-href="/upload" ng-click="closeRightBar()" class="btn menu-btn"><i class="fa fa-video-camera"></i> télécharger une vidéo</md-button>
+                    <md-button ng-href="/profil" ng-click="closeRightBar()" class="btn menu-btn"><i class="fa fa-user"></i> Mon profil</md-button>
+                </md-content>
+                <md-content flex layout="column" layout-align="start start">
+                    <h3 class="menu-h3"><i class="fa fa-bell-o"></i><span ng-show="showNotification" class="notify-side-bar">{{notification}}</span> Notifications</h3>
+                    <md-content ng-if="noNotification != ''" class="md-padding"><i class="fa fa-bell-slash-o"></i> {{noNotification}}</md-content>
+                </md-content>
+                <md-content class="md-padding">
                     <upload-video id="uploadVideo"></upload-video>
-                    <md-button ng-click="closeRightBar()">
-                        <i class="fa fa-close"></i> Fermer le menu
-                    </md-button>
                 </md-content>
             </md-sidenav>
         </section>

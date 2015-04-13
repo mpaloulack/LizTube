@@ -5,5 +5,6 @@ angular.module("liztube.constants",[]).constant('constants',{
     NO_FILE_SELECTED: 'Aucune vidéo sélectionnée',
     FILE_SIZE_ALLOWED: 524288000,
     UPLOAD_DONE: "Téléchargement de la vidéo terminé",
-    DOWNLOAD_ON_AIR_FILE_NAME: "Téléchargement de la vidéo : "
+    DOWNLOAD_ON_AIR_FILE_NAME: "Téléchargement de la vidéo : ",
+    NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notifications"
 });

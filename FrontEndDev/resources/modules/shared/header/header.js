@@ -5,11 +5,12 @@ angular.module("liztube.header",[
     "liztube.userStatus",
     "ngRoute",
     "liztube.upload.video"
-]).controller("headerCtrl", function($scope, $mdSidenav) {
+]).controller("headerCtrl", function($scope, $mdSidenav, constants) {
 
     $scope.notification = 0;
     $scope.showNotification = false;
     $scope.isLoading = false;
+    $scope.noNotification = constants.NO_NOTIFICATIONS_FOUND;
 
     /**
      * Add a notification
@@ -17,6 +18,7 @@ angular.module("liztube.header",[
     $scope.$on('addNotificationForHeader', function(event, bool) {
         $scope.showNotification = bool;
         $scope.notification = $scope.notification + 1;
+        $scope.noNotification = "";
     });
 
     /**
@@ -27,6 +29,7 @@ angular.module("liztube.header",[
             $scope.notification = $scope.notification - 1;
             if($scope.notification === 0){
                 $scope.showNotification = false;
+                $scope.noNotification = constants.NO_NOTIFICATIONS_FOUND;
             }
         }
     });
@@ -43,6 +46,10 @@ angular.module("liztube.header",[
      */
     $scope.toggleRight = function() {
         $mdSidenav('right').toggle();
+    };
+
+    $scope.closeRightBar = function() {
+        $mdSidenav('right').close();
     };
 
 }).directive('header', function () {

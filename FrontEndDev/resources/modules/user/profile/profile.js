@@ -8,9 +8,9 @@ angular.module("liztube.profile",[
     'ngMessages',
     'ui.gravatar'
 ]).config(function ($routeProvider,$locationProvider){
-    $routeProvider.when("/profile",{
-        title: "LizTube - My profile",
-        page: "Profile",
+    $routeProvider.when("/profil",{
+        title: "LizTube - Mon profil",
+        page: "Profil",
         controller: 'profileCtrl',
         templateUrl: "profile.html"
     });

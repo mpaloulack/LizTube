@@ -3,6 +3,5 @@
  */
 angular.module('liztube.menu',[
     'liztube.header',
-    "liztube.rightBar",
     'liztube.footer'
 ]);

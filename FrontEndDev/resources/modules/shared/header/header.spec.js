@@ -4,8 +4,17 @@ describe('liztube.header', function(){
     beforeEach(module('liztube.userStatus'));
     beforeEach(module('ngRoute'));
     beforeEach(module('liztube.upload.video'));
-    var createController, $scope, $rootScope, $mdSidenav;
+    var createController, $scope, $rootScope, $mdSidenav, constants;
 
+    var mockConstants = {
+        NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notifications"
+    };
+
+    beforeEach(function() {
+        module(function($provide) {
+            $provide.constant('constants', mockConstants);
+        });
+    });
 
     beforeEach(inject(function (_$rootScope_) {
         $rootScope =_$rootScope_;
@@ -30,7 +39,8 @@ describe('liztube.header', function(){
         createController = function () {
             return $controller('headerCtrl', {
                 '$scope': $scope,
-                '$mdSidenav': $mdSidenav
+                '$mdSidenav': $mdSidenav,
+                'constants': mockConstants
             });
         };
     }));
@@ -45,6 +55,7 @@ describe('liztube.header', function(){
             expect($scope.isLoading).toEqual(false);
             expect($scope.showNotification).toEqual(false);
             expect($scope.notification).toEqual(0);
+            expect($scope.noNotification).toEqual(mockConstants.NO_NOTIFICATIONS_FOUND);
         });
 
     });
@@ -74,6 +85,7 @@ describe('liztube.header', function(){
             $scope.notification = 1;
             $scope.$broadcast('removeNotificationForHeader', true);
             expect($scope.notification).toEqual(0);
+            expect($scope.noNotification).toEqual(mockConstants.NO_NOTIFICATIONS_FOUND);
         });
 
         it('should keep showNotification to true if some notification are left', function(){
@@ -94,6 +106,7 @@ describe('liztube.header', function(){
             $scope.$broadcast('removeNotificationForHeader', true);
             expect($scope.showNotification).toEqual(false);
             expect($scope.notification).toEqual(0);
+            expect($scope.noNotification).toEqual(mockConstants.NO_NOTIFICATIONS_FOUND);
         });
 
     });
