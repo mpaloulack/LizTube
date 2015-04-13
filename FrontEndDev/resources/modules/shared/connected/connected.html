@@ -3,11 +3,11 @@
     <span  ng-show="userConnected">
         <div class="colored"></div>
         <div class="panel-header">
-            <h1>{{pseudo}}</h1>
+            <a href="/profil" class="profile-href"><h1>{{pseudo}}</h1></a>
         </div>
         <div class="clear"></div>
         <div class="panel-footer">
-            <img src="app/dist/img/user.png"/>
+            <a href="/profil" class="profile-href"><img src="app/dist/img/user.png"/></a>
             <md-button class="logout md-warn md-raised" ng-click="logOut(); close()" href="#"><i class="fa fa-sign-out"></i> Déconnexion</md-button>
         </div>
     </span>
@@ -16,9 +16,11 @@
     </span>
 </span>
 <span ng-if="type == 'forHeaderBar'">
-    <div ng-show="userConnected" class="navbar-header">
-        <h1>{{pseudo}}</h1>
-        <img src="app/dist/img/user.png"/>
+    <div ng-show="userConnected" class="navbar-header" ng-href="/profil">
+        <a href="/profil" class="profile-href">
+            <h1>{{pseudo}}</h1>
+            <img src="app/dist/img/user.png"/>
+        </a>
     </div>
     <div ng-hide="userConnected">
         <md-button class="md-warn btn-padding" href="login"><i class="fa fa-user"></i> Connexion</md-button>
