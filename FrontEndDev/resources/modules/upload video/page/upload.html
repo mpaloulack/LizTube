@@ -19,33 +19,33 @@
                         <label><i class="fa fa-newspaper-o"></i> Déscription</label>
                         <textarea ng-model="video.description" name="description" columns="1" md-maxlength="1000"></textarea>
                         <div ng-messages="formUpload.description.$error">
-                            <div ng-message="md-maxlength">La déscription ne dois pas dépasser 1000 caractères</div>
+                            <div ng-message="md-maxlength">La description ne doit pas dépasser 1000 caractères</div>
                         </div>
                     </md-input-container>
                     <div layout="column" layout-align="center center">
-                        <h4 class="no-margin">Sélectionner le type de confidentialité :</h4>
+                        <h4 class="no-margin">Sélectionner le niveau de confidentialité :</h4>
                         <md-radio-group class="no-margin md-primary" name="confidentiality" ng-model="video.confidentiality" required="required" aria-label="confidentiality"  layout="row" layout-align="center center">
                             <md-radio-button value="1">Publique</md-radio-button>
                             <md-radio-button value="0">Privé</md-radio-button>
                             <md-radio-button value="2">
-                                Disponible par lien
+                                Disponible uniquement par lien
                                 <md-tooltip>
-                                    n'pparaitre pas dans les <br/>résultats recherche,<br/>Disponible que pour ceux <br/>qui ont le lien de la vidéo
+                                    Seules les personnes disposant<br/>du lien de la vidéo pourront<br/> y accèder. Option modifiable<br/> une fois la vidéo uploadée.
                                 </md-tooltip>
                             </md-radio-button>
                         </md-radio-group>
                         <div ng-messages="formUpload.confidentiality.$error">
-                            <div ng-message="required">la confidentialité est requis</div>
+                            <div ng-message="required">Le niveau de confidentialité est requis</div>
                         </div>
                     </div>
-                    <h4>Sélectionner une vidéo ou glissé/déposé :</h4>
+                    <h4>Sélectionner une vidéo ou glisser/déposer :</h4>
                     <md-input-container md-theme="sub-bar">
                         <md-button class="md-primary md-raised" name="file" aria-label="uploadVideo" ng-model-rejected="rejFiles" ng-file-select ng-model="video.files" ng-multiple="false"><i class="fa fa-video-camera"></i> Sélectionner une vidéo</md-button>
                     </md-input-container>
-                    <span ng-if="fileName != ''" class="bold"><i class="fa fa-file-video-o"></i> Vidéo Séléctionné {{fileName}}</span>
+                    <span ng-if="fileName != ''" class="bold"><i class="fa fa-file-video-o"></i> Vidéo Séléctionnée : {{fileName}}</span>
                     <md-input-container>
-                        <div ng-file-drop class="drop-box" name="file" ng-multiple="false" allow-dir="true" ng-model-rejected="rejFiles" ng-model="video.files">Glissé/déposé la vidéo ici</div>
-                        <div ng-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                        <div ng-file-drop class="drop-box" name="file" ng-multiple="false" allow-dir="true" ng-model-rejected="rejFiles" ng-model="video.files">Glisser/déposer la vidéo ici</div>
+                        <div ng-no-file-drop>Le glisser/déposer n'est pas supporté par votre naviguateur.</div>
                     </md-input-container>
                 </div>
                 <div layout="row" layout-align="end center" class="login-footer">
