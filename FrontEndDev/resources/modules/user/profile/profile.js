@@ -14,8 +14,7 @@ angular.module("liztube.profile",[
         controller: 'profileCtrl',
         templateUrl: "profile.html"
     });
-}).config([
-    'gravatarServiceProvider', function(gravatarServiceProvider) {
+}).config(['gravatarServiceProvider', function(gravatarServiceProvider) {
         gravatarServiceProvider.defaults = {
             size     : 150,
             "default": 'mm'  // Mystery man as default for missing avatars
