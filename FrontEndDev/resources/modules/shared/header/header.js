@@ -3,8 +3,7 @@
  */
 angular.module("liztube.header",[
     "liztube.userStatus",
-    "ngRoute",
-    "liztube.upload.video"
+    "ngRoute"
 ]).controller("headerCtrl", function($scope, $mdSidenav, constants) {
 
     $scope.notification = 0;

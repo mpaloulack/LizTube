@@ -9,9 +9,11 @@ angular.module("liztube.userStatus",[
     $scope.$on('userIsConnected', function(event, user) {
         if(_.isUndefined(user)){
             $scope.pseudo = '';
+            $scope.email = '';
             $scope.userConnected = false;
         }else {
             $scope.pseudo = user.pseudo;
+            $scope.email = user.email;
             $scope.userConnected = true;
         }
     });
@@ -33,6 +35,7 @@ angular.module("liztube.userStatus",[
         if(!$scope.pseudo){
             if($window.user.pseudo){
                 $scope.pseudo = $window.user.pseudo;
+                $scope.email = $window.user.email;
                 $scope.userConnected = true;
             }else{
                 $scope.userConnected = false;

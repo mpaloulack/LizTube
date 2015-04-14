@@ -3,7 +3,6 @@ describe('liztube.header', function(){
     beforeEach(module('liztube.header'));
     beforeEach(module('liztube.userStatus'));
     beforeEach(module('ngRoute'));
-    beforeEach(module('liztube.upload.video'));
     var createController, $scope, $rootScope, $mdSidenav, constants;
 
     var mockConstants = {
