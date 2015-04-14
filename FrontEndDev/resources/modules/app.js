@@ -10,7 +10,8 @@ angular.module("liztube",[
     "liztube.user",
     "liztube.partial",
     "ngRoute",
-    'ngMessages'
+    'ngMessages',
+    'angularjs-gravatardirective'
 ]).config(function ($routeProvider,$locationProvider,RestangularProvider){
     $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('api/');

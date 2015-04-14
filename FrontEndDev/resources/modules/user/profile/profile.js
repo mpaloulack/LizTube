@@ -5,8 +5,7 @@ angular.module("liztube.profile",[
     "ngRoute",
     "liztube.moastr",
     "liztube.dataService.userService",
-    'ngMessages',
-    'ui.gravatar'
+    'ngMessages'
 ]).config(function ($routeProvider,$locationProvider){
     $routeProvider.when("/profil",{
         title: "LizTube - Mon profil",
@@ -14,24 +13,13 @@ angular.module("liztube.profile",[
         controller: 'profileCtrl',
         templateUrl: "profile.html"
     });
-}).config([
-    'gravatarServiceProvider', function(gravatarServiceProvider) {
-        gravatarServiceProvider.defaults = {
-            size     : 150,
-            "default": 'mm'  // Mystery man as default for missing avatars
-        };
-    }
-]).controller("profileCtrl", function($scope, $rootScope, userService, $window, $location, moastr, constants) {
-
+}).controller("profileCtrl", function($scope, $rootScope, userService, $window, $location, moastr, constants) {
     userService.userProfile().then(function(user){
         $scope.user = user;
-
         var date = new Date($scope.user.birthdate);
-
         $scope.user.birthdate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        }, function(){
-        moastr.error(constants.SERVER_ERROR,'left right bottom');
-
+        }, function() {
+        moastr.error(constants.SERVER_ERROR, 'left right bottom');
     });
 
    $scope.errorUpdate = '';

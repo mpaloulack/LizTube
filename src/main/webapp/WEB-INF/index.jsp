@@ -34,7 +34,7 @@
     <script src="${pageContext.request.contextPath}/app/dist/libs/lodash/dist/lodash.compat.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-messages/angular-messages.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-mocks/angular-mocks.js"></script>
-    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-gravatar/build/angular-gravatar.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angularjs-gravatar/dist/angularjs-gravatardirective.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/restangular/dist/restangular.js"></script>
     <!-- endinject -->

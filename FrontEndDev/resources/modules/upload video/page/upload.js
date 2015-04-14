@@ -13,6 +13,10 @@ angular.module('liztube.upload.video.page', [
     $scope.isPublic = false;
     $scope.isPublicLink = false;
     $scope.fileName = "";
+
+    $scope.video = {
+        confidentiality: '1'
+    };
     /**
      * Upload a video
      */
