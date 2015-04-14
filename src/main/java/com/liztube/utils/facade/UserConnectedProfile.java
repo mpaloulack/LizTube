@@ -8,12 +8,16 @@ import java.util.List;
 public class UserConnectedProfile {
 
     //region attributs
+    private long id;
+    private String email;
     private String pseudo;
     private List<String> roles;
     //endregion
 
     //region constructor
-    public UserConnectedProfile(String pseudo, List<String> roles){
+    public UserConnectedProfile(long id, String email, String pseudo, List<String> roles){
+        this.id = id;
+        this.email = email;
         this.pseudo = pseudo;
         this.roles = roles;
     }
@@ -26,6 +30,22 @@ public class UserConnectedProfile {
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<String> getRoles() {
