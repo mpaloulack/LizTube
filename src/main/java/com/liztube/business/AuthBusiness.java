@@ -23,8 +23,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.sql.Timestamp;
-import java.util.*;
 import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * Class which manage all the method concerning the authentication of an user
@@ -44,15 +44,15 @@ public class AuthBusiness {
      * @return
      */
     public UserConnectedProfile getUserConnectedProfile(boolean logRequired){
-        List<String> roles = new ArrayList<String>();
+        List<String> roles = new ArrayList<>();
         try{
             UserLiztube user = getConnectedUser(logRequired);
             for(Role role : user.getRoles()){
                 roles.add(role.getName());
             }
-            return new UserConnectedProfile(user.getPseudo(),roles);
+            return new UserConnectedProfile(user.getId(), user.getEmail(), user.getPseudo(),roles);
         }catch (Exception e){
-            return new UserConnectedProfile("",new ArrayList<String>());
+            return new UserConnectedProfile(0, "", "",new ArrayList<>());
         }
     }
 

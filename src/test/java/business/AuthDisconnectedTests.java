@@ -43,6 +43,8 @@ public class AuthDisconnectedTests {
         UserConnectedProfile userConnectedProfile = authBusiness.getUserConnectedProfile(true);
         assertThat(userConnectedProfile.getPseudo()).isEqualTo("");
         assertThat(userConnectedProfile.getRoles()).isEmpty();
+        assertThat(userConnectedProfile.getId()).isEqualTo(0);
+        assertThat(userConnectedProfile.getEmail()).isEqualTo("");
     }
 
     @Test(expected = UserNotFoundException.class)

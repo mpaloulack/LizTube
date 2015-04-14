@@ -67,6 +67,8 @@ public class AuthConnectedTests {
         assertThat(userConnectedProfile.getRoles()).isNotEmpty();
         assertThat(userConnectedProfile.getRoles().size()).isEqualTo(2);
         assertThat(userConnectedProfile.getRoles()).contains("ADMIN","AUTHENTICATED");
+        assertThat(userConnectedProfile.getId()).isEqualTo(1);
+        assertThat(userConnectedProfile.getEmail()).isEqualTo("spywen@hotmail.fr");
     }
 
     @Test
