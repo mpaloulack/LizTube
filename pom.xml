@@ -35,6 +35,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>xuggle repo</id>
+            <url>http://xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- Spring -->
         <dependency>

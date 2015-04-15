@@ -139,5 +139,8 @@
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.jcodec:jcodec:0.1.6" level="project" />
     <orderEntry type="library" name="Maven: xuggle:xuggle-xuggler:5.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: ch.qos.logback:logback-core:1.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: ch.qos.logback:logback-classic:1.0.0" level="project" />
   </component>
 </module>
