@@ -199,8 +199,9 @@ public class VideoBusinessTests {
         assertThat(videoPersist.getIspublic()).isEqualTo(videoCreationFacade.isPublic());
         assertThat(videoPersist.getIspubliclink()).isEqualTo(videoCreationFacade.isPublicLink());
         assertThat(videoPersist.getViews().size()).isEqualTo(0);
-        assertThat(videoPersist.getCreationdate()).isEqualToIgnoringSeconds(Timestamp.valueOf(LocalDateTime.now()));
+        assertThat(videoPersist.getCreationdate()).isEqualToIgnoringMinutes(Timestamp.valueOf(LocalDateTime.now()));
         assertThat(videoRepository.findAll().size()).isEqualTo(7);
+        assertThat(videoPersist.getDuration()).isEqualTo(4248);
     }
 
     @Test
@@ -230,6 +231,7 @@ public class VideoBusinessTests {
         assertThat(videoFound.isPublic()).isTrue();
         assertThat(videoFound.isPublicLink()).isTrue();
         assertThat(videoFound.getViews()).isEqualTo(2);
+        assertThat(videoFound.getDuration()).isEqualTo(25000);
     }
 
     @Test

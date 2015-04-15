@@ -74,6 +74,7 @@ public class SearchForVideosBusiness {
                         .setPublic(v.getIspublic())
                         .setPublicLink(v.getIspubliclink())
                         .setCreationDate(v.getCreationdate())
+                        .setDuration(v.getDuration())
         ));
 
         //Build response
