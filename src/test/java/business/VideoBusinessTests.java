@@ -2,9 +2,11 @@ package business;
 
 import com.excilys.ebi.spring.dbunit.test.DataSet;
 import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
+import com.liztube.business.ThumbnailBusiness;
 import com.liztube.business.VideoBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.entity.Video;
+import com.liztube.exception.ThumbnailException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
 import com.liztube.exception.exceptionType.PublicException;
@@ -13,6 +15,7 @@ import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
 import com.liztube.utils.facade.video.VideoCreationFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,6 +38,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -57,6 +63,8 @@ public class VideoBusinessTests {
     //region preparation
     @Autowired
     VideoBusiness videoBusiness;
+    @Autowired
+    ThumbnailBusiness thumbnailBusiness;
     @Autowired
     VideoRepository videoRepository;
     @Autowired
@@ -84,10 +92,14 @@ public class VideoBusinessTests {
 
     @After
     public void setDown() throws IOException {
-        //Remove all files inside the video library after each tests
+        //Remove all files inside the video library AND video thumbnails library after each tests
         File videoLibraryFolder = new File(videoBusiness.videoLibrary.getFile().getAbsolutePath() + File.separator);
+        File videoThumbnailLibraryFolder = new File(thumbnailBusiness.videoThumbnailsLibrary.getFile().getAbsolutePath() + File.separator);
         if(videoLibraryFolder.exists()){
             for(File file : videoLibraryFolder.listFiles()){
+                file.delete();
+            }
+            for(File file : videoThumbnailLibraryFolder.listFiles()){
                 file.delete();
             }
         }
@@ -115,12 +127,12 @@ public class VideoBusinessTests {
             videoBusiness.uploadVideo(file, videoCreationFacade);
             fail("Should throw exception");
         }catch (PublicException e){
-            assertThat(e.getMessages()).contains(videoBusiness.VIDEO_UPLOAD_TOO_HEAVY);
+            assertThat(e.getMessages()).contains(String.format(videoBusiness.VIDEO_UPLOAD_TOO_HEAVY, FileUtils.byteCountToDisplaySize(Integer.parseInt(environment.getProperty("upload.maxFileSize")))));
         }
     }
 
     @Test
-    public void uploadVideo_should_return_key() throws IOException, UserNotFoundException, VideoException {
+    public void uploadVideo_should_return_key() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -142,7 +154,7 @@ public class VideoBusinessTests {
     }
 
     @Test
-    public void uploadVideo_should_save_file_on_server() throws IOException, UserNotFoundException, VideoException {
+    public void uploadVideo_should_save_file_on_server() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
@@ -156,7 +168,25 @@ public class VideoBusinessTests {
     }
 
     @Test
-    public void uploadVideo_should_persist_video_if_all_tests_passed_successfully() throws IOException, UserNotFoundException, VideoException {
+    public void uploadVideo_should_save_default_thumbnail_on_server() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
+        FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
+        MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
+
+        File videoLibraryFolder = new File(thumbnailBusiness.videoThumbnailsLibrary.getFile().getAbsolutePath() + File.separator);
+        assertThat(videoLibraryFolder.list().length).isEqualTo(0);
+
+        String key = videoBusiness.uploadVideo(file, videoCreationFacade);
+        String videoPath = thumbnailBusiness.videoThumbnailsLibrary.getFile().getAbsolutePath() + File.separator + key + thumbnailBusiness.VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX;
+        File fileFound = new File(videoPath);
+        assertThat(videoLibraryFolder.list().length).isEqualTo(1);
+        assertThat(fileFound.exists()).isTrue();
+        BufferedImage thumbnail = ImageIO.read(new File(videoPath));
+        assertThat(thumbnail.getWidth()).isEqualTo(320);
+        assertThat(thumbnail.getHeight()).isEqualTo(180);
+    }
+
+    @Test
+    public void uploadVideo_should_persist_video_if_all_tests_passed_successfully() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
         assertThat(videoRepository.findAll().size()).isEqualTo(6);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
@@ -174,7 +204,7 @@ public class VideoBusinessTests {
     }
 
     @Test
-    public void uploadVideo_should_persist_video_if_all_tests_passed_successfully_as_private_and_should_set_publicLink_as_false_automaticaly() throws IOException, UserNotFoundException, VideoException {
+    public void uploadVideo_should_persist_video_if_all_tests_passed_successfully_as_private_and_should_set_publicLink_as_false_automaticaly() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
         assertThat(videoRepository.findAll().size()).isEqualTo(6);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);

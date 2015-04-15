@@ -1,7 +1,9 @@
 package com.liztube.service;
 
 import com.liztube.business.SearchForVideosBusiness;
+import com.liztube.business.ThumbnailBusiness;
 import com.liztube.business.VideoBusiness;
+import com.liztube.exception.ThumbnailException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
 import com.liztube.utils.EnumVideoOrderBy;
@@ -12,6 +14,7 @@ import com.liztube.utils.facade.video.VideoCreationFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
 import com.liztube.utils.facade.video.VideoSearchFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +30,8 @@ public class VideoService {
     VideoBusiness videoBusiness;
     @Autowired
     SearchForVideosBusiness searchForVideosBusiness;
+    @Autowired
+    ThumbnailBusiness thumbnailBusiness;
 
     /**
      * Upload a video
@@ -39,7 +44,7 @@ public class VideoService {
                            @RequestParam("title") String title,
                            @RequestParam("description") String description,
                            @RequestParam("isPublic") boolean isPublic,
-                           @RequestParam("isPublicLink") boolean isPublicLink) throws UserNotFoundException, VideoException {
+                           @RequestParam("isPublicLink") boolean isPublicLink) throws UserNotFoundException, VideoException, ThumbnailException {
         VideoCreationFacade videoCreationFacade = new VideoCreationFacade().setTitle(title).setDescription(description).setPublic(isPublic).setPublicLink(isPublicLink);
         return videoBusiness.uploadVideo(file, videoCreationFacade);
     }
@@ -100,5 +105,17 @@ public class VideoService {
                 .setPagination((pagination == null) ? 0 : pagination)
                 .setOrderBy(enumVideoOrderBy);
         return searchForVideosBusiness.GetVideos(videoSearchFacade);
+    }
+
+    /**
+     * Get video thumbnail
+     * @param key
+     * @return
+     * @throws ThumbnailException
+     */
+    @RequestMapping(value = "/thumbnail/{key}", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+    @ResponseBody
+    public byte[] getThumbnail(@PathVariable(value = "key") String key) throws ThumbnailException, VideoException, UserNotFoundException {
+        return thumbnailBusiness.getThumbnail(key);
     }
 }

@@ -2,25 +2,18 @@ package com.liztube.business;
 
 import com.liztube.entity.UserLiztube;
 import com.liztube.entity.Video;
+import com.liztube.exception.ThumbnailException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
 import com.liztube.repository.VideoRepository;
 import com.liztube.utils.EnumError;
-import com.liztube.utils.facade.video.GetVideosFacade;
 import com.liztube.utils.facade.video.VideoCreationFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
-import com.liztube.utils.facade.video.VideoSearchFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,15 +36,25 @@ public class VideoBusiness {
     AuthBusiness authBusiness;
     @Autowired
     VideoRepository videoRepository;
+    @Autowired
+    ThumbnailBusiness thumbnailBusiness;
 
     public ClassPathResource videoLibrary = new ClassPathResource("VideoLibrary/");
 
+    /**
+     * 0 -> server absolute library path
+     * 1 -> file separator
+     * 2 -> file name
+     */
+    public String filePathForFormat = "%s%s%s";
+
     public static final String VIDEO_UPLOAD_FILE_EMPTY     = "File is empty.";
     public static final String VIDEO_UPLOAD_NO_VALID_TYPE  = "Not valid type of file uploaded.";
-    public static final String VIDEO_UPLOAD_TOO_HEAVY      = "File size exceed {0} Mo.";
+    public static final String VIDEO_UPLOAD_TOO_HEAVY      = "File size exceed %s Mo.";
     public static final String VIDEO_NOT_FOUND = "Video not found";
     public static final String VIDEO_NOT_AVAILABLE = "Video not available. This is a private video.";
     public static final String VIDEO_UPDATE_USER_IS_NOT_VIDEO_OWNER = "Don't have sufficient rights to edit this video.";
+
 
     @Autowired
     Environment environment;
@@ -63,16 +66,7 @@ public class VideoBusiness {
      * @return
      */
     public VideoDataFacade get(String key) throws VideoException, UserNotFoundException {
-        Video video = videoRepository.findByKey(key);
-        if(video == null){
-            throw new VideoException("Get video - video not found", Arrays.asList(VIDEO_NOT_FOUND));
-        }
-        if(!video.getIspublic() && !video.getIspubliclink()){
-            UserLiztube user = authBusiness.getConnectedUser(false);
-            if(user == null || user.getId() != video.getOwner().getId()){
-                throw new VideoException("Get video - video not available isPublic: "+video.getIspublic()+", isPublicLink: "+video.getIspubliclink(), Arrays.asList(VIDEO_NOT_AVAILABLE));
-            }
-        }
+        Video video = videoCanBeGetted(key);
         return new VideoDataFacade()
                 .setKey(video.getKey())
                 .setTitle(video.getTitle())
@@ -104,7 +98,7 @@ public class VideoBusiness {
                 .setIspubliclink(!videoDataFacade.isPublic() ? false : videoDataFacade.isPublicLink());
 
         //Entity validations
-        CheckVideoEntityValidity(video);
+        checkVideoEntityValidity(video);
 
         //Update video in DB
         video = videoRepository.saveAndFlush(video);
@@ -118,13 +112,13 @@ public class VideoBusiness {
      * @param file
      * @param videoCreationFacade
      */
-    public String uploadVideo(MultipartFile file, VideoCreationFacade videoCreationFacade) throws UserNotFoundException, VideoException {
+    public String uploadVideo(MultipartFile file, VideoCreationFacade videoCreationFacade) throws UserNotFoundException, VideoException, ThumbnailException {
 
         //Get connected user
         UserLiztube user = authBusiness.getConnectedUser(true);
 
         //Check validity of the file : video, mp4, not exceed 500Mo
-        CheckVideoValidity(file);
+        checkVideoValidity(file);
 
         //Generate unique key
         String key = UUID.randomUUID().toString();
@@ -140,12 +134,12 @@ public class VideoBusiness {
                 .setCreationdate(Timestamp.valueOf(LocalDateTime.now()));
 
         //Entity validations
-        CheckVideoEntityValidity(video);
+        checkVideoEntityValidity(video);
 
         //Save video file
         try {
             //transfer video to the video library
-            file.transferTo(new File(videoLibrary.getFile().getAbsolutePath() + File.separator + key));
+            file.transferTo(new File(String.format(filePathForFormat, videoLibrary.getFile().getAbsolutePath(), File.separator, key)));
         } catch (Exception e) {
             e.printStackTrace();
             List<String> errorMessages = new ArrayList<>();
@@ -156,18 +150,41 @@ public class VideoBusiness {
         //Create db entry for the video (generate key associated to the video)
         video = videoRepository.saveAndFlush(video);
 
+        //Create default thumbnail
+        thumbnailBusiness.createDefaultThumbnail(video.getKey());
+
         //Send back the video key
         return video.getKey();
+    }
+
+    /**
+     * Method to check if video exist and if user have enough rights to see it
+     * @throws VideoException
+     * @throws UserNotFoundException
+     */
+    public Video videoCanBeGetted(String key) throws VideoException, UserNotFoundException {
+        Video video = videoRepository.findByKey(key);
+        if(video == null){
+            throw new VideoException("Get video - video not found", Arrays.asList(VIDEO_NOT_FOUND));
+        }
+        if(!video.getIspublic() && !video.getIspubliclink()){
+            UserLiztube user = authBusiness.getConnectedUser(false);
+            if(user == null || user.getId() != video.getOwner().getId()){
+                throw new VideoException("Get video - video not available isPublic: "+video.getIspublic()+", isPublicLink: "+video.getIspubliclink(), Arrays.asList(VIDEO_NOT_AVAILABLE));
+            }
+        }
+        return video;
     }
     //endregion
 
     //region private methods
+
     /**
      * Method to test video validity
      * @param file
      * @throws VideoException
      */
-    private void CheckVideoValidity(MultipartFile file) throws VideoException {
+    private void checkVideoValidity(MultipartFile file) throws VideoException {
         List<String> errorMessages = new ArrayList<>();
         //File empty
         if(file == null || file.isEmpty()){
@@ -192,7 +209,7 @@ public class VideoBusiness {
      * Check video entity validity
      * @param video
      */
-    private void CheckVideoEntityValidity(Video video) throws VideoException {
+    private void checkVideoEntityValidity(Video video) throws VideoException {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Video>> constraintViolations = validator.validate(video);
@@ -204,6 +221,7 @@ public class VideoBusiness {
             throw new VideoException("save video check attributes validity", errorMessages);
         }
     }
+
     //endregion
 
 }
