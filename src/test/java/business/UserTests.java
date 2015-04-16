@@ -307,7 +307,7 @@ public class UserTests {
             userBusiness.delete(userAccountDeletionFacade);
             fail("Should throw exception");
         }catch (UserException e){
-            assertThat(e.getMessages()).contains(userBusiness.DELETE_ACCOUNT_BAD_PASSWORD);
+            assertThat(e.getMessages()).contains(EnumError.DELETE_ACCOUNT_BAD_PASSWORD);
         }
     }
     //endregion

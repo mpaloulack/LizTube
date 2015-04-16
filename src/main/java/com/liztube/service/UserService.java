@@ -2,8 +2,10 @@ package com.liztube.service;
 
 import com.liztube.business.UserBusiness;
 import com.liztube.entity.UserLiztube;
+import com.liztube.exception.ServiceException;
 import com.liztube.exception.UserException;
 import com.liztube.exception.UserNotFoundException;
+import com.liztube.exception.exceptionType.PublicException;
 import com.liztube.utils.facade.TestExistFacade;
 import com.liztube.utils.facade.UserAccountDeletionFacade;
 import com.liztube.utils.facade.UserFacade;
@@ -27,8 +29,15 @@ public class UserService {
      * @throws com.liztube.exception.UserNotFoundException
      */
     @RequestMapping(method = RequestMethod.GET)
-    public UserFacade getUserInfoProfile()  throws UserNotFoundException {
-        return userBusiness.getUserInfo();
+    public UserFacade getUserInfoProfile() throws UserNotFoundException, ServiceException {
+        try{
+            return userBusiness.getUserInfo();
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Get user profile");
+        }
     }
 
     /**
@@ -37,8 +46,15 @@ public class UserService {
      * @throws UserNotFoundException
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public UserLiztube updateUserInfo(@RequestBody UserFacade userInfo) throws UserNotFoundException, UserException {
-        return userBusiness.updateUserInfo(userInfo);
+    public UserLiztube updateUserInfo(@RequestBody UserFacade userInfo) throws UserNotFoundException, UserException, ServiceException {
+        try{
+            return userBusiness.updateUserInfo(userInfo);
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Update user");
+        }
     }
 
     /**
@@ -49,16 +65,30 @@ public class UserService {
      * @throws UserException
      */
     @RequestMapping(value = "/password", method = RequestMethod.PATCH)
-    public boolean changeUserPassword(@RequestBody UserPasswordFacade userPasswordFacade) throws UserNotFoundException, UserException {
-        return userBusiness.changeUserPassword(userPasswordFacade);
+    public boolean changeUserPassword(@RequestBody UserPasswordFacade userPasswordFacade) throws UserNotFoundException, UserException, ServiceException {
+        try{
+            return userBusiness.changeUserPassword(userPasswordFacade);
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Update user password");
+        }
     }
 
     /**
      * Delete user account
      * @param userAccountDeletionFacade
      */
-    @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteUserAccount(@RequestBody UserAccountDeletionFacade userAccountDeletionFacade) throws UserNotFoundException, UserException {
-        userBusiness.delete(userAccountDeletionFacade);
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public void deleteUserAccount(@RequestBody UserAccountDeletionFacade userAccountDeletionFacade) throws UserNotFoundException, UserException, ServiceException {
+        try{
+            userBusiness.delete(userAccountDeletionFacade);
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Delete user account");
+        }
     }
 }

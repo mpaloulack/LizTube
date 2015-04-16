@@ -38,8 +38,6 @@ public class UserBusiness {
     @Autowired
     public AuthBusiness authBusiness;
 
-    public static final String DELETE_ACCOUNT_BAD_PASSWORD = "Incorrect password.";
-
     private ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
 
     /**
@@ -145,7 +143,7 @@ public class UserBusiness {
     public void delete(UserAccountDeletionFacade userAccountDeletionFacade) throws UserNotFoundException, UserException {
         UserLiztube userLiztube = authBusiness.getConnectedUser(true);
         if(!userLiztube.getPassword().equals(encoder.encodePassword(userAccountDeletionFacade.getPassword(), null))){
-            throw new UserException("Delete user account - incorrect password", DELETE_ACCOUNT_BAD_PASSWORD);
+            throw new UserException("Delete user account - incorrect password", EnumError.DELETE_ACCOUNT_BAD_PASSWORD);
         }
         userLiztubeRepository.delete(userLiztube);
     }
