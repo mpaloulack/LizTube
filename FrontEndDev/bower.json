@@ -19,7 +19,16 @@
     "restangular": "1.4.0",
     "angular-messages": "1.3.14",
     "angular-mocks": "1.3.1",
-    "angularjs-gravatar": "1.3.2"
+    "angularjs-gravatar": "1.3.2",
+    "videogular": "~1.2.0",
+    "videogular-themes-default": "~1.2.0",
+    "videogular-controls": "~1.2.0",
+    "videogular-buffering": "~1.2.0",
+    "videogular-overlay-play": "~1.2.0",
+    "videogular-poster": "~1.2.0",
+    "videogular-ima-ads": "~1.2.0",
+    "videogular-angulartics": "~1.2.0",
+    "angular-sanitize": "~1.3.15"
   },
   "resolutions": {
     "angular": "1.3.11",
@@ -99,6 +108,82 @@
         ],
         "prod": [
           "dist/angularjs-gravatardirective.min.js"
+        ]
+      }
+    },
+    "angular-sanitize": {
+      "main": {
+        "dev": [
+          "angular-sanitize.min.js",
+          "angular-sanitize.min.js.map"
+        ],
+        "prod": [
+          "angular-sanitize.min.js",
+          "angular-sanitize.min.js.map"
+        ]
+      }
+    },
+    "videogular": {
+      "main": {
+        "dev": [
+          "videogular.js"
+        ],
+        "prod": [
+          "videogular.js"
+        ]
+      }
+    },
+    "videogular-themes-default": {
+      "main": {
+        "dev": [
+          "videogular.css",
+          "videogular.css.map",
+          "fonts/*"
+        ],
+        "prod": [
+          "videogular.css",
+          "videogular.css.map",
+          "fonts/*"
+        ]
+      }
+    },
+    "videogular-controls": {
+      "main": {
+        "dev": [
+          "vg-controls.js"
+        ],
+        "prod": [
+          "vg-controls.js"
+        ]
+      }
+    },
+    "videogular-overlay-play": {
+      "main": {
+        "dev": [
+          "vg-overlay-play.js"
+        ],
+        "prod": [
+          "vg-overlay-play.js"
+        ]
+      }
+    },
+    "videogular-poster": {
+      "main": {
+        "dev": [
+          "vg-poster.js"
+        ],
+        "prod": [
+          "vg-poster.js"
+        ]
+      }
+    },
+    "videogular-buffering": {
+      "main": {
+        "dev": [
+          "vg-buffering.js"
+        ],
+        "prod": [
+          "vg-buffering.js"
         ]
       }
     }
