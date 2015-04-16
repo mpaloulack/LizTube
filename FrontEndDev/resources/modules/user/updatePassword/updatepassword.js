@@ -1,6 +1,3 @@
-/**
- * Created by maxime on 09/04/2015.
- */
 angular.module("liztube.updatepassword",[
     "ngRoute",
     "liztube.moastr",
@@ -16,12 +13,15 @@ angular.module("liztube.updatepassword",[
 }).controller("updatePasswordCtrl", function($scope, $rootScope, userService, $location, moastr, constants) {
 
     $scope.errorUpdate = '';
-
-
+    $scope.password = {
+        newPassword : '',
+        oldPassword : ''
+    };
+    $scope.verify = {
+        password : ''
+    };
 
     $scope.update = function () {
-        console.log("oldpassword " + $scope.password.oldPassword );
-        console.log("newPassword " + $scope.password.newPassword );
         $rootScope.$broadcast('loadingStatus', true);
         userService.updatePassword($scope.password).then(function () {
             $location.path('/profile');
@@ -32,34 +32,4 @@ angular.module("liztube.updatepassword",[
         });
     };
 
-})/*.directive('passwordVerify', function() {
-    return {
-        require: "ngModel",
-        scope: {
-            passwordVerify: '='
-        },
-        link: function(scope, element, attrs, ctrl) {
-            scope.$watch(function() {
-                var combined;
-
-                if (scope.passwordVerify || ctrl.$viewValue) {
-                    combined = scope.passwordVerify + '_' + ctrl.$viewValue;
-                }
-                return combined;
-            }, function(value) {
-                if (value) {
-                    ctrl.$parsers.unshift(function(viewValue) {
-                        var origin = scope.passwordVerify;
-                        if (origin !== viewValue) {
-                            ctrl.$setValidity("passwordVerify", false);
-                            return undefined;
-                        } else {
-                            ctrl.$setValidity("passwordVerify", true);
-                            return viewValue;
-                        }
-                    });
-                }
-            });
-        }
-    };
-})*/;
+});

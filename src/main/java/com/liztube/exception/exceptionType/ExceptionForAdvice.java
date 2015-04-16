@@ -1,8 +1,6 @@
 package com.liztube.exception.exceptionType;
 
-import com.liztube.exception.SigninException;
-import com.liztube.exception.UserNotFoundException;
-import com.liztube.exception.VideoException;
+import com.liztube.exception.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +25,17 @@ public class ExceptionForAdvice{
 
     public ExceptionForAdvice(VideoException videoException){
         this.messages = videoException.getMessages();
+    }
+
+    public ExceptionForAdvice(ThumbnailException thumbnailException){
+        this.messages = thumbnailException.getMessages();
+    }
+    public ExceptionForAdvice(UserException userException){
+        this.messages = userException.getMessages();
+    }
+
+    public ExceptionForAdvice(ServiceException serviceException){
+        this.messages = serviceException.getMessages();
     }
     //endregion
 

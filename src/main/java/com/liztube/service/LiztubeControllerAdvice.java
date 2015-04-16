@@ -1,8 +1,6 @@
 package com.liztube.service;
 
-import com.liztube.exception.SigninException;
-import com.liztube.exception.UserNotFoundException;
-import com.liztube.exception.VideoException;
+import com.liztube.exception.*;
 import com.liztube.exception.exceptionType.ExceptionForAdvice;
 import com.liztube.exception.exceptionType.PublicException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +34,27 @@ public class LiztubeControllerAdvice {
     @ResponseBody
     public ExceptionForAdvice videoException(VideoException videoException){
         return new ExceptionForAdvice(videoException);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ThumbnailException.class)
+    @ResponseBody
+    public ExceptionForAdvice thumbnailException(ThumbnailException thumbnailException){
+        return new ExceptionForAdvice(thumbnailException);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UserException.class)
+    @ResponseBody
+    public ExceptionForAdvice userException(UserException userException){
+        return new ExceptionForAdvice(userException);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ServiceException.class)
+    @ResponseBody
+    public ExceptionForAdvice serviceException(ServiceException serviceException){
+        return new ExceptionForAdvice(serviceException);
     }
 
 }

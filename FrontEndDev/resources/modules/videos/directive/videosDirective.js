@@ -44,7 +44,9 @@ angular.module("liztube.videos",[
 
         videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
             $scope.videos = data;
-
+            if(data.length === 0){
+                console.log("################# : ");
+            }
             console.log("videosTotalCount : " + data.videosTotalCount);
             console.log("currentPage : " + data.currentPage);
             console.log("totalPage : " + data.totalPage);
@@ -67,7 +69,7 @@ angular.module("liztube.videos",[
             user: "@",
             q: "@"
         },
-        link: function(scope, element, attrs, videosCtrl) {
+        link: function(scope, element, attrs) {
             scope.params = {
                 orderBy: scope.orderBy,
                 page: scope.page,

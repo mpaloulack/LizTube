@@ -9,6 +9,8 @@ import com.liztube.repository.VideoRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.facade.video.VideoCreationFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
+import com.xuggle.xuggler.IContainer;
+import com.xuggle.xuggler.IContainerFormat;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,7 @@ public class VideoBusiness {
     public static final String VIDEO_NOT_FOUND = "Video not found";
     public static final String VIDEO_NOT_AVAILABLE = "Video not available. This is a private video.";
     public static final String VIDEO_UPDATE_USER_IS_NOT_VIDEO_OWNER = "Don't have sufficient rights to edit this video.";
+    public static final String VIDEO_UPLOAD_DURATION_ERROR = "An unexpected error occured when trying to get video duration.";
 
 
     @Autowired
@@ -76,7 +79,8 @@ public class VideoBusiness {
                 .setOwnerPseudo(video.getOwner().getPseudo())
                 .setPublic(video.getIspublic())
                 .setPublicLink(video.getIspubliclink())
-                .setViews(video.getViews().size());
+                .setViews(video.getViews().size())
+                .setDuration(video.getDuration());
     }
 
     /**
@@ -133,13 +137,17 @@ public class VideoBusiness {
                 .setOwner(user)
                 .setCreationdate(Timestamp.valueOf(LocalDateTime.now()));
 
+        //Extract video data
+        video = extractVideoData(file, video);
+
         //Entity validations
         checkVideoEntityValidity(video);
 
         //Save video file
         try {
+            String videoPath = String.format(filePathForFormat, videoLibrary.getFile().getAbsolutePath(), File.separator, key);
             //transfer video to the video library
-            file.transferTo(new File(String.format(filePathForFormat, videoLibrary.getFile().getAbsolutePath(), File.separator, key)));
+            file.transferTo(new File(videoPath));
         } catch (Exception e) {
             e.printStackTrace();
             List<String> errorMessages = new ArrayList<>();
@@ -220,6 +228,25 @@ public class VideoBusiness {
             }
             throw new VideoException("save video check attributes validity", errorMessages);
         }
+    }
+
+    /**
+     * Extract video data (duration)
+     * @param video
+     */
+    private Video extractVideoData(MultipartFile file, Video video) throws VideoException {
+        try{
+            IContainer container = IContainer.make();
+            if (container.open(file.getInputStream(), null) < 0) {
+                throw new IllegalArgumentException("Video data extraction - Could not open file");
+            }
+            video.setDuration(container.getDuration() / 1000);//milliseconds
+            container.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new VideoException("Video data extraction - error when trying to get video duration", VIDEO_UPLOAD_DURATION_ERROR);
+        }
+        return video;
     }
 
     //endregion

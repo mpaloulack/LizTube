@@ -13,7 +13,7 @@
     <USER_ROLE USER_ID="2" ROLE_ID="1"/>
     <USER_ROLE USER_ID="2" ROLE_ID="3"/>
 
-    <VIDEO />
-    <VIEW />
+    <VIDEO keyid="a" description="desc of a" ispublic="true" creationdate="2013-10-05 10:15:26" ispubliclink="true" title="A video" user="1" VIDEORANKASMOSTRECENT="1" VIDEORANKASMOSTVIEWED="1" VIDEORANKASMOSTSHARED="0" DURATION="25000"/>
+    <VIEW id="1" viewdate="2013-10-12 10:15:26" user="2" video="a" asshared="false" />
 
 </dataset>

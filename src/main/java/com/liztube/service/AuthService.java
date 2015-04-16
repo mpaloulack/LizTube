@@ -1,8 +1,10 @@
 package com.liztube.service;
 
 import com.liztube.business.AuthBusiness;
+import com.liztube.exception.ServiceException;
 import com.liztube.exception.SigninException;
 import com.liztube.exception.UserNotFoundException;
+import com.liztube.exception.exceptionType.PublicException;
 import com.liztube.utils.facade.TestExistFacade;
 import com.liztube.utils.facade.UserConnectedProfile;
 import com.liztube.utils.facade.UserForRegistration;
@@ -24,8 +26,13 @@ public class AuthService {
      * @throws UserNotFoundException
      */
     @RequestMapping(value = "/currentProfil",method = RequestMethod.GET)
-    public UserConnectedProfile getUserProfil() {
-        return authBusiness.getUserConnectedProfile(true);
+    public UserConnectedProfile getUserProfil() throws ServiceException {
+        try{
+            return authBusiness.getUserConnectedProfile(true);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Get connected user profile");
+        }
     }
 
     /**
@@ -35,8 +42,15 @@ public class AuthService {
      * @throws SigninException
      */
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public long signIn(@RequestBody UserForRegistration userForRegistration) throws SigninException {
-        return authBusiness.signIn(userForRegistration).getId();
+    public long signIn(@RequestBody UserForRegistration userForRegistration) throws SigninException, ServiceException {
+        try{
+            return authBusiness.signIn(userForRegistration).getId();
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Sign in");
+        }
     }
 
     /**
@@ -45,8 +59,13 @@ public class AuthService {
      * @return
      */
     @RequestMapping(value = "/pseudo", method = RequestMethod.POST)
-    public Boolean existPseudo(@RequestBody TestExistFacade testExistFacade){
-        return authBusiness.existPseudo(testExistFacade);
+    public Boolean existPseudo(@RequestBody TestExistFacade testExistFacade) throws ServiceException {
+        try{
+            return authBusiness.existPseudo(testExistFacade);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Pseudo exists");
+        }
     }
 
     /**
@@ -55,8 +74,13 @@ public class AuthService {
      * @return
      */
     @RequestMapping(value = "/email", method = RequestMethod.POST)
-    public Boolean existEmail(@RequestBody TestExistFacade testExistFacade){
-        return authBusiness.existEmail(testExistFacade);
+    public Boolean existEmail(@RequestBody TestExistFacade testExistFacade) throws ServiceException {
+        try{
+            return authBusiness.existEmail(testExistFacade);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Email exists");
+        }
     }
 
 

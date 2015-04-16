@@ -122,6 +122,7 @@ public class SearchForVideosBusinessTests {
         assertThat(videosFound.getVideos().get(3).isPublic()).isTrue();
         assertThat(videosFound.getVideos().get(3).isPublicLink()).isTrue();
         assertThat(videosFound.getVideos().get(3).getCreationDate()).isEqualTo(Timestamp.valueOf(LocalDateTime.of(2013, Month.OCTOBER, 5, 10, 15, 26)));
+        assertThat(videosFound.getVideos().get(3).getDuration()).isEqualTo(25000);
     }
 
     @Test

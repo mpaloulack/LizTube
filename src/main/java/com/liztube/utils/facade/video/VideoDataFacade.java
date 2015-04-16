@@ -17,6 +17,7 @@ public class VideoDataFacade {
     private boolean isPublic;
     private boolean isPublicLink;
     private Timestamp creationDate;
+    private long duration;
     //endregion
 
     //region getter/setter
@@ -91,6 +92,14 @@ public class VideoDataFacade {
 
     public VideoDataFacade setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate; return this;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public VideoDataFacade setDuration(long duration) {
+        this.duration = duration; return this;
     }
 
     //endregion

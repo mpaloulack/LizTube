@@ -25,4 +25,7 @@ public class EnumError {
     public static final String VIDEO_TITLE_SIZE            = "#1051";
     public static final String VIDEO_DESCRIPTION_SIZE      = "#1052";
     public static final String VIDEO_UPLOAD_SAVE_FILE_ON_SERVER     = "#1053";
+
+    //USER DELETE ACCOUNT
+    public static final String DELETE_ACCOUNT_BAD_PASSWORD = "#1080";
 }

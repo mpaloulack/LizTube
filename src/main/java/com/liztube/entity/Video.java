@@ -28,6 +28,7 @@ public class Video {
     private long videoRankAsMostRecent;
     private long videoRankAsMostShared;
     private List<View> views;
+    private long duration;//milliseconds
 
     //Transcient values
     private long viewsCount;
@@ -114,8 +115,8 @@ public class Video {
         return videoRankAsMostViewed;
     }
 
-    public void setVideoRankAsMostViewed(long videoRankAsMostViewed) {
-        this.videoRankAsMostViewed = videoRankAsMostViewed;
+    public Video setVideoRankAsMostViewed(long videoRankAsMostViewed) {
+        this.videoRankAsMostViewed = videoRankAsMostViewed; return this;
     }
 
     @Basic
@@ -124,8 +125,8 @@ public class Video {
         return videoRankAsMostRecent;
     }
 
-    public void setVideoRankAsMostRecent(long videoRankAsMostRecent) {
-        this.videoRankAsMostRecent = videoRankAsMostRecent;
+    public Video setVideoRankAsMostRecent(long videoRankAsMostRecent) {
+        this.videoRankAsMostRecent = videoRankAsMostRecent; return this;
     }
 
     @Basic
@@ -134,12 +135,22 @@ public class Video {
         return videoRankAsMostShared;
     }
 
-    public void setVideoRankAsMostShared(long videoRankAsMostShared) {
-        this.videoRankAsMostShared = videoRankAsMostShared;
+    public Video setVideoRankAsMostShared(long videoRankAsMostShared) {
+        this.videoRankAsMostShared = videoRankAsMostShared; return this;
+    }
+
+    @Basic
+    @Column(name = "DURATION", nullable = false, insertable = true, updatable = true)
+    public long getDuration() {
+        return duration;
+    }
+
+    public Video setDuration(long duration) {
+        this.duration = duration; return this;
     }
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "video", cascade = CascadeType.ALL)
     public List<View> getViews() {
         return views;
     }

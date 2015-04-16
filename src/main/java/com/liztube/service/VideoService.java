@@ -3,9 +3,11 @@ package com.liztube.service;
 import com.liztube.business.SearchForVideosBusiness;
 import com.liztube.business.ThumbnailBusiness;
 import com.liztube.business.VideoBusiness;
+import com.liztube.exception.ServiceException;
 import com.liztube.exception.ThumbnailException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
+import com.liztube.exception.exceptionType.PublicException;
 import com.liztube.utils.EnumVideoOrderBy;
 import com.liztube.utils.GroupRoles;
 import com.liztube.utils.facade.UserForRegistration;
@@ -44,9 +46,16 @@ public class VideoService {
                            @RequestParam("title") String title,
                            @RequestParam("description") String description,
                            @RequestParam("isPublic") boolean isPublic,
-                           @RequestParam("isPublicLink") boolean isPublicLink) throws UserNotFoundException, VideoException, ThumbnailException {
-        VideoCreationFacade videoCreationFacade = new VideoCreationFacade().setTitle(title).setDescription(description).setPublic(isPublic).setPublicLink(isPublicLink);
-        return videoBusiness.uploadVideo(file, videoCreationFacade);
+                           @RequestParam("isPublicLink") boolean isPublicLink) throws UserNotFoundException, VideoException, ThumbnailException, ServiceException {
+        try{
+            VideoCreationFacade videoCreationFacade = new VideoCreationFacade().setTitle(title).setDescription(description).setPublic(isPublic).setPublicLink(isPublicLink);
+            return videoBusiness.uploadVideo(file, videoCreationFacade);
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Upload video");
+        }
     }
 
     /**
@@ -56,8 +65,15 @@ public class VideoService {
      */
     @RequestMapping(value="/{key}", method = RequestMethod.GET)
     @ResponseBody
-    public VideoDataFacade get(@PathVariable(value = "key") String key) throws VideoException, UserNotFoundException {
-        return videoBusiness.get(key);
+    public VideoDataFacade get(@PathVariable(value = "key") String key) throws VideoException, UserNotFoundException, ServiceException {
+        try{
+            return videoBusiness.get(key);
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Get video data");
+        }
     }
 
     /**
@@ -68,8 +84,15 @@ public class VideoService {
     @PreAuthorize(GroupRoles.AUTHENTICATED)
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    public String update(@RequestBody VideoDataFacade videoDataFacade) throws VideoException, UserNotFoundException {
-        return videoBusiness.update(videoDataFacade);
+    public String update(@RequestBody VideoDataFacade videoDataFacade) throws VideoException, UserNotFoundException, ServiceException {
+        try{
+            return videoBusiness.update(videoDataFacade);
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Update video");
+        }
     }
 
     /**
@@ -85,26 +108,31 @@ public class VideoService {
                                                         @RequestParam(value = "page", required = false) Integer page,
                                                         @RequestParam(value = "pagination", required = false) Integer pagination,
                                                         @RequestParam(value = "user", required = false) Integer userId,
-                                                        @RequestParam(value = "q", required = false) String query) {
-        EnumVideoOrderBy enumVideoOrderBy = EnumVideoOrderBy.HOMESUGGESTION;
-        switch (orderBy){
-            case "mostviewed":
-                enumVideoOrderBy = EnumVideoOrderBy.MOSTVIEWED;
-                break;
-            case "mostrecent":
-                enumVideoOrderBy = EnumVideoOrderBy.MOSTRECENT;
-                break;
-            case "mostshared":
-                enumVideoOrderBy = EnumVideoOrderBy.MOSTSHARED;
-                break;
+                                                        @RequestParam(value = "q", required = false) String query) throws ServiceException {
+        try{
+            EnumVideoOrderBy enumVideoOrderBy = EnumVideoOrderBy.HOMESUGGESTION;
+            switch (orderBy){
+                case "mostviewed":
+                    enumVideoOrderBy = EnumVideoOrderBy.MOSTVIEWED;
+                    break;
+                case "mostrecent":
+                    enumVideoOrderBy = EnumVideoOrderBy.MOSTRECENT;
+                    break;
+                case "mostshared":
+                    enumVideoOrderBy = EnumVideoOrderBy.MOSTSHARED;
+                    break;
+            }
+            VideoSearchFacade videoSearchFacade = new VideoSearchFacade()
+                    .setPage((page == null) ? 1 : page)
+                    .setUserId((userId == null) ? 0 : userId)
+                    .setKeyword((query == null) ? "" : query)
+                    .setPagination((pagination == null) ? 0 : pagination)
+                    .setOrderBy(enumVideoOrderBy);
+            return searchForVideosBusiness.GetVideos(videoSearchFacade);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Get videos");
         }
-        VideoSearchFacade videoSearchFacade = new VideoSearchFacade()
-                .setPage((page == null) ? 1 : page)
-                .setUserId((userId == null) ? 0 : userId)
-                .setKeyword((query == null) ? "" : query)
-                .setPagination((pagination == null) ? 0 : pagination)
-                .setOrderBy(enumVideoOrderBy);
-        return searchForVideosBusiness.GetVideos(videoSearchFacade);
     }
 
     /**
@@ -115,7 +143,14 @@ public class VideoService {
      */
     @RequestMapping(value = "/thumbnail/{key}", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public byte[] getThumbnail(@PathVariable(value = "key") String key) throws ThumbnailException, VideoException, UserNotFoundException {
-        return thumbnailBusiness.getThumbnail(key);
+    public byte[] getThumbnail(@PathVariable(value = "key") String key) throws ThumbnailException, VideoException, UserNotFoundException, ServiceException {
+        try{
+            return thumbnailBusiness.getThumbnail(key);
+        }catch (PublicException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("Get thumbnail");
+        }
     }
 }
