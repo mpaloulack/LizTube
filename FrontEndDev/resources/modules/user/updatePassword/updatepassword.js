@@ -19,7 +19,7 @@ angular.module("liztube.updatepassword",[
     };
     $scope.verify = {
         password : ''
-    }
+    };
 
     $scope.update = function () {
         $rootScope.$broadcast('loadingStatus', true);
