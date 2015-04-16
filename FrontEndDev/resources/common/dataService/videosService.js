@@ -15,7 +15,7 @@ angular.module('liztube.dataService.videosService', [
     };
 
     /**
-     Get current user info
+     Get videos
      **/
     function getVideos(orderBy, params) {
         return baseVideo().one("search").getList(orderBy, params);

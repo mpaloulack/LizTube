@@ -1,7 +1,25 @@
 angular.module("liztube.videos",[
     "liztube.dataService.videosService",
     "ngRoute"
-]).controller("videosCtrl", function($scope, constants, videosService) {
+]).config(function (RestangularProvider){
+
+    // add a response intereceptor
+    RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+        var extractedData;
+        // .. to look for getList operations
+        if (operation === "getList") {
+            // .. and handle the data and meta data
+            extractedData = data.videos;
+            extractedData.currentPage = data.currentPage;
+            extractedData.videosTotalCount = data.videosTotalCount;
+            extractedData.totalPage = data.totalPage;
+        } else {
+            extractedData = data.videos;
+        }
+        return extractedData;
+    });
+
+}).controller("videosCtrl", function($scope, constants, videosService) {
 
     $scope.pamaeters = {};
 
@@ -23,13 +41,17 @@ angular.module("liztube.videos",[
         if(!_.isUndefined($scope.getParams().q) && $scope.getParams().q !== ""){
             $scope.pamaeters.q = $scope.getParams().q;
         }
-        console.log($scope.pamaeters);
-        videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(videos){
 
+        videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
+            $scope.videos = data;
+
+            console.log("videosTotalCount : " + data.videosTotalCount);
+            console.log("currentPage : " + data.currentPage);
+            console.log("totalPage : " + data.totalPage);
         },function(){
-
+            //error
         }).finally(function(){
-
+            //finally
         });
     });
 }).directive('liztubeVideos', function () {
@@ -59,4 +81,3 @@ angular.module("liztube.videos",[
         }
     };
 });
-
