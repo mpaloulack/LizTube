@@ -7,6 +7,7 @@ import com.liztube.repository.UserLiztubeRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.Regex;
 import com.liztube.utils.facade.TestExistFacade;
+import com.liztube.utils.facade.UserAccountDeletionFacade;
 import com.liztube.utils.facade.UserFacade;
 import com.liztube.utils.facade.UserPasswordFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,10 @@ public class UserBusiness {
 
     @Autowired
     public AuthBusiness authBusiness;
+
+    public static final String DELETE_ACCOUNT_BAD_PASSWORD = "Incorrect password.";
+
+    private ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
 
     /**
      * Get user information
@@ -117,7 +122,6 @@ public class UserBusiness {
     public boolean changeUserPassword(UserPasswordFacade userPassword) throws UserNotFoundException, UserException{
         UserLiztube userLiztube = authBusiness.getConnectedUser(true);
 
-        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
         //check old password
         if (userLiztube.getPassword().equals(encoder.encodePassword(userPassword.getOldPassword(), null))){
             //Password well formatted
@@ -132,6 +136,18 @@ public class UserBusiness {
         userLiztubeRepository.saveAndFlush(userLiztube);
 
         return true;
+    }
+
+    /**
+     * Delete user account method
+     * @param userAccountDeletionFacade
+     */
+    public void delete(UserAccountDeletionFacade userAccountDeletionFacade) throws UserNotFoundException, UserException {
+        UserLiztube userLiztube = authBusiness.getConnectedUser(true);
+        if(!userLiztube.getPassword().equals(encoder.encodePassword(userAccountDeletionFacade.getPassword(), null))){
+            throw new UserException("Delete user account - incorrect password", DELETE_ACCOUNT_BAD_PASSWORD);
+        }
+        userLiztubeRepository.delete(userLiztube);
     }
 
 }

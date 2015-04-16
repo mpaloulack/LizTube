@@ -150,7 +150,7 @@ public class Video {
     }
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "video", cascade = CascadeType.ALL)
     public List<View> getViews() {
         return views;
     }

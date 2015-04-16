@@ -11,8 +11,11 @@ import com.liztube.exception.UserException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.exceptionType.PublicException;
 import com.liztube.repository.UserLiztubeRepository;
+import com.liztube.repository.VideoRepository;
+import com.liztube.repository.ViewRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.EnumRole;
+import com.liztube.utils.facade.UserAccountDeletionFacade;
 import com.liztube.utils.facade.UserFacade;
 import com.liztube.utils.facade.UserPasswordFacade;
 import org.junit.Before;
@@ -50,14 +53,17 @@ import static org.assertj.core.api.Assertions.fail;
 @DataSet(value = "/data/UserDataset.xml", tearDownOperation = DBOperation.DELETE_ALL)
 public class UserTests {
 
+    //region preparation
     @Autowired
     AuthBusiness authBusiness;
-
     @Autowired
     UserBusiness userBusiness;
-
     @Autowired
     UserLiztubeRepository userLiztubeRepository;
+    @Autowired
+    ViewRepository viewRepository;
+    @Autowired
+    VideoRepository videoRepository;
 
     public UserLiztube userLiztube;
 
@@ -92,6 +98,7 @@ public class UserTests {
         Authentication auth = new UsernamePasswordAuthenticationToken(adminSpringUser,null);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
+    //endregion
 
     //region get user profile
     @Test
@@ -255,6 +262,52 @@ public class UserTests {
             fail("Should throw exception");
         }catch (PublicException e){
             assertThat(e.getMessages()).contains(EnumError.USER_PASSWORD_FORMAT);
+        }
+    }
+    //endregion
+
+    //region delete user account
+    @Test
+    public void should_remove_user_successfully() throws UserNotFoundException, UserException {
+        UserAccountDeletionFacade userAccountDeletionFacade = new UserAccountDeletionFacade();
+        userAccountDeletionFacade.setPassword("cisco");
+        userBusiness.delete(userAccountDeletionFacade);
+        assertThat(userLiztubeRepository.findOne((long)1)).isNull();
+    }
+
+    @Test
+    public void should_remove_user_videos_and_relatives_views() throws UserNotFoundException, UserException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(1);
+        assertThat(viewRepository.findAll().size()).isEqualTo(1);
+        UserAccountDeletionFacade userAccountDeletionFacade = new UserAccountDeletionFacade();
+        userAccountDeletionFacade.setPassword("cisco");
+        userBusiness.delete(userAccountDeletionFacade);
+        assertThat(videoRepository.findAll().size()).isEqualTo(0);
+        assertThat(viewRepository.findAll().size()).isEqualTo(0);
+    }
+
+    @Test
+    public void delete_user_account_should_raise_an_error_if_user_not_connected() throws UserException {
+        UserAccountDeletionFacade userAccountDeletionFacade = new UserAccountDeletionFacade();
+        userAccountDeletionFacade.setPassword("cisco");
+        SecurityContextHolder.getContext().setAuthentication(null);
+        try{
+            userBusiness.delete(userAccountDeletionFacade);
+            fail("Should throw exception");
+        }catch (UserNotFoundException e){
+            assertThat(e.getMessages()).contains(authBusiness.USER_NOT_FOUND_EXCEPTION);
+        }
+    }
+
+    @Test
+    public void delete_user_account_should_raise_an_error_if_bad_password_sent() throws UserNotFoundException {
+        UserAccountDeletionFacade userAccountDeletionFacade = new UserAccountDeletionFacade();
+        userAccountDeletionFacade.setPassword("invalidPassword");
+        try{
+            userBusiness.delete(userAccountDeletionFacade);
+            fail("Should throw exception");
+        }catch (UserException e){
+            assertThat(e.getMessages()).contains(userBusiness.DELETE_ACCOUNT_BAD_PASSWORD);
         }
     }
     //endregion

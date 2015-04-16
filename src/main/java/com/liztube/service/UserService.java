@@ -5,13 +5,11 @@ import com.liztube.entity.UserLiztube;
 import com.liztube.exception.UserException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.utils.facade.TestExistFacade;
+import com.liztube.utils.facade.UserAccountDeletionFacade;
 import com.liztube.utils.facade.UserFacade;
 import com.liztube.utils.facade.UserPasswordFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Service which provide all the method concerning the user  (infos user, modification...)
@@ -50,8 +48,17 @@ public class UserService {
      * @throws UserNotFoundException
      * @throws UserException
      */
-   @RequestMapping(value = "/password", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/password", method = RequestMethod.PATCH)
     public boolean changeUserPassword(@RequestBody UserPasswordFacade userPasswordFacade) throws UserNotFoundException, UserException {
         return userBusiness.changeUserPassword(userPasswordFacade);
+    }
+
+    /**
+     * Delete user account
+     * @param userAccountDeletionFacade
+     */
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void deleteUserAccount(@RequestBody UserAccountDeletionFacade userAccountDeletionFacade) throws UserNotFoundException, UserException {
+        userBusiness.delete(userAccountDeletionFacade);
     }
 }
