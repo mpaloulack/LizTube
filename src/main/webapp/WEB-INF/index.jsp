@@ -17,6 +17,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/videogular-themes-default/videogular.css">
     <!-- endinject -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all.css">
     <base href="/"/>
@@ -35,8 +36,36 @@
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-messages/angular-messages.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-mocks/angular-mocks.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angularjs-gravatar/dist/angularjs-gravatardirective.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/jquery/dist/jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/SHA-1/sha1.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/restangular/dist/restangular.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/videogular/videogular.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/videogular-controls/vg-controls.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/videogular-buffering/vg-buffering.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/videogular-overlay-play/vg-overlay-play.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/videogular-poster/vg-poster.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/videogular-ima-ads/vg-ima-ads.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/waypoints/waypoints.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-adobe.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-chartbeat.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-cnzz.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-flurry.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-ga-cordova.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-ga.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-gtm.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-kissmetrics.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-mixpanel.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-piwik.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-scroll.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-segmentio.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-splunk.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-woopra.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-marketo.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angulartics/src/angulartics-intercom.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/videogular-angulartics/vg-analytics.js"></script>
     <!-- endinject -->
     <script>
         window.user = ${userConnected};

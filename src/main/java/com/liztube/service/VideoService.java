@@ -21,6 +21,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * Video API service which provides all videos necessary methods
  */
@@ -152,5 +154,17 @@ public class VideoService {
             e.printStackTrace();
             throw new ServiceException("Get thumbnail");
         }
+    }
+
+    /**
+     * Get video for watching
+     * @param key
+     * @return
+     * @throws ThumbnailException
+     */
+    @RequestMapping(value = "/watch/{key}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseBody
+    public byte[] watch(@PathVariable(value = "key") String key) throws IOException {
+        return videoBusiness.watch(key);
     }
 }

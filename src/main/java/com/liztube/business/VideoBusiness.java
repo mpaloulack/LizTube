@@ -10,7 +10,6 @@ import com.liztube.utils.EnumError;
 import com.liztube.utils.facade.video.VideoCreationFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
 import com.xuggle.xuggler.IContainer;
-import com.xuggle.xuggler.IContainerFormat;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -84,6 +86,22 @@ public class VideoBusiness {
     }
 
     /**
+     * Get video for watching
+     * @param key
+     * @return
+     */
+    public byte[] watch(String key) throws IOException {
+        FileInputStream fis = new FileInputStream(videoLibrary.getFile().getAbsolutePath() + File.separator + key);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+
+        for (int readNum; (readNum = fis.read(buf)) != -1;) {
+            bos.write(buf, 0, readNum); //no doubt here is 0
+        }
+        return bos.toByteArray();
+    }
+
+    /**
      * Update video data
      * @return
      */
@@ -137,15 +155,13 @@ public class VideoBusiness {
                 .setOwner(user)
                 .setCreationdate(Timestamp.valueOf(LocalDateTime.now()));
 
-        //Extract video data
-        video = extractVideoData(file, video);
-
         //Entity validations
         checkVideoEntityValidity(video);
 
+        String videoPath;
         //Save video file
         try {
-            String videoPath = String.format(filePathForFormat, videoLibrary.getFile().getAbsolutePath(), File.separator, key);
+            videoPath = String.format(filePathForFormat, videoLibrary.getFile().getAbsolutePath(), File.separator, key);
             //transfer video to the video library
             file.transferTo(new File(videoPath));
         } catch (Exception e) {
@@ -154,6 +170,9 @@ public class VideoBusiness {
             errorMessages.add(EnumError.VIDEO_UPLOAD_SAVE_FILE_ON_SERVER);
             throw new VideoException("copy on the server", errorMessages);
         }
+
+        //Extract video data
+        video = extractVideoData(videoPath, video);
 
         //Create db entry for the video (generate key associated to the video)
         video = videoRepository.saveAndFlush(video);
@@ -234,10 +253,21 @@ public class VideoBusiness {
      * Extract video data (duration)
      * @param video
      */
-    private Video extractVideoData(MultipartFile file, Video video) throws VideoException {
+    private Video extractVideoData(String filePath, Video video) throws VideoException {
+
+    /*try{
+        MediaLocator media = new MediaLocator(file);
+        Player player = Manager.createPlayer(media);
+        video.setDuration(player.getDuration().getNanoseconds() / 1000);
+        player.close();
+    }catch (Exception e){
+        e.printStackTrace();
+        throw new VideoException("Video data extraction - error when trying to get video duration", VIDEO_UPLOAD_DURATION_ERROR);
+    }*/
+
         try{
             IContainer container = IContainer.make();
-            if (container.open(file.getInputStream(), null) < 0) {
+            if (container.open(filePath, IContainer.Type.READ, null) < 0) {
                 throw new IllegalArgumentException("Video data extraction - Could not open file");
             }
             video.setDuration(container.getDuration() / 1000);//milliseconds
