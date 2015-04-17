@@ -3,7 +3,7 @@ angular.module("liztube.updatepassword",[
     "liztube.moastr",
     "liztube.dataService.userService",
     'ngMessages'
-]).config(function ($routeProvider,$locationProvider){
+]).config(function ($routeProvider){
     $routeProvider.when("/updatepassword",{
         title: "LizTube - Mise à jour du mot de passe",
         page: "Mise à jour du mot de passe",

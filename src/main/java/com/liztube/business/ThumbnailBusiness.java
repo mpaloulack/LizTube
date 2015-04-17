@@ -78,12 +78,10 @@ public class ThumbnailBusiness {
 
         //Get video thumbnail
         try {
-            // Prepare buffered image.
             BufferedImage img = ImageIO.read(new File(String.format(filePathForFormat, videoThumbnailsLibrary.getFile().getAbsolutePath(), File.separator, key + VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX)));
-            // Create a byte array output stream.
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
-            // Write to output stream
             ImageIO.write(img, "png", bao);
+            bao.close();
             return bao.toByteArray();
         } catch (Exception e) {
             return getDefaultLiztubeThumbnail(VIDEO_DEFAULT_THUMBNAIL_DEFAULT);

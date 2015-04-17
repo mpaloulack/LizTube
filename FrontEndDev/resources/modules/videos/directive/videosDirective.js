@@ -14,7 +14,7 @@ angular.module("liztube.videos",[
             extractedData.videosTotalCount = data.videosTotalCount;
             extractedData.totalPage = data.totalPage;
         } else {
-            extractedData = data.videos;
+            extractedData = data;
         }
         return extractedData;
     });
