@@ -24,7 +24,7 @@ angular.module("liztube.updatepassword",[
     $scope.update = function () {
         $rootScope.$broadcast('loadingStatus', true);
         userService.updatePassword($scope.password).then(function () {
-            $location.path('/profile');
+            $location.path('/profil');
         }, function () {
             moastr.error(constants.SERVER_ERROR, 'left right bottom');
         }).finally(function () {
