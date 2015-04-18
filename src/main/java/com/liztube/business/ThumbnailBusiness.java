@@ -66,25 +66,26 @@ public class ThumbnailBusiness {
      * Get video default thumbnail
      * @param key
      */
-    public byte[] getThumbnail(String key) throws ThumbnailException, VideoException, UserNotFoundException {
+    public byte[] getThumbnail(String key, int width, int height) throws ThumbnailException, VideoException, UserNotFoundException {
 
         //Test if video exists and if user has enough rights
         try{
             videoBusiness.videoCanBeGetted(key);
         }catch (Exception e){
             e.printStackTrace();
-            return getDefaultLiztubeThumbnail(VIDEO_DEFAULT_THUMBNAIL_UNAVAILABLE);
+            return getDefaultLiztubeThumbnail(VIDEO_DEFAULT_THUMBNAIL_UNAVAILABLE, width, height);
         }
 
         //Get video thumbnail
         try {
             BufferedImage img = ImageIO.read(new File(String.format(filePathForFormat, videoThumbnailsLibrary.getFile().getAbsolutePath(), File.separator, key + VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX)));
+            img = ThumbnailResizing.resizeImageWithHint(img, width, height);
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
             ImageIO.write(img, "png", bao);
             bao.close();
             return bao.toByteArray();
         } catch (Exception e) {
-            return getDefaultLiztubeThumbnail(VIDEO_DEFAULT_THUMBNAIL_DEFAULT);
+            return getDefaultLiztubeThumbnail(VIDEO_DEFAULT_THUMBNAIL_DEFAULT, width, height);
         }
     }
 
@@ -93,13 +94,11 @@ public class ThumbnailBusiness {
      * @return
      * @throws ThumbnailException
      */
-    private byte[] getDefaultLiztubeThumbnail(String type) throws ThumbnailException {
+    private byte[] getDefaultLiztubeThumbnail(String type, int width, int height) throws ThumbnailException {
         try {
-            // Prepare buffered image.
             BufferedImage img = ImageIO.read(new File(String.format(filePathForFormat, liztubeDefaultContent.getFile().getAbsolutePath(), File.separator, type + VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX)));
-            // Create a byte array output stream.
+            img = ThumbnailResizing.resizeImageWithHint(img, width, height);
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
-            // Write to output stream
             ImageIO.write(img, "png", bao);
             return bao.toByteArray();
         } catch (Exception e) {

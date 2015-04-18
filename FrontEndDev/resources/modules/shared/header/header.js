@@ -2,8 +2,7 @@
  * Created by Youcef on 11/02/2015.
  */
 angular.module("liztube.header",[
-    "liztube.userStatus",
-    "ngRoute"
+    "liztube.userStatus"
 ]).controller("headerCtrl", function($scope, $mdSidenav, constants) {
 
     $scope.notification = 0;

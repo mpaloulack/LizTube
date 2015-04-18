@@ -32,6 +32,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,9 +57,12 @@ public class ThumbnailBusinessTests {
 
     private ClassPathResource files = new ClassPathResource("files/");
     private VideoCreationFacade videoCreationFacade;
-    private final static int THUMBNAIL_UNAVAILABLE_SIZE = 31250;
-    private final static int THUMBNAIL_DEFAULT_SIZE = 27031;
-    private final static int THUMBNAIL_VIDEO_SIZE = 79345;
+    private final static int THUMBNAIL_UNAVAILABLE_SIZE = 59312;
+    private final static int THUMBNAIL_UNAVAILABLE_SIZE_SMALL = 32312;
+    private final static int THUMBNAIL_DEFAULT_SIZE = 50558;
+    private final static int THUMBNAIL_DEFAULT_SIZE_SMALL = 27031;
+    private final static int THUMBNAIL_VIDEO_SIZE = 157122;
+    private final static int THUMBNAIL_VIDEO_SIZE_SMALL = 79189;
 
     //region preparation
     @Before
@@ -90,7 +94,7 @@ public class ThumbnailBusinessTests {
     }
     //endregion
 
-    //region create
+    //region create thumbnail
     @Test
     public void should_create_thumbnail_with_adpated_size() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
@@ -105,8 +109,8 @@ public class ThumbnailBusinessTests {
         assertThat(thumbnail).isFile();
 
         BufferedImage thumbBuff = ImageIO.read(thumbnail);
-        assertThat(thumbBuff.getWidth()).isEqualTo(320);
-        assertThat(thumbBuff.getHeight()).isEqualTo(180);
+        assertThat(thumbBuff.getWidth()).isEqualTo(1280);
+        assertThat(thumbBuff.getHeight()).isEqualTo(720);
     }
 
     @Test
@@ -120,7 +124,7 @@ public class ThumbnailBusinessTests {
     }
     //endregion
 
-    //region get
+    //region get thumbnail
     @Test
     public void should_get_video_thumbnail() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
@@ -128,26 +132,71 @@ public class ThumbnailBusinessTests {
 
         String key = videoBusiness.uploadVideo(file, videoCreationFacade);
 
-        byte[] image = thumbnailBusiness.getThumbnail(key);
+        byte[] image = thumbnailBusiness.getThumbnail(key, 0, 0);
         assertThat(image.length).isEqualTo(THUMBNAIL_VIDEO_SIZE);
     }
 
     @Test
+    public void should_get_SMALL_video_thumbnail() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
+        FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
+        MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
+
+        String key = videoBusiness.uploadVideo(file, videoCreationFacade);
+
+        byte[] image = thumbnailBusiness.getThumbnail(key, 320, 180);
+        assertThat(image.length).isEqualTo(THUMBNAIL_VIDEO_SIZE_SMALL);
+    }
+
+    @Test
+    public void should_get_right_169_dim_if_height_is_null() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
+        FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
+        MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
+
+        String key = videoBusiness.uploadVideo(file, videoCreationFacade);
+
+        byte[] image = thumbnailBusiness.getThumbnail(key, 320, 0);
+        assertThat(image.length).isEqualTo(THUMBNAIL_VIDEO_SIZE_SMALL);
+    }
+
+    @Test
+    public void should_get_right_169_dim_if_width_is_null() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
+        FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
+        MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
+
+        String key = videoBusiness.uploadVideo(file, videoCreationFacade);
+
+        byte[] image = thumbnailBusiness.getThumbnail(key, 0, 180);
+        assertThat(image.length).isEqualTo(THUMBNAIL_VIDEO_SIZE_SMALL);
+    }
+
+    @Test
     public void should_get_unavailable_thumbnail_if_not_video_exist() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
-        byte[] image = thumbnailBusiness.getThumbnail("NOTEXIST");
+        byte[] image = thumbnailBusiness.getThumbnail("NOTEXIST", 0, 0);
         assertThat(image.length).isEqualTo(THUMBNAIL_UNAVAILABLE_SIZE);
     }
 
     @Test
+    public void should_get_unavailable_SMALL() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
+        byte[] image = thumbnailBusiness.getThumbnail("NOTEXIST", 320, 180);
+        assertThat(image.length).isEqualTo(THUMBNAIL_UNAVAILABLE_SIZE_SMALL);
+    }
+
+    @Test
     public void should_get_unavailable_thumbnail_if_user_dont_have_right() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
-        byte[] image = thumbnailBusiness.getThumbnail("f");
+        byte[] image = thumbnailBusiness.getThumbnail("f", 0, 0);
         assertThat(image.length).isEqualTo(THUMBNAIL_UNAVAILABLE_SIZE);
     }
 
     @Test
     public void should_get_default_thumbnail_if_thumbnail_not_exist() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
-        byte[] image = thumbnailBusiness.getThumbnail("a");
+        byte[] image = thumbnailBusiness.getThumbnail("a", 0, 0);
         assertThat(image.length).isEqualTo(THUMBNAIL_DEFAULT_SIZE);
+    }
+
+    @Test
+    public void should_get_default_thumbnail_SMALL() throws UserNotFoundException, VideoException, ThumbnailException, IOException {
+        byte[] image = thumbnailBusiness.getThumbnail("a", 320, 180);
+        assertThat(image.length).isEqualTo(THUMBNAIL_DEFAULT_SIZE_SMALL);
     }
     //endregion
 }

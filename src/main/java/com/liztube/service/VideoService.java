@@ -138,16 +138,25 @@ public class VideoService {
     }
 
     /**
-     * Get video thumbnail
+     * Get video thumbnail (default dimensions 1280 x 720 (16/9))
      * @param key
+     * @param width
+     * @param height
      * @return
      * @throws ThumbnailException
+     * @throws VideoException
+     * @throws UserNotFoundException
+     * @throws ServiceException
      */
     @RequestMapping(value = "/thumbnail/{key}", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public byte[] getThumbnail(@PathVariable(value = "key") String key) throws ThumbnailException, VideoException, UserNotFoundException, ServiceException {
+    public byte[] getThumbnail(@PathVariable(value = "key") String key,
+                               @RequestParam(value = "width", required = false) Integer width,
+                               @RequestParam(value = "height", required = false) Integer height) throws ThumbnailException, VideoException, UserNotFoundException, ServiceException {
+        width = width == null ? 0 : width;
+        height = height == null ? 0 : height;
         try{
-            return thumbnailBusiness.getThumbnail(key);
+            return thumbnailBusiness.getThumbnail(key, width, height);
         }catch (PublicException e){
             throw e;
         }catch (Exception e){

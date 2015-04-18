@@ -8,10 +8,10 @@ import java.awt.image.BufferedImage;
  */
 public class ThumbnailResizing {
 
-    private static final double WIDTH_HEIGHT_RAPPORT = 1.78;// 16/9
-    private static final double HEIGHT_WIDTH_RAPPORT = 0.56;// 9/16
-    private static final int DEFAULT_THUMBNAIL_WIDTH = 320;// 16
-    private static final int DEFAULT_THUMBNAIL_HEIGHT = 180;// 9
+    private static final double WIDTH_HEIGHT_RAPPORT = 1.7778;// 16/9
+    private static final double HEIGHT_WIDTH_RAPPORT = 0.5625;// 9/16
+    private static final int DEFAULT_THUMBNAIL_WIDTH = 1280;// 16
+    private static final int DEFAULT_THUMBNAIL_HEIGHT = 720;// 9
 
     /**
      * Adapt thumbnail size :
@@ -21,7 +21,7 @@ public class ThumbnailResizing {
      * @return
      */
     public static BufferedImage adaptThumbnailSize(BufferedImage originalImage){
-        return resizeImageWithHint(cropThumbnail(originalImage));
+        return resizeImageWithHint(cropThumbnail(originalImage), 0, 0);
     }
 
     /**
@@ -45,15 +45,37 @@ public class ThumbnailResizing {
     }
 
     /**
-     * Resize image with increasing quality
+     * Resize image by increasing quality
+     * Manage the image dimension :
+     * - if width = 0 and height = 0 : use default dimension
+     * - if one of them is 0 : adapt this one to have a 16/9 dimensions
+     * - if two of them are different of 0 : check 16/9 dimensions ...
+     *  - if don't have 16/9 dimensions : adapt height
+     *  - else keep asked values
      * @param originalImage
      * @return
      */
-    private static BufferedImage resizeImageWithHint(BufferedImage originalImage){
+    public static BufferedImage resizeImageWithHint(BufferedImage originalImage, int width, int height){
+        //If no defined : get default values
+        if(width == 0 && height == 0){
+            width = DEFAULT_THUMBNAIL_WIDTH;
+            height = DEFAULT_THUMBNAIL_HEIGHT;
+        }
+        //If width not defined : define width for 16/9 dimensions
+        if(width == 0 && height != 0){
+            width = (int) Math.round(height * WIDTH_HEIGHT_RAPPORT);
+        }
+        //If height not defined : define height for 16/9 dimensions
+        //OR
+        //if height and width defined and image don't have 16/9 dimensions : we adapt the height
+        if ((width != 0 && height == 0) || (width != 0 && height != 0 && (float)width/(float)height != (float)16/(float)9)){
+            height = (int)Math.round(width * HEIGHT_WIDTH_RAPPORT);
+        }
+
         int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-        BufferedImage resizedImage = new BufferedImage(DEFAULT_THUMBNAIL_WIDTH, DEFAULT_THUMBNAIL_HEIGHT, type);
+        BufferedImage resizedImage = new BufferedImage(width, height, type);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, DEFAULT_THUMBNAIL_WIDTH, DEFAULT_THUMBNAIL_HEIGHT, null);
+        g.drawImage(originalImage, 0, 0, width, height, null);
         g.dispose();
         g.setComposite(AlphaComposite.Src);
 
@@ -66,21 +88,5 @@ public class ThumbnailResizing {
 
         return resizedImage;
     }
-
-    /**
-     * Resize image
-     * @param originalImage
-     * @return
-     */
-    /*
-    private static BufferedImage resizeImage(BufferedImage originalImage){
-        int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-        BufferedImage resizedImage = new BufferedImage(DEFAULT_THUMBNAIL_WIDTH, DEFAULT_THUMBNAIL_HEIGHT, type);
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, DEFAULT_THUMBNAIL_WIDTH, DEFAULT_THUMBNAIL_HEIGHT, null);
-        g.dispose();
-
-        return resizedImage;
-    }*/
 
 }

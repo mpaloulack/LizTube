@@ -181,8 +181,8 @@ public class VideoBusinessTests {
         assertThat(videoLibraryFolder.list().length).isEqualTo(1);
         assertThat(fileFound.exists()).isTrue();
         BufferedImage thumbnail = ImageIO.read(new File(videoPath));
-        assertThat(thumbnail.getWidth()).isEqualTo(320);
-        assertThat(thumbnail.getHeight()).isEqualTo(180);
+        assertThat(thumbnail.getWidth()).isEqualTo(1280);
+        assertThat(thumbnail.getHeight()).isEqualTo(720);
     }
 
     @Test

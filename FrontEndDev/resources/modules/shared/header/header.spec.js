@@ -2,7 +2,6 @@ describe('liztube.header', function(){
 
     beforeEach(module('liztube.header'));
     beforeEach(module('liztube.userStatus'));
-    beforeEach(module('ngRoute'));
     var createController, $scope, $rootScope, $mdSidenav, constants;
 
     var mockConstants = {
@@ -64,12 +63,14 @@ describe('liztube.header', function(){
         beforeEach(function(){
             $scope.showNotification = false;
             $scope.notification = 0;
+            $scope.noNotification = "something";
         });
 
         it('should put showNotification to boolean if a addNotification event is broadcast and add 1 to the notification count', function(){
             $scope.$broadcast('addNotificationForHeader', true);
             expect($scope.showNotification).toEqual(true);
             expect($scope.notification).toEqual(1);
+            expect($scope.noNotification).toEqual("");
         });
 
     });
