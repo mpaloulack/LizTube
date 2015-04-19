@@ -94,9 +94,8 @@ public class VideoBusiness {
         FileInputStream fis = new FileInputStream(videoLibrary.getFile().getAbsolutePath() + File.separator + key);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         byte[] buf = new byte[1024];
-
         for (int readNum; (readNum = fis.read(buf)) != -1;) {
-            bos.write(buf, 0, readNum); //no doubt here is 0
+            bos.write(buf, 0, readNum);
         }
         return bos.toByteArray();
     }
@@ -254,17 +253,6 @@ public class VideoBusiness {
      * @param video
      */
     private Video extractVideoData(String filePath, Video video) throws VideoException {
-
-    /*try{
-        MediaLocator media = new MediaLocator(file);
-        Player player = Manager.createPlayer(media);
-        video.setDuration(player.getDuration().getNanoseconds() / 1000);
-        player.close();
-    }catch (Exception e){
-        e.printStackTrace();
-        throw new VideoException("Video data extraction - error when trying to get video duration", VIDEO_UPLOAD_DURATION_ERROR);
-    }*/
-
         try{
             IContainer container = IContainer.make();
             if (container.open(filePath, IContainer.Type.READ, null) < 0) {
