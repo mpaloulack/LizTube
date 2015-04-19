@@ -1,5 +1,13 @@
 describe('liztube.updatepassword', function() {
 
+    var changePromiseResult = function (promise, status, value) {
+        if (status === 'resolve')
+            promise.resolve(value);
+        else
+            promise.reject(value);
+        $rootScope.$digest();
+    };
+
     beforeEach(module('liztube.moastr'));
     beforeEach(module('ngRoute'));
     beforeEach(module('liztube.updatepassword'));
@@ -77,18 +85,37 @@ describe('liztube.updatepassword', function() {
 
         });
 
-        describe('submit', function() {
-            beforeEach(function(){
-                $scope.password = {
-                    oldPassword: "oldPassword",
-                    newPassword: "newPassword",
-                };
-                $scope.verify = {
-                    password : "newPassword"
-                };
-                spyOn($scope, '$emit').and.callThrough();
-                spyOn(moastr, 'error').and.callThrough();
+        describe('update', function() {
+            var submitPromise;
 
+            beforeEach(function(){
+                submitPromise = $q.defer();
+                spyOn(userService, 'updatePassword').and.returnValue(submitPromise.promise);
+
+                $scope.update();
+            });
+
+            beforeEach(function(){
+               $scope.password={
+                   oldPassword: "oldPassword",
+                   newPassword: "newPassword"
+               };
+            });
+
+            beforeEach(function(){
+                spyOn($location,'path').and.callThrough();
+                spyOn(moastr, 'error').and.callThrough();
+                userService.updatePassword($scope.password);
+            });
+
+            it('should return an error message', function(){
+                changePromiseResult(submitPromise, "failed");
+                expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
+            });
+
+            it('should be a successful update', function() {
+                changePromiseResult(submitPromise, "resolve");
+                expect($location.path).toHaveBeenCalledWith('/profil');
             });
         });
     });
