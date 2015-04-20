@@ -9,9 +9,11 @@ angular.module('liztube.videos.user', [
         templateUrl: "myVideos.html"
     });
 }).controller('userVideosCtrl', function($scope, constants, $window) {
+    $scope.pageTitle = "Mes vidéos";
     $scope.orderBy = "mostrecent";
     $scope.page = "";
     $scope.pagination = "";
     $scope.userId = $window.user.id;
     $scope.q = "";
+    $scope.for = "user";
 });

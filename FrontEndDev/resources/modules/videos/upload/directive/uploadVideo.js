@@ -3,12 +3,12 @@ angular.module("liztube.upload.video",[
     "ngRoute",
     "liztube.upload.video.page",
     'angularFileUpload' //https://github.com/danialfarid/angular-file-upload
-]).controller("uploadVideoCtrl", function($scope, $http, $upload, constants, moastr, $mdSidenav) {
+]).controller("uploadVideoCtrl", function($scope, $http, $upload, constants, moastr, $mdSidenav, $location) {
 
     $scope.uploadRate = 0;
     $scope.fileName = "";
     $scope.videoLoading = false;
-
+    $scope.success = false;
     /**
      * Catch upload video event to upload a video
      */
@@ -30,7 +30,9 @@ angular.module("liztube.upload.video",[
             $scope.uploadRate = parseInt(100.0 * evt.loaded / evt.total);
             $scope.percent = parseInt(100.0 * evt.loaded / evt.total) + "%";
         }).success(function (data, status, headers, config) {
+            $scope.success = true;
             moastr.successMin(constants.UPLOAD_DONE, 'top right');
+            $location.path("/videos-user");
         }).error(function (data, status, headers, config){
             moastr.error(constants.SERVER_ERROR, 'left right bottom');
         });

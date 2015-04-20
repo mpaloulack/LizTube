@@ -17,6 +17,23 @@ angular.module("liztube",[
 ]).config(function ($routeProvider,$locationProvider,RestangularProvider){
     $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('api/');
+
+    // add a response intereceptor
+    RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+        var extractedData;
+        // .. to look for getList operations
+        if (operation === "getList") {
+            // .. and handle the data and meta data
+            extractedData = data.videos;
+            extractedData.currentPage = data.currentPage;
+            extractedData.videosTotalCount = data.videosTotalCount;
+            extractedData.totalPage = data.totalPage;
+        } else {
+            extractedData = data;
+        }
+        return extractedData;
+    });
+
 }).controller('mainCtrl', function ($scope) {
     $scope.$on('loadingStatus', function (event, bool) {
         $scope.$broadcast('loadingStatusForHeader', bool);

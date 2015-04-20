@@ -20,7 +20,7 @@ angular.module("liztube.userStatus",[
     $scope.logOut = function(){
         authService.logout().then(function(){
             $scope.$emit('userStatus', undefined);
-
+            $window.user.pseudo = "";
             $location.path("/");
         }, function(){
             moastr.error(constants.SERVER_ERROR,'left right bottom');

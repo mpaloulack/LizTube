@@ -8,7 +8,7 @@ angular.module('liztube.upload.video.page', [
         controller: 'FileUploadController',
         templateUrl: "upload.html"
     });
-}).controller('FileUploadController', function($scope, moastr, constants) {
+}).controller('FileUploadController', function($rootScope, $scope, moastr, constants, $location) {
 
     $scope.isPublic = false;
     $scope.isPublicLink = false;
@@ -41,6 +41,8 @@ angular.module('liztube.upload.video.page', [
             };
             $scope.$emit('loadingUploadVideo', video);
             $scope.$emit('addNotification', true);
+            $location.path("/");
+
         }else{
             moastr.error(constants.NO_FILE_SELECTED, 'left right bottom');
         }

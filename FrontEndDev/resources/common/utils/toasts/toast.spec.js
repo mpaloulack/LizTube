@@ -27,7 +27,7 @@ describe('liztube.moastr', function(){
         });
     });
 
-    it('should toast a warning', function(){
+    it('should toast a success', function(){
         moast.success("test", 'left right bottom');
         expect($mdToast.show).toHaveBeenCalledWith({
             template: '<md-toast class="moastr full success"><span flex><i class="fa fa-exclamation-triangle"></i> test</span></md-toast>',
@@ -54,7 +54,7 @@ describe('liztube.moastr', function(){
         });
     });
 
-    it('should toast a warning', function(){
+    it('should toast a success', function(){
         moast.successMin("test", 'left right bottom');
         expect($mdToast.show).toHaveBeenCalledWith({
             template: '<md-toast class="moastr min success"><span flex><i class="fa fa-exclamation-triangle"></i> test</span></md-toast>',
