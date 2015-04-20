@@ -107,7 +107,7 @@ public class JpaConfigs {
         jpaProperties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, environment.getProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL, DEFAULT_HIBERNATE_SHOW_SQL));
 
         //Update DB
-        //jpaProperties.put(PROPERTY_NAME_HIBERNATE_DB_ACTION, environment.getProperty(PROPERTY_NAME_HIBERNATE_DB_ACTION, DEFAULT_HIBERNATE_HBM2DDL_AUTO));
+        jpaProperties.put(PROPERTY_NAME_HIBERNATE_DB_ACTION, environment.getProperty(PROPERTY_NAME_HIBERNATE_DB_ACTION, DEFAULT_HIBERNATE_HBM2DDL_AUTO));
 
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
 
