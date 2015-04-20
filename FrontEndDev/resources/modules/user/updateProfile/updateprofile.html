@@ -1,12 +1,12 @@
-<div id="update-profile">
+<div id="update-profile" ng-init="getUserProfile()">
     <div layout="column" layout-align="center center" class="update-profile">
         <form class="form-update-profile" name="formupdate-profile">
             <md-toolbar class="update-profile-bar md-accent">
                 <h2 class="md-toolbar-tools">
-                    <span><img src="app/dist/img/favicon.png" width="27px"> Inscription</span>
+                    <span><img src="app/dist/img/favicon.png" width="27px"> Mise à jour du profil</span>
                 </h2>
             </md-toolbar>
-            <div class="update-profile-content">
+            <div class="update-profile-content" >
                 <div layout layout-sm="column">
                     <md-input-container flex>
                         <label><i class="fa fa-user"></i> Nom</label>
@@ -38,7 +38,7 @@
                     </md-input-container>
                     <md-input-container flex>
                         <label><i class="fa fa-calendar"></i> Date de naissance</label>
-                        <input type="date" name="date_naissance" ng-model="user.birthdate" date-to-timestamp>
+                        <input type="date" name="date_naissance" ng-model="user.birthdate"  date-to-timestamp>
                     </md-input-container>
                 </div>
                 <div layout layout-sm="column">

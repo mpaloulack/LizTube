@@ -1,4 +1,4 @@
-<div id="profile">
+<div id="profile" ng-init="getUserProfile()">
     <div>
         <div layout="column" layout-align="center center" class="profile">
             <div class="header-profile">
@@ -8,7 +8,7 @@
 
                         </h2>
                     </md-toolbar>
-                    <div class="profile-content">
+                    <div class="profile-content" >
                         <div layout layout-sm="row">
                             <div layout layout-sm="column">
                                 <gravatar-image gravatar-email="user.email" gravatar-size="150" gravatar-default="mm"></gravatar-image>
@@ -29,10 +29,10 @@
                                 </div>
                             </div>
                             <div layout="row" layout-align="end end" class="updateProfile">
-                                <md-button class="md-fab" aria-label="Eat cake" ng-href="/updateprofile" md-component-id="right">
+                                <md-button class="md-fab" aria-label="Eat cake" ng-href="/majprofil" md-component-id="right">
                                     <md-icon md-font-icon="fa fa-pencil-square-o" ng-style="{'font-size':'32px'}"></md-icon>
                                 </md-button>
-                                <md-button class="md-fab" aria-label="Eat cake" ng-href="/updatepassword" md-component-id="right">
+                                <md-button class="md-fab" aria-label="Eat cake" ng-href="/majmotdepasse" md-component-id="right">
                                     <md-icon md-font-icon="fa fa-key" ng-style="{'font-size':'32px'}"></md-icon>
                                 </md-button>
                             </div>

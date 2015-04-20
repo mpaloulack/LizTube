@@ -10,6 +10,7 @@ describe('liztube.register', function() {
 
 	beforeEach(module('liztube.register'));
 	beforeEach(module('liztube.dataService.authService'));
+    beforeEach(module('ngRoute'));
 
 	var $scope, $rootScope, $location, authService, $q, constants, $window, createController;
 
@@ -23,10 +24,11 @@ describe('liztube.register', function() {
         });
     });
 
-	beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_) {
+	beforeEach(inject(function (_$rootScope_, _$location_, _$route_, _authService_, _$window_, _$q_) {
 		$rootScope =_$rootScope_;
 		$location = _$location_;
 		authService = _authService_;
+        route = _$route_;
 		$window= _$window_;
 	    $q = _$q_;
 	}));

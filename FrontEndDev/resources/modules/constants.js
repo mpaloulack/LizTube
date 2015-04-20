@@ -6,5 +6,8 @@ angular.module("liztube.constants",[]).constant('constants',{
     FILE_SIZE_ALLOWED: 524288000,
     UPLOAD_DONE: "Téléchargement de la vidéo terminé",
     DOWNLOAD_ON_AIR_FILE_NAME: "Téléchargement de la vidéo : ",
-    NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notifications"
+    NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notifications",
+    UPDATE_PASSWORD_OK: "Votre mot de passe a bien était mis à jour",
+    UPDATE_PASSWORD_NOK_OLD_PASSWORD: "Votre ancien mot de passe ne correspond pas",
+    UPDATE_PROFILE_OK: "Votre profil à bien était mis à jour"
 });

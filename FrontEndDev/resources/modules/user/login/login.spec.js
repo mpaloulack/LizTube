@@ -6,7 +6,7 @@ describe('liztube.login', function() {
         else
             promise.reject(value);
         $rootScope.$digest();
-	};
+    };
     
     beforeEach(module('liztube.login'));
     beforeEach(module('liztube.dataService.authService'));

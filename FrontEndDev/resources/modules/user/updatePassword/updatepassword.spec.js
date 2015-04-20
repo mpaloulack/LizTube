@@ -16,7 +16,9 @@ describe('liztube.updatepassword', function() {
     var $scope, $rootScope, $location, userService, $q, constants, $window, createController;
 
     var mockConstants = {
-        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
+        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
+        UPDATE_PASSWORD_OK: "Votre mot de passe a bien était mis à jour",
+        UPDATE_PASSWORD_NOK_OLD_PASSWORD: "Votre ancien mot de passe ne correspond pas"
     };
 
     beforeEach(function() {
@@ -60,8 +62,8 @@ describe('liztube.updatepassword', function() {
                     .respond(200);
             }));
 
-        it('should load the updatepassord page on successful load of /updatepassword', function() {
-            $location.path('/updatepassword');
+        it('should load the updatepassord page on successful load of /majmotdepasse', function() {
+            $location.path('/majmotdepasse');
             $rootScope.$digest();
             expect(route.current.controller).toBe('updatePasswordCtrl');
             expect(route.current.title).toBe('LizTube - Mise à jour du mot de passe');
@@ -85,13 +87,12 @@ describe('liztube.updatepassword', function() {
 
         });
 
-        describe('update', function() {
-            var submitPromise;
+        describe('update password', function() {
+            var submitPromise, responseBody, response;
 
             beforeEach(function(){
                 submitPromise = $q.defer();
                 spyOn(userService, 'updatePassword').and.returnValue(submitPromise.promise);
-
                 $scope.update();
             });
 
@@ -100,23 +101,43 @@ describe('liztube.updatepassword', function() {
                    oldPassword: "oldPassword",
                    newPassword: "newPassword"
                };
+                responseBody = {
+                    messages:{}
+                };
+
+                response= {
+                    data: {
+                        messages:''
+                    }
+                }
             });
 
             beforeEach(function(){
                 spyOn($location,'path').and.callThrough();
                 spyOn(moastr, 'error').and.callThrough();
+                //spyOn(moastr, 'successMin').and.callThrough();
                 userService.updatePassword($scope.password);
             });
 
-            it('should return an error message', function(){
+            it('should return an server error message', function(){
                 changePromiseResult(submitPromise, "failed");
                 expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
             });
 
-            it('should be a successful update', function() {
+            /*it('should return message #1015 error message', function () {
+                changePromiseResult(submitPromise, "failed");
+                response.data ={
+                    messages : "#1015"
+                };
+                expect(moastr.error).toHaveBeenCalledWith(mockConstants.UPDATE_PASSWORD_NOK_OLD_PASSWORD, 'left right bottom');
+            });*/
+
+            it('should be a successful passowrd update', function() {
                 changePromiseResult(submitPromise, "resolve");
+                //expect(moastr.successMin).toHaveBeenCalledWith(mockConstants.UPDATE_PASSWORD_OK, 'top right');
                 expect($location.path).toHaveBeenCalledWith('/profil');
             });
+
         });
     });
 
