@@ -16,5 +16,11 @@ angular.module("liztube.home",[
         templateUrl:"404.html"
     });
 }).controller("homeCtrl", function($scope) {
-
+    $scope.pageTitle = "Vidéos les plus récentes";
+    $scope.orderBy = "mostrecent";
+    $scope.page = "";
+    $scope.pagination = "";
+    $scope.userId = "";
+    $scope.q = "";
+    $scope.for = "home";
 });

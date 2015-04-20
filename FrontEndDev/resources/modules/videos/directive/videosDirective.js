@@ -1,6 +1,7 @@
 angular.module("liztube.videos",[
-    "liztube.dataService.videosService"
-]).controller("videosCtrl", function($scope, constants, videosService) {
+    "liztube.dataService.videosService",
+    "liztube.moastr"
+]).controller("videosCtrl", function($scope, constants, videosService, moastr) {
 
     $scope.pamaeters = {};
 
@@ -10,6 +11,12 @@ angular.module("liztube.videos",[
             $scope.showConfidentiality = true;
         }else{
             $scope.showConfidentiality = false;
+        }
+
+        if(!_.isUndefined($scope.getParams().for) && $scope.getParams().for === "home"){
+            $scope.showSelectVideos = true;
+        }else{
+            $scope.showSelectVideos = false;
         }
 
         if(!_.isUndefined($scope.getParams().pageTitle) && $scope.getParams().pageTitle !== ""){
@@ -45,13 +52,26 @@ angular.module("liztube.videos",[
                 console.log("currentPage : " + data.currentPage);
                 console.log("totalPage : " + data.totalPage);
             }
-
         },function(){
-            //error
+            moastr.error(constants.SERVER_ERROR);
         }).finally(function(){
             //finally
         });
     });
+
+    $scope.filter = function(orderBy){
+        videosService.getVideos(orderBy, $scope.pamaeters).then(function(data){
+            if(data.length === 0){
+                $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
+            }else{
+                $scope.videos = data;
+            }
+        },function(){
+            moastr.error(constants.SERVER_ERROR);
+        }).finally(function(){
+            //finally
+        });
+    };
 
 }).directive('liztubeVideos', function () {
     return {
