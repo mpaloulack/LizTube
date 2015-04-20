@@ -92,12 +92,14 @@ describe('liztube.header', function(){
             $scope.notification = 2;
             $scope.$broadcast('removeNotificationForHeader', true);
             expect($scope.showNotification).toEqual(true);
+            expect($scope.noNotification).toEqual("");
         });
 
         it('should set showNotification to false if no notification are left', function(){
             $scope.notification = 1;
             $scope.$broadcast('removeNotificationForHeader', true);
             expect($scope.showNotification).toEqual(false);
+            expect($scope.noNotification).toEqual(mockConstants.NO_NOTIFICATIONS_FOUND);
         });
 
         it('should do nothing if no notification are left', function(){
@@ -108,7 +110,6 @@ describe('liztube.header', function(){
             expect($scope.notification).toEqual(0);
             expect($scope.noNotification).toEqual(mockConstants.NO_NOTIFICATIONS_FOUND);
         });
-
     });
 
     describe('set loading status', function(){

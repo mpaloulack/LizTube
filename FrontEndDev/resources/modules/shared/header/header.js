@@ -28,6 +28,8 @@ angular.module("liztube.header",[
             if($scope.notification === 0){
                 $scope.showNotification = false;
                 $scope.noNotification = constants.NO_NOTIFICATIONS_FOUND;
+            }else{
+                $scope.noNotification = "";
             }
         }
     });
