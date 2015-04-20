@@ -27,14 +27,16 @@ import java.util.List;
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.liztube.controller, com.liztube.service"})
 @Configuration
-@EnableScheduling
 public class AppConfigs extends WebMvcConfigurerAdapter {
     private static final int CACHE_PERIOD = 31556926;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //registry.addResourceHandler("/css/**").addResourceLocations("/app/css/").setCachePeriod(CACHE_PERIOD);
-        //registry.addResourceHandler("/js/**").addResourceLocations("/app/js/").setCachePeriod(CACHE_PERIOD);
+        registry.addResourceHandler("/app/dist/css/**").addResourceLocations("/app/dist/css/").setCachePeriod(CACHE_PERIOD);
+        registry.addResourceHandler("/app/dist/js/**").addResourceLocations("/app/dist/js/").setCachePeriod(CACHE_PERIOD);
+        registry.addResourceHandler("/app/dist/img/**").addResourceLocations("/app/dist/img/").setCachePeriod(CACHE_PERIOD);
+        registry.addResourceHandler("/app/dist/libs/**").addResourceLocations("/app/dist/libs/").setCachePeriod(CACHE_PERIOD);
+        registry.addResourceHandler("/app/dist/partials/**").addResourceLocations("/app/dist/partials/").setCachePeriod(CACHE_PERIOD);
     }
 
     @Override

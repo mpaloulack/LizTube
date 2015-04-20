@@ -6,11 +6,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Scheduler (CRON) to analyse all videos and assign to it a rank for each type of filter
  */
-@Component
+@Service
 public class VideoRankingScheduler {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
