@@ -35,7 +35,6 @@ angular.module('liztube.dataService.userService', [
      PUT update password
      **/
     function updatePassword(passwords){
-        //return Restangular.one("user/password").patch(passwords);
         return baseUser().one("password").patch(passwords);
     }
 
