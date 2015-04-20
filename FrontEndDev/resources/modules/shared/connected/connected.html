@@ -7,7 +7,7 @@
         </div>
         <div class="clear"></div>
         <div class="panel-footer">
-            <a href="/profil" class="profile-href"><gravatar-image gravatar-email="email" gravatar-size="150" gravatar-default="mm"></gravatar-image></a>
+            <a href="/profil" class="profile-href"><gravatar-image class="gr-img"gravatar-email="email" gravatar-size="150" gravatar-default="mm"></gravatar-image></a>
             <md-button class="logout md-warn md-raised" ng-click="logOut(); close()" href="#"><i class="fa fa-sign-out"></i> Déconnexion</md-button>
         </div>
     </span>
@@ -19,7 +19,7 @@
     <div ng-show="userConnected" class="navbar-header" ng-href="/profil">
         <a href="/profil" class="profile-href">
             <h1>{{pseudo}}</h1>
-            <gravatar-image gravatar-email="email" gravatar-size="150" gravatar-default="mm"></gravatar-image>
+            <gravatar-image class="gr-img" gravatar-email="email" gravatar-size="150" gravatar-default="mm"></gravatar-image>
         </a>
     </div>
     <div ng-hide="userConnected">
