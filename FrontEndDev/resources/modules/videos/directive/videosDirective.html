@@ -1,25 +1,30 @@
 <div id="liztubeVideos">
+    <h1 class="pageTitle" ng-if="pageTitle"><i class="fa fa-video-camera"></i> {{pageTitle}}</h1>
+    <h3 class="text-center" ng-if="noVideoFound"><i class="fa fa-video-camera"></i> {{noVideoFound}}</h3>
     <md-content layout="row" layout-wrap class="videosList">
         <div flex="20" ng-repeat="video in videos">
-            <img src="/api/video/thumbnail/{{video.key}}" alt="" />
+            <div>
+                <img src="/api/video/thumbnail/{{video.key}}?width=640&height=360" alt="" />
+                <div class="time">{{video.duration | formatTime}}</div>
+                <div class="confidentiality" ng-show="showConfidentiality">
+                    <span ng-show="video.public" class="public">
+                        <i class="fa fa-check-circle"></i>
+                    </span>
+                    <span ng-if="!video.public && video.publicLink" class="link">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    <span ng-if="!video.public && !video.publicLink" class="private">
+                        <i class="fa fa-minus-circle"></i>
+                    </span>
+                </div>
+            </div>
             <h2>
                 {{video.title | limitTo:29}}
                 <span ng-if="video.title.length > 29">...</span>
             </h2>
             <p>de
-                <span>
-                    {{video.ownerPseudo | limitTo:35}}
-                    <span ng-if="video.ownerPseudo.length > 35">...</span>
-                    <span ng-show="video.public" class="public">
-                        <i class="fa fa-check-circle"></i>
-                    </span>
-                    <span ng-show="video.publicLink" class="link">
-                        <i class="fa fa-link"></i>
-                    </span>
-                    <span ng-hide="video.public" class="private">
-                        <i class="fa fa-ban"></i>
-                    </span>
-                </span>
+                <span>{{video.ownerPseudo | limitTo:35}}</span>
+                <span ng-if="video.ownerPseudo.length > 35">...</span>
             </p>
             <span class="view">{{video.views}} vue(s) . {{video.creationDate | date:'yyyy/MM/dd'}}</span>
         </div>

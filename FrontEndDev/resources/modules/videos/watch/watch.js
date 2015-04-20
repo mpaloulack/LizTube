@@ -13,18 +13,22 @@ angular.module('liztube.video.watch',
     $routeProvider.when("/watch",{
         title: "LizTube - watch",
         page: "watch",
-        controller: 'HomeCtrl',
+        controller: 'watchCtrl',
         templateUrl: "watch.html"
     });
-}).controller('HomeCtrl', function ($sce, $scope) {
-        var videoKey = "e8110653-21c8-44ae-8099-3b3b1c276c60";
+}).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams) {
+        $rootScope.$on('$routeChangeSuccess', function () {
+            console.log($routeParams.key);
+        });
+
+    /*var videoKey = $routeParams.key;
     $scope.config = {
         sources: [
             {src: $sce.trustAsResourceUrl("/api/video/watch/"+videoKey), type: "video/mp4"}
         ],
         theme: "/app/dist/libs/videogular-themes-default/videogular.css",
         plugins: {
-            poster: "/api/video/thumbnail/"+videoKey
+            poster: "/api/video/thumbnail/"+videoKey+"?width=1280&height=720"
         }
-    };
+    };*/
 });

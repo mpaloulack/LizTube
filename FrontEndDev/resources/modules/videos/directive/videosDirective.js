@@ -1,29 +1,23 @@
 angular.module("liztube.videos",[
-    "liztube.dataService.videosService",
-    "ngRoute"
-]).config(function (RestangularProvider){
-
-    // add a response intereceptor
-    RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-        var extractedData;
-        // .. to look for getList operations
-        if (operation === "getList") {
-            // .. and handle the data and meta data
-            extractedData = data.videos;
-            extractedData.currentPage = data.currentPage;
-            extractedData.videosTotalCount = data.videosTotalCount;
-            extractedData.totalPage = data.totalPage;
-        } else {
-            extractedData = data;
-        }
-        return extractedData;
-    });
-
-}).controller("videosCtrl", function($scope, constants, videosService) {
+    "liztube.dataService.videosService"
+]).controller("videosCtrl", function($scope, constants, videosService) {
 
     $scope.pamaeters = {};
 
     $scope.$watch("params",function(){
+
+        if(!_.isUndefined($scope.getParams().for) && $scope.getParams().for === "user"){
+            $scope.showConfidentiality = true;
+        }else{
+            $scope.showConfidentiality = false;
+        }
+
+        if(!_.isUndefined($scope.getParams().pageTitle) && $scope.getParams().pageTitle !== ""){
+            $scope.pageTitle = $scope.getParams().pageTitle;
+        }else{
+            $scope.pageTitle = "Liztube vidéos";
+        }
+
         if(!_.isUndefined($scope.getParams().orderBy) && $scope.getParams().orderBy !== ""){
             $scope.orderBy = $scope.getParams().orderBy;
         }else{
@@ -43,19 +37,22 @@ angular.module("liztube.videos",[
         }
 
         videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
-            $scope.videos = data;
             if(data.length === 0){
-                console.log("################# : ");
+                $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
+            }else{
+                $scope.videos = data;
+                console.log("videosTotalCount : " + data.videosTotalCount);
+                console.log("currentPage : " + data.currentPage);
+                console.log("totalPage : " + data.totalPage);
             }
-            console.log("videosTotalCount : " + data.videosTotalCount);
-            console.log("currentPage : " + data.currentPage);
-            console.log("totalPage : " + data.totalPage);
+
         },function(){
             //error
         }).finally(function(){
             //finally
         });
     });
+
 }).directive('liztubeVideos', function () {
     return {
         restrict: 'E',
@@ -63,23 +60,47 @@ angular.module("liztube.videos",[
         templateUrl: "videosDirective.html",
         replace: true,
         scope: {
+            pageTitle:"@",
             orderBy: "@",
             page: "@",
             pagination: "@",
             user: "@",
-            q: "@"
+            q: "@",
+            for: "@"
         },
         link: function(scope, element, attrs) {
             scope.params = {
+                pageTitle: scope.pageTitle,
                 orderBy: scope.orderBy,
                 page: scope.page,
                 pagination: scope.pagination,
                 user: scope.user,
-                q: scope.q
+                q: scope.q,
+                for: scope.for
             };
             scope.getParams = function(){
                 return scope.params;
             };
         }
+    };
+}).filter('formatTime', function() {
+    return function(milliseconds) {
+        var seconds = parseInt((milliseconds/1000)%60);
+        var minutes = parseInt((milliseconds/(1000*60))%60);
+        var hours = parseInt((milliseconds/(1000*60*60))%24);
+        var out = "";
+
+        hours = (hours < 10 && hours > 0) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+        if(hours === 0){
+            out = minutes + ":" + seconds;
+        }else{
+            out = hours + ":" + minutes + ":" + seconds;
+        }
+
+
+        return out;
     };
 });

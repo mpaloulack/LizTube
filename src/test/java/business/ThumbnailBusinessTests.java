@@ -57,10 +57,10 @@ public class ThumbnailBusinessTests {
 
     private ClassPathResource files = new ClassPathResource("files/");
     private VideoCreationFacade videoCreationFacade;
-    private final static int THUMBNAIL_UNAVAILABLE_SIZE = 59312;
-    private final static int THUMBNAIL_UNAVAILABLE_SIZE_SMALL = 32312;
-    private final static int THUMBNAIL_DEFAULT_SIZE = 50558;
-    private final static int THUMBNAIL_DEFAULT_SIZE_SMALL = 27031;
+    private final static int THUMBNAIL_UNAVAILABLE_SIZE = 61947;
+    private final static int THUMBNAIL_UNAVAILABLE_SIZE_SMALL = 6721;
+    private final static int THUMBNAIL_DEFAULT_SIZE = 62106;
+    private final static int THUMBNAIL_DEFAULT_SIZE_SMALL = 6794;
     private final static int THUMBNAIL_VIDEO_SIZE = 157122;
     private final static int THUMBNAIL_VIDEO_SIZE_SMALL = 79189;
 

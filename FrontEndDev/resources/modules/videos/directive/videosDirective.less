@@ -1,4 +1,13 @@
 #liztubeVideos{
+  .pageTitle{
+    border-bottom: 2px solid #1976D2;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #F3F3F3;
+    font-size: 21px;
+    padding: 10px;
+  }
   .videosList{
     width: 70%;
     margin-right: auto;
@@ -9,7 +18,9 @@
       padding: 1%;
       img{
         position: relative;
-        width: 100%;
+        width: 237px;
+        height: 133px;
+        background-color: #999;
       }
       h2{
         position: relative;
@@ -34,15 +45,37 @@
         font-size: 13px;
         font-weight: 600;
       }
-      .private{
-        color: red;
+      .confidentiality{
+        position: absolute;
+        color: #f9f9f9;
+        background-color: #333;
+        opacity: 0.8;
+        left: 8px;
+        bottom: 22px;
+        border-radius: 100%;
+        width: 18px;
+        padding-top: 0px;
+        height: 19px;
+        text-align: center;
+        .public{
+          color: #99CC00;
+        }
+        .private{
+          color: #CC0000;
+        }
+        .link{
+          color: #0099CC;
+        }
       }
-      .link{
-        color: #1976d2;
+      .time{
+        position: absolute;
+        bottom: 22px;
+        right: 7px;
+        color: #f9f9f9;
+        background-color: #333;
+        opacity: 0.8;
       }
-      .public{
-        color: green;
-      }
+
     }
   }
 }
