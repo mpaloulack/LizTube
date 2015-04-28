@@ -4,7 +4,7 @@
 angular.module("liztube.search",[
 'ngRoute'
 ]).config(function ($routeProvider){
-    $routeProvider.when("/search=:search",{
+    $routeProvider.when("/search/:search",{
         title: "LizTube - Recherche",
         page: "Recherche",
         controller: 'searchCtrl',

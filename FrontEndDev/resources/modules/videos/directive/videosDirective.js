@@ -1,8 +1,7 @@
 angular.module("liztube.videos",[
     "liztube.dataService.videosService",
     "liztube.moastr"
-]).controller("videosCtrl", function($scope, constants, videosService, moastr) {
-
+]).controller("videosCtrl", function($scope, constants, videosService, moastr, $window) {
     $scope.pamaeters = {};
 
     $scope.$watch("params",function(){
@@ -40,14 +39,14 @@ angular.module("liztube.videos",[
             $scope.pamaeters.user = $scope.getParams().user;
         }
         if(!_.isUndefined($scope.getParams().q) && $scope.getParams().q !== ""){
-            $scope.pamaeters.q = $scope.getParams().q;
+            $scope.pamaeters.q = $window.encodeURIComponent($scope.getParams().q);
         }
 
         videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
             if(data.length === 0 && (_.isUndefined($scope.getParams().q) || $scope.getParams().q === "")){
-                    $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
+                $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
             }else if(data.length === 0 && (!_.isUndefined($scope.getParams().q) || $scope.getParams().q !== "")) {
-                $scope.noVideoFound = constants.NO_VIDEOS_FOUND + " pour la recherche '" + $scope.pamaeters.q + "'";
+                $scope.noVideoFound = constants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent($scope.pamaeters.q) + "'";
             }else{
                 $scope.videos = data;
                 console.log("videosTotalCount : " + data.videosTotalCount);
@@ -55,7 +54,7 @@ angular.module("liztube.videos",[
                 console.log("totalPage : " + data.totalPage);
             }
         },function(){
-            moastr.error(constants.SERVER_ERROR);
+            moastr.error(constants.SERVER_ERROR,'left right bottom');
         }).finally(function(){
             //finally
         });
@@ -81,7 +80,7 @@ angular.module("liztube.videos",[
                 $scope.videos = data;
             }
         },function(){
-            moastr.error(constants.SERVER_ERROR);
+            moastr.error(constants.SERVER_ERROR,'left right bottom');
         }).finally(function(){
             //finally
         });

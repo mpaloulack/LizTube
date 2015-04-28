@@ -3,7 +3,7 @@
  */
 angular.module("liztube.header",[
     "liztube.userStatus"
-]).controller("headerCtrl", function($scope, $mdSidenav, constants, $location) {
+]).controller("headerCtrl", function($scope, $mdSidenav, constants, $location, $window) {
 
     $scope.notification = 0;
     $scope.showNotification = false;
@@ -70,7 +70,7 @@ angular.module("liztube.header",[
         if($scope.query === "" || _.isUndefined($scope.query)){
             $location.path('/');
         }else{
-            $location.path('/search='+ $scope.escapeChar($scope.query));
+            $location.path('/search/'+ $scope.escapeChar($scope.query));
         }
     };
 

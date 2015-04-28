@@ -32,7 +32,7 @@ describe('liztube.search', function(){
         );
 
         it('should load the search page on successful load', function() {
-            location.path('/search=test');
+            location.path('/search/test');
             $rootScope.$digest();
             expect(route.current.controller).toBe('searchCtrl');
             expect(route.current.title).toBe('LizTube - Recherche');

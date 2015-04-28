@@ -140,10 +140,12 @@ describe('liztube.header', function(){
         });
 
         it('Should call the escapeChar method and return a a formated string', function(){
-            $scope.escapeChar("test");
-            expect($scope.escapeChar).toHaveBeenCalledWith("test");
+            expect($scope.escapeChar("test")).toEqual("test");
         });
 
+        it('Should call the escapeChar method and return a a formated string', function(){
+            expect($scope.escapeChar('t>e<st/"\'&')).toEqual("test");
+        });
     });
 
     describe('on search function', function(){
@@ -161,7 +163,7 @@ describe('liztube.header', function(){
         it('Should call redirect to /search with params if query is not null', function(){
             $scope.query = "test";
             $scope.search();
-            expect($location.path).toHaveBeenCalledWith('/search=test');
+            expect($location.path).toHaveBeenCalledWith('/search/test');
         });
 
     });

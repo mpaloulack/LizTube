@@ -1,6 +1,6 @@
 describe('liztube.videos', function(){
 
-    var $scope, $rootScope, createController, videosService, constants, $q, $filter;
+    var $scope, $rootScope, createController, videosService, constants, $window, $q, $filter;
 
     var mockConstants = {
         SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
@@ -33,11 +33,12 @@ describe('liztube.videos', function(){
         }
     };
 
-    beforeEach(inject(function (_$rootScope_, _videosService_,_$q_, _$filter_) {
+    beforeEach(inject(function (_$rootScope_, _videosService_,_$q_, _$filter_, _$window_) {
         $rootScope =_$rootScope_;
         videosService = _videosService_;
         $q = _$q_;
         $filter = _$filter_;
+        $window = _$window_;
     }));
 
     beforeEach(inject(function ($controller) {
@@ -58,6 +59,8 @@ describe('liztube.videos', function(){
     describe('On watch params', function() {
         beforeEach(function(){
             $scope.pamaeters = {};
+
+            //$scope.$apply();
             $scope.params = {
                 pageTitle: "Vidéos les plus récentes",
                 orderBy: "mostrecent",
@@ -67,13 +70,10 @@ describe('liztube.videos', function(){
                 q: "",
                 for: "home"
             };
-
-            //spyOn($scope,'getParams').and.callThrough();
         });
 
         it('Should params are setted and $scope.pamaeters created', function () {
-            //expect($scope.getParams).toHaveBeenCalled();
-            //expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
+            //expect($scope.showConfidentiality ).toEqual(false);
         });
     });
 

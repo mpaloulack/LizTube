@@ -10,8 +10,8 @@
     </h1>
     <h3 class="text-center" ng-if="noVideoFound"><i class="fa fa-video-camera"></i> {{noVideoFound}}</h3>
     <md-content layout="row" layout-wrap class="videosList">
-        <div flex="20" ng-repeat="video in videos">
-            <div>
+        <div flex="20" ng-repeat="video in videos" class="videos">
+            <div class="thumb">
                 <img ng-src="/api/video/thumbnail/{{video.key}}?width=640&height=360" alt="" />
                 <div class="time">{{video.duration | formatTime}}</div>
                 <div class="confidentiality" ng-show="showConfidentiality">
