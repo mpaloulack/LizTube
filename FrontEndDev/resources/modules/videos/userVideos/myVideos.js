@@ -8,7 +8,7 @@ angular.module('liztube.videos.user', [
         controller: 'userVideosCtrl',
         templateUrl: "myVideos.html"
     });
-}).controller('userVideosCtrl', function($scope, constants, $window) {
+}).controller('userVideosCtrl', function($scope, $window) {
     $scope.pageTitle = "Mes vidéos";
     $scope.orderBy = "mostrecent";
     $scope.page = "";
