@@ -2,9 +2,9 @@
     <h1 class="pageTitle" ng-if="pageTitle"><i class="fa fa-video-camera"></i> {{pageTitle}}
         <div class="filter" ng-show="showSelectVideos">
             <md-select placeholder="Les plus récents" ng-model="filterOrderBy" ng-change="filter(filterOrderBy)">
-                <md-option value="mostrecent">Les plus récents</md-option>
-                <md-option value="mostviewed">Les plus vue</md-option>
-                <md-option value="mostshared">Les plus partagées</md-option>
+                <md-option value="1">Les plus récents</md-option>
+                <md-option value="2">Les plus vue</md-option>
+                <md-option value="3">Les plus partagées</md-option>
             </md-select>
         </div>
     </h1>
@@ -12,7 +12,7 @@
     <md-content layout="row" layout-wrap class="videosList">
         <div flex="20" ng-repeat="video in videos">
             <div>
-                <img src="/api/video/thumbnail/{{video.key}}?width=640&height=360" alt="" />
+                <img ng-src="/api/video/thumbnail/{{video.key}}?width=640&height=360" alt="" />
                 <div class="time">{{video.duration | formatTime}}</div>
                 <div class="confidentiality" ng-show="showConfidentiality">
                     <span ng-show="video.public" class="public">
@@ -34,7 +34,7 @@
                 <span>{{video.ownerPseudo | limitTo:35}}</span>
                 <span ng-if="video.ownerPseudo.length > 35">...</span>
             </p>
-            <span class="view">{{video.views}} vue(s) . {{video.creationDate | date:'yyyy/MM/dd'}}</span>
+            <span class="view">{{video.views}} vue(s) . {{video.creationDate | date:'dd/MM/yyyy'}}</span>
         </div>
     </md-content>
 </div>

@@ -7,13 +7,13 @@ angular.module("liztube",[
     'liztube.utils',
     "liztube.menu",
     "liztube.home",
+    "liztube.search",
     "liztube.user",
     "liztube.partial",
     "ngRoute",
     'ngMessages',
     'angularjs-gravatardirective',
-    "liztube.videos.module",
-    "liztube.video.watch"
+    "liztube.videos.module"
 ]).config(function ($routeProvider,$locationProvider,RestangularProvider){
     $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('api/');

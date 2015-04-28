@@ -3,7 +3,7 @@
  */
 angular.module("liztube.header",[
     "liztube.userStatus"
-]).controller("headerCtrl", function($scope, $mdSidenav, constants) {
+]).controller("headerCtrl", function($scope, $mdSidenav, constants, $location) {
 
     $scope.notification = 0;
     $scope.showNotification = false;
@@ -50,6 +50,28 @@ angular.module("liztube.header",[
 
     $scope.closeRightBar = function() {
         $mdSidenav('right').close();
+    };
+
+    $scope.escapeChar = function (str){
+        var char = {
+            "&": "",
+            "<": "",
+            ">": "",
+            '"': "",
+            "'": "",
+            "/": ""
+        };
+        return String(str).replace(/[&<>"'\/]/g, function (s) {
+            return char[s];
+        });
+    };
+
+    $scope.search = function(){
+        if($scope.query === "" || _.isUndefined($scope.query)){
+            $location.path('/');
+        }else{
+            $location.path('/search='+ $scope.escapeChar($scope.query));
+        }
     };
 
 }).directive('header', function () {

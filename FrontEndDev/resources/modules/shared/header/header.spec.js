@@ -2,7 +2,7 @@ describe('liztube.header', function(){
 
     beforeEach(module('liztube.header'));
     beforeEach(module('liztube.userStatus'));
-    var createController, $scope, $rootScope, $mdSidenav, constants;
+    var createController, $scope, $rootScope, $mdSidenav, constants, $location;
 
     var mockConstants = {
         NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notifications"
@@ -14,8 +14,9 @@ describe('liztube.header', function(){
         });
     });
 
-    beforeEach(inject(function (_$rootScope_) {
+    beforeEach(inject(function (_$rootScope_, _$location_) {
         $rootScope =_$rootScope_;
+        $location = _$location_;
     }));
 
     var $mdSidenav = function(test){
@@ -128,7 +129,38 @@ describe('liztube.header', function(){
 
     });
 
+    /*describe('on escapeChar', function(){
 
+        beforeEach(function(){
+            spyOn($scope,'escapeChar').and.callThrough();
+        });
+
+        it('Should call the escapeChar method and return a a formated string', function(){
+            $scope.escapeChar("test");
+            expect($scope.escapeChar).and.returnValue("test");
+        });
+
+    });*/
+
+    describe('on search function', function(){
+
+        beforeEach(function(){
+            spyOn($location,'path').and.callThrough();
+        });
+
+        it('Should call redirect to / if query is null', function(){
+            $scope.query = "";
+            $scope.search();
+            expect($location.path).toHaveBeenCalledWith('/');
+        });
+
+        it('Should call redirect to /search with params if query is not null', function(){
+            $scope.query = "test";
+            $scope.search();
+            expect($location.path).toHaveBeenCalledWith('/search=test');
+        });
+
+    });
     /*describe('toggleRight method', function(){
         beforeEach(function(){
             spyOn($mdSidenav('right'), 'toggle').and.callThrough();
@@ -138,7 +170,5 @@ describe('liztube.header', function(){
             $scope.toggleRight();
             expect($mdSidenav('right').toggle).toHaveBeenCalled();
         });
-
     });*/
-
 });

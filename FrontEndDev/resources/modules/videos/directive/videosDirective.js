@@ -44,8 +44,10 @@ angular.module("liztube.videos",[
         }
 
         videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
-            if(data.length === 0){
-                $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
+            if(data.length === 0 && (_.isUndefined($scope.getParams().q) || $scope.getParams().q === "")){
+                    $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
+            }else if(data.length === 0 && (!_.isUndefined($scope.getParams().q) || $scope.getParams().q !== "")) {
+                $scope.noVideoFound = constants.NO_VIDEOS_FOUND + " pour la recherche '" + $scope.pamaeters.q + "'";
             }else{
                 $scope.videos = data;
                 console.log("videosTotalCount : " + data.videosTotalCount);
@@ -60,10 +62,22 @@ angular.module("liztube.videos",[
     });
 
     $scope.filter = function(orderBy){
-        videosService.getVideos(orderBy, $scope.pamaeters).then(function(data){
+        if(orderBy === "1"){
+            $scope.orderBy = "mostrecent";
+            $scope.pageTitle = "Vidéos les plus récentes";
+        }else if(orderBy === "2"){
+            $scope.orderBy = "mostviewed";
+            $scope.pageTitle = "Vidéos les plus vue";
+        }else if(orderBy === "3"){
+            $scope.orderBy = "mostshared";
+            $scope.pageTitle = "Vidéos les plus partagées";
+        }
+        $scope.videos = {};
+        videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
             if(data.length === 0){
                 $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
             }else{
+                $scope.noVideoFound = "";
                 $scope.videos = data;
             }
         },function(){
