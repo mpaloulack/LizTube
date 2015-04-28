@@ -2,7 +2,7 @@ describe('liztube.header', function(){
 
     beforeEach(module('liztube.header'));
     beforeEach(module('liztube.userStatus'));
-    var createController, $scope, $rootScope, $mdSidenav, constants, $location;
+    var createController, $scope, $rootScope, $mdSidenav, constants, $location, $compile;
 
     var mockConstants = {
         NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notifications"
@@ -14,14 +14,18 @@ describe('liztube.header', function(){
         });
     });
 
-    beforeEach(inject(function (_$rootScope_, _$location_) {
+    beforeEach(inject(function (_$rootScope_, _$location_, _$compile_) {
         $rootScope =_$rootScope_;
         $location = _$location_;
+        $compile = _$compile_;
     }));
 
     var $mdSidenav = function(test){
         return {
             toggle: function(){
+                return true;
+            },
+            close: function(){
                 return true;
             }
         };
@@ -129,7 +133,7 @@ describe('liztube.header', function(){
 
     });
 
-    /*describe('on escapeChar', function(){
+    describe('on escapeChar', function(){
 
         beforeEach(function(){
             spyOn($scope,'escapeChar').and.callThrough();
@@ -137,10 +141,10 @@ describe('liztube.header', function(){
 
         it('Should call the escapeChar method and return a a formated string', function(){
             $scope.escapeChar("test");
-            expect($scope.escapeChar).and.returnValue("test");
+            expect($scope.escapeChar).toHaveBeenCalledWith("test");
         });
 
-    });*/
+    });
 
     describe('on search function', function(){
 
@@ -161,14 +165,32 @@ describe('liztube.header', function(){
         });
 
     });
-    /*describe('toggleRight method', function(){
+
+    describe('directive header', function() {
+        it('Should directives header has text', function() {
+            var directive = $compile('<header></header>')($scope);
+            expect(directive.html()).toEqual("");
+        });
+    });
+    describe('toggleRight method', function(){
         beforeEach(function(){
             spyOn($mdSidenav('right'), 'toggle').and.callThrough();
         });
 
-        it('Should toggleRight open/close', function(){
+        it('Should toggleRight open', function(){
             $scope.toggleRight();
-            expect($mdSidenav('right').toggle).toHaveBeenCalled();
+            //expect($mdSidenav('right').toggle).toHaveBeenCalled();
         });
-    });*/
+    });
+
+    describe('closeRightBar  method', function(){
+        beforeEach(function(){
+            spyOn($mdSidenav('right'), 'close').and.callThrough();
+        });
+
+        it('Should toggleRight close', function(){
+            $scope.closeRightBar();
+            //expect($mdSidenav('right').close).toHaveBeenCalled();
+        });
+    });
 });

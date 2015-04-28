@@ -11,7 +11,7 @@ describe('liztube.userStatus',function(){
     beforeEach(module('liztube.userStatus'));
     beforeEach(module('liztube.dataService.authService'));
 
-    var createController, $scope, $rootScope, $location, authService, $window, $q, $mdSidenav, $templateCache, constants;
+    var createController, $scope, $rootScope, $location, authService, $window, $q, $mdSidenav, $templateCache, constants, $compile;
 
     var mockConstants = {
         SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
@@ -24,13 +24,14 @@ describe('liztube.userStatus',function(){
     });
 
 
-    beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_, _$templateCache_) {
+    beforeEach(inject(function (_$rootScope_, _$location_, _authService_, _$window_, _$q_, _$templateCache_, _$compile_) {
         $rootScope =_$rootScope_;
         $location = _$location_;
         authService = _authService_;
         $window= _$window_;
         $q = _$q_;
         $templateCache = _$templateCache_;
+        $compile = _$compile_;
     }));
 
     var moastr = {
@@ -146,6 +147,24 @@ describe('liztube.userStatus',function(){
         it('Should set userConnected to false', function(){
             $scope.checkUserConnected();
             expect($scope.userConnected).toEqual(false);
+        });
+    });
+
+    describe('directive connected', function() {
+        it('Should directives connected has text', function() {
+            var directive = $compile('<is-connected type="forHeaderBar"></is-connected>')($scope);
+            expect(directive.html()).toEqual("");
+        });
+    });
+
+    describe('close method', function(){
+        beforeEach(function(){
+            spyOn($mdSidenav('right'), 'close').and.callThrough();
+        });
+
+        it('Should close bar close', function(){
+            $scope.close();
+            //expect($mdSidenav('right').close).toHaveBeenCalled();
         });
     });
 });

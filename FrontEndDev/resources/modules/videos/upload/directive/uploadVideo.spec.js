@@ -5,7 +5,7 @@ describe('liztube.upload.video', function(){
     beforeEach(module('liztube.upload.video.page'));
     beforeEach(module('liztube.upload.video'));
     beforeEach(module('angularFileUpload'));
-    var createController, $scope, $rootScope, $http, $upload, constants, moastr, $q;
+    var createController, $scope, $rootScope, $http, $upload, constants, moastr, $q, $compile;
 
     var mockConstants = {
         SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
@@ -27,11 +27,12 @@ describe('liztube.upload.video', function(){
         });
     });
 
-    beforeEach(inject(function (_$rootScope_,_$http_, _$upload_, _$q_) {
+    beforeEach(inject(function (_$rootScope_,_$http_, _$upload_, _$q_, _$compile_) {
         $rootScope =_$rootScope_;
         $http = _$http_;
         $upload = _$upload_;
         $q = _$q_;
+        $compile = _$compile_;
     }));
 
     var $mdSidenav = function(test){
@@ -65,7 +66,7 @@ describe('liztube.upload.video', function(){
         };
     }));
 
-describe('uploadVideoCtrl', function(){
+    describe('uploadVideoCtrl', function(){
 
         beforeEach(function(){
             createController();
@@ -127,6 +128,12 @@ describe('uploadVideoCtrl', function(){
 
         });
 
+        describe('directive uploadVideo', function() {
+            it('Should directives uploadVideo has text', function() {
+                var directive = $compile('<upload-video></upload-video>')($scope);
+                expect(directive.html()).toEqual("");
+            });
+        });
     });
 });
 
