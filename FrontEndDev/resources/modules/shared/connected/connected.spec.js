@@ -63,6 +63,31 @@ describe('liztube.userStatus',function(){
         createController();
     });
 
+    describe('on userIsConnected', function(){
+
+        beforeEach(function(){
+        });
+
+        it('should not connect user if $brodcast is undefined', function(){
+            $scope.$broadcast('userIsConnected', undefined);
+            expect($scope.userConnected).toEqual(false);
+            expect($scope.email).toEqual("");
+            expect($scope.pseudo).toEqual("");
+        });
+
+        it('should connect user if $brodcast is defined', function(){
+            var user = {
+                pseudo : "test",
+                email: "test"
+            }
+            $scope.$broadcast('userIsConnected', user);
+            expect($scope.userConnected).toEqual(true);
+            expect($scope.email).toEqual("test");
+            expect($scope.pseudo).toEqual("test");
+        });
+
+    });
+
     describe('logOut', function(){
         var logoutPromise;
         beforeEach(function(){
@@ -102,6 +127,27 @@ describe('liztube.userStatus',function(){
 
     });
 
+    describe('checkUserConnected ', function(){
+        beforeEach(function(){
+            spyOn($scope, 'checkUserConnected').and.callThrough();
+            $window.user = {
+                "pseudo":""
+            };
+        });
+
+        it('Should set userConnected to true', function(){
+            $window.user = {
+                "pseudo":"test"
+            };
+            $scope.checkUserConnected();
+            expect($scope.userConnected).toEqual(true);
+        });
+
+        it('Should set userConnected to false', function(){
+            $scope.checkUserConnected();
+            expect($scope.userConnected).toEqual(false);
+        });
+    });
 });
 
 /*
