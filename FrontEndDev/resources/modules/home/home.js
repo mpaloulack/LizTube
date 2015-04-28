@@ -2,11 +2,11 @@
  * Created by Youcef on 28/01/2015.
  */
 angular.module("liztube.home",[
-    "ngRoute"
+'ngRoute'
 ]).config(function ($routeProvider){
     $routeProvider.when("/",{
         title: "LizTube - Accueil",
-        page: "Home",
+        page: "Accueil",
         controller: 'homeCtrl',
         templateUrl: "home.html"
     }).otherwise({
@@ -15,7 +15,7 @@ angular.module("liztube.home",[
         page: "404 : Page non trouvé",
         templateUrl:"404.html"
     });
-}).controller("homeCtrl", function($scope) {
+}).controller("homeCtrl", function($scope){
     $scope.pageTitle = "Vidéos les plus récentes";
     $scope.orderBy = "mostrecent";
     $scope.page = "";

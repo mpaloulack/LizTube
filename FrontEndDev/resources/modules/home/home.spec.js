@@ -23,27 +23,42 @@ describe('liztube.home', function(){
         createController();
     });
 
+    describe('scope Init', function(){
+
+        it('scope variables initialized', function(){
+            expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
+            expect($scope.orderBy).toEqual("mostrecent");
+            expect($scope.page).toEqual("");
+            expect($scope.pagination).toEqual("");
+            expect($scope.userId).toEqual("");
+            expect($scope.q).toEqual("");
+            expect($scope.for).toEqual("home");
+        });
+
+    });
+
     describe('Home route', function() {
         beforeEach(inject(
             function($httpBackend) {
-                $httpBackend.expectGET('home.html')
-                    .respond(200);
-            }));
+                $httpBackend.expectGET('home.html').respond(200);
+            })
+        );
+
 
         it('should load the home page on successful load of /', function() {
             location.path('/');
             $rootScope.$digest();
             expect(route.current.controller).toBe('homeCtrl');
             expect(route.current.title).toBe('LizTube - Accueil');
-            expect(route.current.page).toBe('Home');
+            expect(route.current.page).toBe('Accueil');
         });
+
     });
 
     describe('404 route', function() {
         beforeEach(inject(
             function($httpBackend) {
-                $httpBackend.expectGET('404.html')
-                    .respond(200);
+                $httpBackend.expectGET('404.html').respond(200);
             }));
 
         it('should load the 404 page on successful load of /404', function() {
