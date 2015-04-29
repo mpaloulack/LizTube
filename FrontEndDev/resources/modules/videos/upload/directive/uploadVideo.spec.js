@@ -75,9 +75,8 @@ describe('liztube.upload.video', function(){
         describe('scope Init', function(){
 
             it('scope variables initialized', function(){
-                expect($scope.videoLoading).toEqual(false);
                 expect($scope.uploadRate).toEqual(0);
-                expect($scope.fileName).toEqual("");
+                expect($scope.id).toEqual(0);
             });
 
         });
@@ -85,10 +84,10 @@ describe('liztube.upload.video', function(){
         describe('on loadingUploadVideoForHeader', function() {
 
             beforeEach(function(){
-                $scope.videoLoading = false;
                 spyOn(moastr, 'successMin').and.callThrough();
                 spyOn(moastr, 'error').and.callThrough();
                 spyOn($upload, 'upload').and.callThrough();
+                spyOn($scope, '$emit').and.callThrough();
                 var video = {
                     title: "test",
                     description: "test",
@@ -96,12 +95,22 @@ describe('liztube.upload.video', function(){
                     isPublicLink : false,
                     file: "test"
                 };
+                $scope.notifications = {
+                    "infos": [
+                        {
+                            id: $scope.id,
+                            fileName : mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
+                            uploadRate : 0,
+                            percent : "0%"
+                        }
+                    ]
+                };
                 $scope.$broadcast('loadingUploadVideoForHeader', video);
             });
 
-            it('should set videoLoading to true and create download file title', function () {
-                expect($scope.videoLoading).toEqual(true);
-                expect($scope.fileName).toEqual(mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + "test");
+            it('should emit addNotification', function () {
+                expect($scope.$emit).toHaveBeenCalledWith('addNotification', true);
+                expect($scope.id).toEqual(1);
             });
 
             it('$upload.upload should have been called', function () {
@@ -110,22 +119,64 @@ describe('liztube.upload.video', function(){
 
         });
 
-        describe('closeProgressBar', function(){
+        describe('addVideoAsNotifications', function(){
+            beforeEach(function(){
+                $scope.notifications = {
+                    "infos": [
+                        {
+                            id: 1,
+                            fileName : mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + "file 1",
+                            uploadRate : 0,
+                            percent : "0%"
+                        }
+                    ]
+                };
+                var infos = {
+                    id: 2,
+                    fileName : mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + 'file 2',
+                    uploadRate : 10,
+                    percent : "10%"
+                };
+                $scope.addVideoAsNotifications(infos);
+            });
+
+            it('Should create new object', function(){
+                expect($scope.notifications.infos[1].id).toEqual(2);
+            });
+
+            it('Should update object', function(){
+                infos = {
+                    id: 1,
+                    fileName : mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + 'file 1',
+                    uploadRate : 50,
+                    percent : "10%"
+                };
+                $scope.addVideoAsNotifications(infos);
+                expect($scope.notifications.infos[0].uploadRate).toEqual(50);
+            });
+        });
+
+
+        describe('hideProgressBar', function(){
             beforeEach(function(){
                 spyOn($scope, '$emit').and.callThrough();
-                $scope.videoLoding = true;
-                $scope.closeProgressBar();
+                $scope.notifications = {
+                    "infos": [
+                        {
+                            id: $scope.id,
+                            fileName : mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + "test",
+                            uploadRate : 0,
+                            percent : "0%"
+                        }
+                    ]
+                };
+                $scope.hideProgressBar(0);
             });
 
             it('Should emit for removeNotification', function(){
+                expect($scope.notifications.infos).toEqual([]);
                 expect($scope.$emit).toHaveBeenCalledWith('removeNotification', true);
             });
-
-
-            it('Should set videoLoading to true', function(){
-                expect($scope.videoLoading).toEqual(false);
-            });
-
         });
 
         describe('directive uploadVideo', function() {

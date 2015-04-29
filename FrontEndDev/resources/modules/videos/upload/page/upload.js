@@ -40,7 +40,6 @@ angular.module('liztube.upload.video.page', [
                 isPublicLink: $scope.isPublicLink
             };
             $scope.$emit('loadingUploadVideo', video);
-            $scope.$emit('addNotification', true);
             $location.path("/");
 
         }else{

@@ -4,19 +4,26 @@ angular.module("liztube.upload.video",[
     "liztube.upload.video.page",
     'angularFileUpload' //https://github.com/danialfarid/angular-file-upload
 ]).controller("uploadVideoCtrl", function($scope, $http, $upload, constants, moastr, $mdSidenav, $location) {
-
     $scope.uploadRate = 0;
-    $scope.fileName = "";
-    $scope.videoLoading = false;
-    $scope.success = false;
+    $scope.id = 0;
     /**
      * Catch upload video event to upload a video
      */
-    $scope.$on('loadingUploadVideoForHeader', function(event, video) {
-        $scope.videoLoading = true;
-        $scope.fileName = constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title;
-        $mdSidenav('right').toggle();
 
+    $scope.$on('loadingUploadVideoForHeader', function(event, video) {
+        $mdSidenav('right').toggle();
+        $scope.id = $scope.id+1;
+        $scope.$emit('addNotification', true);
+        $scope.notifications = {
+            "infos": [
+                {
+                    id: $scope.id,
+                    fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
+                    uploadRate : 0,
+                    percent : "0%"
+                }
+            ]
+        };
         $upload.upload({
             url: '/api/video/upload',
             fields: {
@@ -27,10 +34,13 @@ angular.module("liztube.upload.video",[
             },
             file: video.file
         }).progress(function (evt) {
-            $scope.uploadRate = parseInt(100.0 * evt.loaded / evt.total);
-            $scope.percent = parseInt(100.0 * evt.loaded / evt.total) + "%";
+            $scope.addVideoAsNotifications({
+                id: $scope.id,
+                fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
+                uploadRate : parseInt(100.0 * evt.loaded / evt.total),
+                percent : parseInt(100.0 * evt.loaded / evt.total) + "%"
+            });
         }).success(function (data, status, headers, config) {
-            $scope.success = true;
             moastr.successMin(constants.UPLOAD_DONE, 'top right');
             $location.path("/videos-user");
         }).error(function (data, status, headers, config){
@@ -38,11 +48,24 @@ angular.module("liztube.upload.video",[
         });
     });
 
+    $scope.addVideoAsNotifications = function(video){
+        for (var j = 0; j < $scope.notifications.infos.length; j++) {
+            if (angular.equals($scope.notifications.infos[j].id,video.id)) {
+                $scope.notifications.infos[j].uploadRate = video.uploadRate;
+                $scope.notifications.infos[j].percent = video.percent;
+                break;
+            }else{
+                $scope.notifications.infos = $scope.notifications.infos.concat([video]);
+                break;
+            }
+        }
+    };
+
     /**
      * Close upload progress bar
      */
-    $scope.closeProgressBar = function(){
-        $scope.videoLoading = false;
+    $scope.hideProgressBar = function(index){
+        $scope.notifications.infos.splice(index, 1);
         $scope.$emit('removeNotification', true);
     };
 

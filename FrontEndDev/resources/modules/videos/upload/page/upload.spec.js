@@ -136,7 +136,6 @@ describe('liztube.upload.video', function(){
                 };
                 $scope.submit();
                 expect($scope.$emit).toHaveBeenCalledWith('loadingUploadVideo', video);
-                expect($scope.$emit).toHaveBeenCalledWith('addNotification', true);
             });
         });
 
