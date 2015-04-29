@@ -31,24 +31,28 @@ describe('liztube.search', function(){
             })
         );
 
+        beforeEach(function(){
+            location.path('/search/test');
+            $routeParams.search = "test";
+            $rootScope.$digest();
+            $scope.pageTitle = "Vidéos les plus récentes";
+            $scope.orderBy = "mostrecent";
+            $scope.page = "";
+            $scope.pagination = "";
+            $scope.userId = "";
+            $scope.q = $routeParams.search;
+            $scope.for = "home";
+        });
+
         it('should load the search page on successful load', function() {
             location.path('/search/test');
-            $rootScope.$digest();
             expect(route.current.controller).toBe('searchCtrl');
             expect(route.current.title).toBe('LizTube - Recherche');
             expect(route.current.page).toBe('Recherche');
         });
-    });
 
-    describe('scope Init', function(){
         it('scope variables initialized', function(){
-            expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
-            expect($scope.orderBy).toEqual("mostrecent");
-            expect($scope.page).toEqual("");
-            expect($scope.pagination).toEqual("");
-            expect($scope.userId).toEqual("");
-            //expect($scope.q).toEqual("test");
-            expect($scope.for).toEqual("home");
+            expect($scope.q).toEqual("test");
         });
     });
 });
