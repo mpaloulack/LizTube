@@ -19,7 +19,7 @@ public class IndexController {
     @Autowired
     public AuthBusiness authBusiness;
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD}, value = "*")
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD}, value = {"*", "*/*"})
     public ModelAndView SingleApplicationPage() {
         ModelAndView modelAndView = new ModelAndView("index");
 
