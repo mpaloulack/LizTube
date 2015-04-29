@@ -13,6 +13,7 @@ public class VideoDataFacade {
     private int views;
     private String key;
     private String ownerPseudo;
+    private String ownerEmail;
     private long ownerId;
     private boolean isPublic;
     private boolean isPublicLink;
@@ -100,6 +101,15 @@ public class VideoDataFacade {
 
     public VideoDataFacade setDuration(long duration) {
         this.duration = duration; return this;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public VideoDataFacade setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+        return this;
     }
 
     //endregion

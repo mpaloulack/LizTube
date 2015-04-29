@@ -228,6 +228,7 @@ public class VideoBusinessTests {
         assertThat(videoFound.getCreationDate()).isEqualTo(videoInDb.getCreationdate());
         assertThat(videoFound.getOwnerId()).isEqualTo(videoInDb.getOwner().getId());
         assertThat(videoFound.getOwnerPseudo()).isEqualTo(videoInDb.getOwner().getPseudo());
+        assertThat(videoFound.getOwnerEmail()).isEqualTo(videoInDb.getOwner().getEmail());
         assertThat(videoFound.isPublic()).isTrue();
         assertThat(videoFound.isPublicLink()).isTrue();
         assertThat(videoFound.getViews()).isEqualTo(2);

@@ -78,6 +78,7 @@ public class VideoBusiness {
                 .setDescription(video.getDescription())
                 .setCreationDate(video.getCreationdate())
                 .setOwnerId(video.getOwner().getId())
+                .setOwnerEmail(video.getOwner().getEmail())
                 .setOwnerPseudo(video.getOwner().getPseudo())
                 .setPublic(video.getIspublic())
                 .setPublicLink(video.getIspubliclink())
