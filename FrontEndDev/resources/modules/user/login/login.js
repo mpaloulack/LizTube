@@ -9,6 +9,7 @@ angular.module("liztube.login",[
     $routeProvider.when("/login",{
         title: "LizTube - Connexion",
         page: "Connexion",
+        accessAnonymous : true,
         controller: 'loginCtrl',
         templateUrl: "login.html"
     });

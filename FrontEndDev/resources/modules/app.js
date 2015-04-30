@@ -56,8 +56,10 @@ angular.module("liztube",[
             // Show a loading message until promises are not resolved
             $rootScope.isViewLoading = true;
         }
-        if ($window.user.pseudo === ""){
-            $location.path('/login');
+        if (current.hasOwnProperty('$$route')) {
+            if ($window.user.pseudo === "" && current.$$route.accessAnonymous === true){
+                $location.path('/login');
+            }
         }
     });
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous ) {

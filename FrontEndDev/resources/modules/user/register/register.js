@@ -10,6 +10,7 @@ angular.module("liztube.register",[
     $routeProvider.when("/register",{
         title: "LizTube - Inscription",
         page: "Inscription",
+        accessAnonymous : true,
         controller: 'registerCtrl',
         templateUrl: "register.html"
     });

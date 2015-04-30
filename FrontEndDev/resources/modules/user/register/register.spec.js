@@ -12,7 +12,7 @@ describe('liztube.register', function() {
 	beforeEach(module('liztube.dataService.authService'));
     beforeEach(module('ngRoute'));
 
-	var $scope, $rootScope, $location, authService, $q, constants, $window, createController;
+	var $scope, $rootScope, $location, authService, $q, constants, $window, createController, $compile, form;
 
     var mockConstants = {
         SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
@@ -24,13 +24,14 @@ describe('liztube.register', function() {
         });
     });
 
-	beforeEach(inject(function (_$rootScope_, _$location_, _$route_, _authService_, _$window_, _$q_) {
+	beforeEach(inject(function (_$rootScope_, _$location_, _$route_, _authService_, _$window_, _$q_, _$compile_) {
 		$rootScope =_$rootScope_;
 		$location = _$location_;
 		authService = _authService_;
         route = _$route_;
 		$window= _$window_;
 	    $q = _$q_;
+        $compile = _$compile_;
 	}));
 
     var moastr = {
@@ -99,7 +100,36 @@ describe('liztube.register', function() {
 	});
 
 	describe('Password verify', function() {
-		
+
+        beforeEach(function(){
+            var element = angular.element(
+                '<form name="form">' +
+                    '<input type="password" name="passwordcheck" ng-model="passwordcheck">'+
+                    '<input type="password" name="passwordconfirm" ng-model="passwordconfirm">' +
+                '</form>'
+            );
+            $scope.model = {passwordcheck: null};
+            $scope.model2 = {passwordconfirm: null};
+            $compile(element)($scope);
+            form = $scope.form;
+        });
+        describe('passwordVerify', function() {
+            it('should password equal to password_confirm', function() {
+                form.passwordcheck.$setViewValue("test");
+                form.passwordconfirm.$setViewValue("test");
+                $scope.$digest();
+                expect($scope.passwordconfirm).toEqual($scope.passwordcheck);
+                expect(form.passwordconfirm.$valid).toBe(true);
+            });
+            /*it('should password not equal to password_confirm', function() {
+                form.passwordcheck.$setViewValue("test");
+                form.passwordconfirm.$setViewValue("tests");
+                $scope.$digest();
+                expect($scope.passwordconfirm).not.toEqual($scope.passwordcheck);
+                expect(form.passwordconfirm.$valid).toBe(false);
+            });*/
+        });
+
 	});
 
 	describe('email validation', function() {

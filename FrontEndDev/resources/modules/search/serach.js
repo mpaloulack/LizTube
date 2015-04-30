@@ -7,6 +7,7 @@ angular.module("liztube.search",[
     $routeProvider.when("/search/:search",{
         title: "LizTube - Recherche",
         page: "Recherche",
+        accessAnonymous : true,
         controller: 'searchCtrl',
         templateUrl: "search.html"
     });

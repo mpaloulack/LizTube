@@ -7,6 +7,7 @@ angular.module("liztube.home",[
     $routeProvider.when("/",{
         title: "LizTube - Accueil",
         page: "Accueil",
+        accessAnonymous : true,
         controller: 'homeCtrl',
         templateUrl: "home.html"
     }).otherwise({
