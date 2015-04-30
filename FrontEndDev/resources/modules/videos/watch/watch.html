@@ -1,24 +1,44 @@
-<div id="watch">
-    <videogular vg-theme="config.theme" class="videogular-container">
-        <vg-media vg-src="config.sources"
-                  vg-tracks="config.tracks">
-        </vg-media>
+<div id="watch" ng-init="getVideoDesc()" >
+    <div class="video-container">
 
-        <vg-controls>
-            <vg-play-pause-button></vg-play-pause-button>
-            <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
-            <vg-scrub-bar>
-                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-            </vg-scrub-bar>
-            <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
-            <vg-volume>
-                <vg-mute-button></vg-mute-button>
-                <vg-volume-bar></vg-volume-bar>
-            </vg-volume>
-            <vg-fullscreen-button></vg-fullscreen-button>
-        </vg-controls>
+        <videogular vg-theme="config.theme" class="videogular-container">
+            <vg-media vg-src="config.sources"
+                      vg-tracks="config.tracks">
+            </vg-media>
 
-        <vg-overlay-play></vg-overlay-play>
-        <vg-poster vg-url='config.plugins.poster'></vg-poster>
-    </videogular>
+            <vg-controls>
+                <vg-play-pause-button></vg-play-pause-button>
+                <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                <vg-scrub-bar>
+                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                </vg-scrub-bar>
+                <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                <vg-volume>
+                    <vg-mute-button></vg-mute-button>
+                    <vg-volume-bar></vg-volume-bar>
+                </vg-volume>
+                <vg-fullscreen-button></vg-fullscreen-button>
+
+            </vg-controls>
+
+            <vg-overlay-play></vg-overlay-play>
+            <vg-poster vg-url='config.plugins.poster'></vg-poster>
+        </videogular>
+        <div class="video-description" layout="row" layout-wrap>
+            <h1>{{videoDesc.title}}</h1>
+            <div flex="50" class="owner">
+                <gravatar-image gravatar-email="videoDesc.ownerEmail" gravatar-size="50" gravatar-default="mm" class="gravatar-image"/>
+                <span>
+                    <a href="#">{{videoDesc.ownerPseudo}}</a>
+                </span>
+                <span>A était posté le : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}.</span>
+            </div>
+            <span flex="50" class="nb-view">Nombres de vue(s) : {{videoDesc.views}}</span>
+            <div class="description" layout="row" layout-wrap>
+                <span >Description : </span>
+                <p>{{videoDesc.description}}</p>
+            </div>
+        </div>
+    </div>
+
 </div>

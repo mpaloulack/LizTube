@@ -1,3 +1,11 @@
+  #watch{
+    margin-top: 10px;
+  }
+
+  .video-container{
+    width: 100%;
+    margin: auto;
+  }
 
   .videogular-container {
     width: 100%;
@@ -6,38 +14,77 @@
     overflow: hidden;
   }
 
+  .videogular-container.audio{
+    width: 100%;
+    height: 50px;
+  }
+
+  .video-description{
+    width: 100%;
+    padding: 15px;
+  }
+
+  .video-description h1{
+    margin: 0;
+    width: 100%;
+  }
+
+  .nb-view{
+    text-align: right;
+  }
+  .description{
+    width : 100%;
+  }
+  
+  .description span{
+    height: 100%;
+  }
+
+  .description p{
+    width: 92%;
+    text-align: justify;
+    margin: 0 0 0 10px;
+  }
+
+  .owner{
+    height: 60px;
+    padding: 5px;
+  }
+
+  .gravatar-image{
+
+  }
+
+  .owner span{
+    margin: 15px;
+  }
+
   @media (min-width: 1200px) {
-    .videogular-container {
+    .video-container{
       width: 1170px;
-      height: 658.125px;
     }
 
-    .videogular-container.audio {
-      width: 1170px;
-      height: 50px;
+    .videogular-container {
+      height: 658.125px;
     }
   }
 
   @media (min-width: 992px) and (max-width: 1199px) {
-    .videogular-container {
+    .video-container{
       width: 940px;
-      height: 528.75px;
     }
 
-    .videogular-container.audio {
-      width: 940px;
-      height: 50px;
+    .videogular-container {
+      height: 528.75px;
     }
   }
 
   @media (min-width: 768px) and (max-width: 991px) {
-    .videogular-container {
-      width: 728px;
-      height: 409.5px;
+    .video-container{
+      width: 940px;
     }
 
-    .videogular-container.audio {
-      width: 728px;
-      height: 50px;
+    .videogular-container {
+      height: 409.5px;
     }
   }

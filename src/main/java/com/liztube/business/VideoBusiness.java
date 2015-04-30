@@ -80,6 +80,7 @@ public class VideoBusiness {
                 .setOwnerId(video.getOwner().getId())
                 .setOwnerEmail(video.getOwner().getEmail())
                 .setOwnerPseudo(video.getOwner().getPseudo())
+                .setOwnerEmail(video.getOwner().getEmail())
                 .setPublic(video.getIspublic())
                 .setPublicLink(video.getIspubliclink())
                 .setViews(video.getViews().size())

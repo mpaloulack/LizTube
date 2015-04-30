@@ -63,6 +63,14 @@ public class VideoDataFacade {
         this.ownerPseudo = ownerPseudo; return this;
     }
 
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public VideoDataFacade setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail; return this;
+    }
+
     public long getOwnerId() {
         return ownerId;
     }
