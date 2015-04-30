@@ -57,7 +57,7 @@ angular.module("liztube",[
             $rootScope.isViewLoading = true;
         }
         if (current.hasOwnProperty('$$route')) {
-            if ($window.user.pseudo === "" && current.$$route.accessAnonymous === true){
+            if ($window.user.pseudo === "" && !current.$$route.accessAnonymous){
                 $location.path('/login');
             }
         }
