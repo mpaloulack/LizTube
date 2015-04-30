@@ -64,7 +64,7 @@ describe('liztube.video.watch', function() {
             }));
 
         /*it('should load the video watch page on successful load of /watch=videoKey', function() {
-            $location.path('/watch='+keyVideo);
+            $location.path('/watch/'+keyVideo);
             $rootScope.$digest();
             expect(route.current.controller).toBe('watchCtrl');
             expect(route.current.title).toBe('LizTube - ');

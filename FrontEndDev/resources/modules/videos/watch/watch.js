@@ -12,7 +12,7 @@ angular.module('liztube.video.watch',
         "com.2fdevs.videogular.plugins.poster"//Thumbnail poster
     ]
 ).config(function ($routeProvider){
-        $routeProvider.when("/watch=:videoKey",{
+        $routeProvider.when("/watch/:videoKey",{
             title: "LizTube - ",
             page: "Watch",
             controller: 'watchCtrl',
