@@ -3,7 +3,22 @@ angular.module("liztube.videos",[
     "liztube.moastr"
 ]).controller("videosCtrl", function($scope, constants, videosService, moastr, $window) {
     $scope.pamaeters = {};
+    $scope.flexSize = 20;
 
+    $scope.getWindowSize = function (size) {
+        if(size <= 500){
+            $scope.flexSize = 100;
+        }else if(size >= 500 && size <= 800){
+            $scope.flexSize = 50;
+        }else if(size >= 800 && size <= 1300){
+            $scope.flexSize = 33;
+        }else{
+            $scope.flexSize = 20;
+        }
+
+    };
+
+    $scope.getWindowSize($window.innerWidth);
     $scope.$watch("params",function(){
 
         if(!_.isUndefined($scope.getParams().for) && $scope.getParams().for === "user"){
@@ -86,7 +101,7 @@ angular.module("liztube.videos",[
         });
     };
 
-}).directive('liztubeVideos', function () {
+}).directive('liztubeVideos', function ($window) {
     return {
         restrict: 'E',
         controller: 'videosCtrl',
@@ -114,6 +129,11 @@ angular.module("liztube.videos",[
             scope.getParams = function(){
                 return scope.params;
             };
+
+            $window.addEventListener('resize', function(){
+                scope.getWindowSize(element[0].offsetWidth);
+                scope.$apply();
+            });
         }
     };
 }).filter('formatTime', function() {

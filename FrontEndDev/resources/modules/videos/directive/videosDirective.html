@@ -1,4 +1,4 @@
-<div id="liztubeVideos">
+<div id="liztubeVideos" on-size-changed>
     <h1 class="pageTitle" ng-if="pageTitle"><i class="fa fa-video-camera"></i> {{pageTitle}}
         <div class="filter" ng-show="showSelectVideos">
             <md-select placeholder="Les plus récents" ng-model="filterOrderBy" ng-change="filter(filterOrderBy)">
@@ -10,7 +10,7 @@
     </h1>
     <h3 class="text-center" ng-if="noVideoFound"><i class="fa fa-video-camera"></i> {{noVideoFound}}</h3>
     <md-content layout="row" layout-wrap class="videosList">
-        <div flex="20" ng-repeat="video in videos" class="videos">
+        <div flex="{{flexSize}}" ng-repeat="video in videos" class="videos">
             <div class="thumb">
                 <img ng-src="/api/video/thumbnail/{{video.key}}?width=640&height=360" alt="" />
                 <div class="time">{{video.duration | formatTime}}</div>
