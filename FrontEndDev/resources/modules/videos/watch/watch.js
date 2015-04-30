@@ -16,8 +16,10 @@ angular.module('liztube.video.watch',
             title: "LizTube - ",
             page: "Watch",
             controller: 'watchCtrl',
-            templateUrl: "watch.html"
+            templateUrl: "watch.html",
+            accessAnonymous : true
         });
+
 }).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, videosService) {
         $scope.errorUpdate = '';
 
