@@ -56,30 +56,100 @@ describe('liztube.videos', function(){
         createController();
     });
 
-    describe('On watch params', function() {
+    describe('getParams method', function() {
+        var videoServicePromise;
         beforeEach(function(){
             $scope.pamaeters = {};
-
-            //$scope.$apply();
+            $scope.noVideoFound = "";
+            videoServicePromise = $q.defer();
+            spyOn(moastr, 'error').and.callThrough();
+            spyOn($scope,'getParams').and.callThrough();
+            spyOn(videosService, 'getVideos').and.returnValue(videoServicePromise.promise);
             $scope.params = {
                 pageTitle: "Vidéos les plus récentes",
                 orderBy: "mostrecent",
-                page: "",
-                pagination: "",
-                user: "",
-                q: "",
+                page: "1",
+                pagination: "10",
+                user: "test",
+                q: "query",
                 for: "home"
             };
         });
 
-        it('Should params are setted and $scope.pamaeters created', function () {
-            //expect($scope.showConfidentiality ).toEqual(false);
+        it('Should params are setted and $scope for params created', function () {
+            $scope.getParams($scope.params);
+            expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
+            expect($scope.orderBy).toEqual("mostrecent");
+            expect($scope.pamaeters.page).toEqual("1");
+            expect($scope.pamaeters.pagination).toEqual("10");
+            expect($scope.pamaeters.user).toEqual("test");
+            expect($scope.pamaeters.q).toEqual("query");
+        });
+
+        it('Should be a successful getVideos and $scope.params.q is undefind and data.length = 0', function () {
+            $scope.params.q= "";
+            $scope.getParams($scope.params);
+            changePromiseResult(videoServicePromise, "resolve", {length : 0});
+            expect($scope.noVideoFound).toEqual(mockConstants.NO_VIDEOS_FOUND);
+        })
+
+        it('Should be a successful getVideos and $scope.params.q is defined and data.length = 0', function () {
+            $scope.params.q= "query";
+            $scope.getParams($scope.params);
+            changePromiseResult(videoServicePromise, "resolve", {length : 0});
+            expect($scope.noVideoFound).toEqual(mockConstants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent($scope.pamaeters.q) + "'");
+        });
+
+        it('Should be a successful getVideos and data.length > 0', function () {
+            $scope.params.q= "query";
+            $scope.getParams($scope.params);
+            changePromiseResult(videoServicePromise, "resolve", {length : 2});
+            expect($scope.noVideoFound).toEqual("");
+            expect($scope.videos).toEqual({length : 2});
+        });
+
+        it('should return an error message', function(){
+            $scope.getParams($scope.params);
+            changePromiseResult(videoServicePromise, "failed");
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
+        });
+
+        it('Shouldn set $scope for params as default if $scope.params is undefind', function () {
+            $scope.params.pageTitle= "";
+            $scope.params.orderBy= "";
+            $scope.getParams($scope.params);
+            expect($scope.pageTitle).toEqual("Liztube vidéos");
+            expect($scope.orderBy).toEqual("q");
+        });
+
+        it('Should showConfidentiality is false if $scope.params.for is not user', function () {
+            $scope.getParams($scope.params);
+            expect($scope.showConfidentiality).toEqual(false);
+        });
+
+        it('Should showConfidentiality is true if $scope.params.for is user', function () {
+            $scope.params.for= "user";
+            $scope.getParams($scope.params);
+            expect($scope.showConfidentiality).toEqual(true);
+        });
+
+        it('Should showConfidentiality is false if $scope.params.for is not home', function () {
+            $scope.params.for= "user";
+            $scope.getParams($scope.params);
+            expect($scope.showSelectVideos).toEqual(false);
+        });
+
+        it('Should showConfidentiality is true if $scope.params.for is  home', function () {
+            $scope.params.for= "home";
+            $scope.getParams($scope.params);
+            expect($scope.showSelectVideos).toEqual(true);
         });
     });
 
     describe('filter function', function() {
         var filterPromise;
         beforeEach(function(){
+            spyOn(moastr, 'error').and.callThrough();
             spyOn($scope,'filter').and.callThrough();
         });
 
@@ -106,16 +176,52 @@ describe('liztube.videos', function(){
             filterPromise = $q.defer();
             spyOn(videosService, 'getVideos').and.returnValue(filterPromise.promise);
         });
+        it('should be a successful filter and data.length > 0', function() {
+            $scope.filter("1");
+            changePromiseResult(filterPromise, "resolve", {length : 2});
+            expect($scope.noVideoFound).toEqual("");
+            expect($scope.videos).toEqual({length : 2});
+        });
 
-        /*it('should return an error message', function(){
+        it('should be a successful filter and data.length = 0', function() {
+            $scope.filter("1");
+            changePromiseResult(filterPromise, "resolve", {length : 0});
+            expect($scope.noVideoFound).toEqual(mockConstants.NO_VIDEOS_FOUND);
+        });
+
+        it('should return an error message', function(){
+            $scope.filter("1");
             changePromiseResult(filterPromise, "failed");
             expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
-        });*/
+        });
 
-        /*it('should be a successful update', function() {
-            changePromiseResult(filterPromise, "resolve");
-            expect($location.path).toHaveBeenCalledWith('/search');
-        });*/
+    });
+
+    describe('getWindowSize function', function() {
+        beforeEach(function(){
+            spyOn($scope,'getWindowSize').and.callThrough();
+            $scope.flexSize = 20;
+        });
+
+        it('Should $scope.flexSize equal 100 if getWindowSize less than or equal 500', function () {
+            $scope.getWindowSize(400);
+            expect($scope.flexSize).toEqual(100);
+        });
+
+        it('Should $scope.flexSize equal 50 if getWindowSize greater than or equal 500 and less than or equal 800', function () {
+            $scope.getWindowSize(650);
+            expect($scope.flexSize).toEqual(50);
+        });
+
+        it('Should $scope.flexSize equal 33 if getWindowSize greater than or equal 800 and less than or equal 1300', function () {
+            $scope.getWindowSize(950);
+            expect($scope.flexSize).toEqual(33);
+        });
+
+        it('Should $scope.flexSize equal 20 if getWindowSize greater than 1300', function () {
+            $scope.getWindowSize(1350);
+            expect($scope.flexSize).toEqual(20);
+        });
     });
 
     describe('filter formatTime', function() {

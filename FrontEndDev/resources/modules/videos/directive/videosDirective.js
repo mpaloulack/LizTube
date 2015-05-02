@@ -4,6 +4,8 @@ angular.module("liztube.videos",[
 ]).controller("videosCtrl", function($scope, constants, videosService, moastr, $window) {
     $scope.pamaeters = {};
     $scope.flexSize = 20;
+    $scope.noVideoFound = "";
+
 
     $scope.getWindowSize = function (size) {
         if(size <= 500){
@@ -15,65 +17,61 @@ angular.module("liztube.videos",[
         }else{
             $scope.flexSize = 20;
         }
-
     };
-
     $scope.getWindowSize($window.innerWidth);
-    $scope.$watch("params",function(){
 
-        if(!_.isUndefined($scope.getParams().for) && $scope.getParams().for === "user"){
+    $scope.getParams = function(params){
+
+        if(!_.isUndefined(params.for) && params.for === "user"){
             $scope.showConfidentiality = true;
         }else{
             $scope.showConfidentiality = false;
         }
 
-        if(!_.isUndefined($scope.getParams().for) && $scope.getParams().for === "home"){
+        if(!_.isUndefined(params.for) && params.for === "home"){
             $scope.showSelectVideos = true;
         }else{
             $scope.showSelectVideos = false;
         }
 
-        if(!_.isUndefined($scope.getParams().pageTitle) && $scope.getParams().pageTitle !== ""){
-            $scope.pageTitle = $scope.getParams().pageTitle;
+        if(!_.isUndefined(params.pageTitle) && params.pageTitle !== ""){
+            $scope.pageTitle = params.pageTitle;
         }else{
             $scope.pageTitle = "Liztube vidéos";
         }
 
-        if(!_.isUndefined($scope.getParams().orderBy) && $scope.getParams().orderBy !== ""){
-            $scope.orderBy = $scope.getParams().orderBy;
+        if(!_.isUndefined(params.orderBy) && params.orderBy !== ""){
+            $scope.orderBy = params.orderBy;
         }else{
             $scope.orderBy = "q";
         }
-        if(!_.isUndefined($scope.getParams().page) && $scope.getParams().page !== ""){
-            $scope.pamaeters.page = $scope.getParams().page;
+        if(!_.isUndefined(params.page) && params.page !== ""){
+            $scope.pamaeters.page = params.page;
         }
-        if(!_.isUndefined($scope.getParams().pagination) && $scope.getParams().pagination !== ""){
-            $scope.pamaeters.pagination = $scope.getParams().pagination;
+        if(!_.isUndefined(params.pagination) && params.pagination !== ""){
+            $scope.pamaeters.pagination = params.pagination;
         }
-        if(!_.isUndefined($scope.getParams().user) && $scope.getParams().user !== ""){
-            $scope.pamaeters.user = $scope.getParams().user;
+        if(!_.isUndefined(params.user) && params.user !== ""){
+            $scope.pamaeters.user = params.user;
         }
-        if(!_.isUndefined($scope.getParams().q) && $scope.getParams().q !== ""){
-            $scope.pamaeters.q = $window.encodeURIComponent($scope.getParams().q);
+        if(!_.isUndefined(params.q) && params.q !== ""){
+            $scope.pamaeters.q = $window.encodeURIComponent(params.q);
         }
 
         videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
-            if(data.length === 0 && (_.isUndefined($scope.getParams().q) || $scope.getParams().q === "")){
+            if(data.length === 0 && (_.isUndefined(params.q) || params.q === "")){
                 $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
-            }else if(data.length === 0 && (!_.isUndefined($scope.getParams().q) || $scope.getParams().q !== "")) {
+            }else if(data.length === 0 && (!_.isUndefined(params.q) || params.q !== "")) {
                 $scope.noVideoFound = constants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent($scope.pamaeters.q) + "'";
             }else{
                 $scope.videos = data;
-                console.log("videosTotalCount : " + data.videosTotalCount);
-                console.log("currentPage : " + data.currentPage);
-                console.log("totalPage : " + data.totalPage);
             }
         },function(){
             moastr.error(constants.SERVER_ERROR,'left right bottom');
         }).finally(function(){
             //finally
         });
-    });
+    };
 
     $scope.filter = function(orderBy){
         if(orderBy === "1"){
@@ -117,7 +115,7 @@ angular.module("liztube.videos",[
             for: "@"
         },
         link: function(scope, element, attrs) {
-            scope.params = {
+            scope.getParams({
                 pageTitle: scope.pageTitle,
                 orderBy: scope.orderBy,
                 page: scope.page,
@@ -125,10 +123,7 @@ angular.module("liztube.videos",[
                 user: scope.user,
                 q: scope.q,
                 for: scope.for
-            };
-            scope.getParams = function(){
-                return scope.params;
-            };
+            });
 
             $window.addEventListener('resize', function(){
                 scope.getWindowSize(element[0].offsetWidth);
@@ -152,7 +147,6 @@ angular.module("liztube.videos",[
         }else{
             out = hours + ":" + minutes + ":" + seconds;
         }
-
 
         return out;
     };
