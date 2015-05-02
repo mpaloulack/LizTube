@@ -1,6 +1,5 @@
 <div id="watch" ng-init="getVideoDesc()" >
     <div class="video-container">
-
         <videogular vg-theme="config.theme" class="videogular-container">
             <vg-media vg-src="config.sources"
                       vg-tracks="config.tracks">
@@ -24,18 +23,19 @@
             <vg-overlay-play></vg-overlay-play>
             <vg-poster vg-url='config.plugins.poster'></vg-poster>
         </videogular>
-        <div class="video-description" layout="row" layout-wrap>
+        <div class="video-infos" layout="row" layout-wrap>
             <h1>{{videoDesc.title}}</h1>
-            <div flex="50" class="owner">
-                <gravatar-image gravatar-email="videoDesc.ownerEmail" gravatar-size="50" gravatar-default="mm" class="gravatar-image"/>
-                <span>
-                    <a href="#">{{videoDesc.ownerPseudo}}</a>
-                </span>
-                <span>A était posté le : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}.</span>
-            </div>
-            <span flex="50" class="nb-view">Nombres de vue(s) : {{videoDesc.views}}</span>
+            <div class="clear"></div>
+            <a href="#" flex="50" class="owner">
+                <gravatar-image gravatar-email="videoDesc.ownerEmail" gravatar-size="50" gravatar-default="mm"/>
+                <span>{{videoDesc.ownerPseudo}}</span>
+            </a>
+            <span flex="50" class="nb-view">
+                Nombres de vue(s) : {{videoDesc.views}}<br/>
+                Date de publication : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}
+            </span>
             <div class="description" layout="row" layout-wrap>
-                <span >Description : </span>
+                <h2>Description </h2>
                 <p>{{videoDesc.description}}</p>
             </div>
         </div>

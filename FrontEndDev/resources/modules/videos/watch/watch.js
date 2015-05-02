@@ -13,24 +13,23 @@ angular.module('liztube.video.watch',
     ]
 ).config(function ($routeProvider){
         $routeProvider.when("/watch/:videoKey",{
-            title: "LizTube - ",
-            page: "Watch",
+            title: "LizTube - vidéo",
+            page: "vidéo",
             controller: 'watchCtrl',
             templateUrl: "watch.html",
             accessAnonymous : true
         });
 
-}).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, videosService) {
+}).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, $route, videosService) {
         $scope.errorUpdate = '';
 
         var videoKey = $routeParams.videoKey;
-
-        $scope.page = "ton texte";
         /**
          * Get video data
          */
         $scope.getVideoDesc = function(){
             videosService.getVideoData(videoKey).then(function(video){
+
                 $scope.videoDesc = video;
 
                 $scope.config = {
