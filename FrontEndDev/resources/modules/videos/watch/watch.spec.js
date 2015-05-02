@@ -1,4 +1,4 @@
-describe('liztube.video.watch', function() {
+describe('liztube.videos.watch', function() {
     var changePromiseResult = function (promise, status, value) {
         if (status === 'resolve')
             promise.resolve(value);
@@ -7,7 +7,7 @@ describe('liztube.video.watch', function() {
         $rootScope.$digest();
     };
 
-    beforeEach(module('liztube.video.watch'));
+    beforeEach(module('liztube.videos.watch'));
     beforeEach(module('liztube.dataService.videosService'));
     beforeEach(module('ngRoute'));
     beforeEach(module('ngSanitize'));

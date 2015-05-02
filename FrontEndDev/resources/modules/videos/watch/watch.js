@@ -1,7 +1,7 @@
 /**
  * Created by laurent on 16/04/15.
  */
-angular.module('liztube.video.watch',
+angular.module('liztube.videos.watch',
     [
         "ngRoute",
         "liztube.dataService.videosService",
