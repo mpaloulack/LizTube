@@ -9,7 +9,7 @@ import com.liztube.repository.VideoRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.facade.video.VideoCreationFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
-import com.xuggle.xuggler.IContainer;
+//import com.xuggle.xuggler.IContainer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -255,7 +255,7 @@ public class VideoBusiness {
      * @param video
      */
     private Video extractVideoData(String filePath, Video video) throws VideoException {
-        try{
+        /*try{
             IContainer container = IContainer.make();
             if (container.open(filePath, IContainer.Type.READ, null) < 0) {
                 throw new IllegalArgumentException("Video data extraction - Could not open file");
@@ -265,7 +265,7 @@ public class VideoBusiness {
         }catch (Exception e){
             e.printStackTrace();
             throw new VideoException("Video data extraction - error when trying to get video duration", VIDEO_UPLOAD_DURATION_ERROR);
-        }
+        }*/
         return video;
     }
 
