@@ -6,6 +6,9 @@ angular.module("liztube.upload.video",[
 ]).controller("uploadVideoCtrl", function($scope, $http, $upload, constants, moastr, $mdSidenav, $location) {
     $scope.uploadRate = 0;
     $scope.id = 0;
+    $scope.notifications = {
+        "infos": []
+    };
     /**
      * Catch upload video event to upload a video
      */
@@ -14,16 +17,13 @@ angular.module("liztube.upload.video",[
         $mdSidenav('right').toggle();
         $scope.id = $scope.id+1;
         $scope.$emit('addNotification', true);
-        $scope.notifications = {
-            "infos": [
-                {
-                    id: $scope.id,
-                    fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
-                    uploadRate : 0,
-                    percent : "0%"
-                }
-            ]
-        };
+        $scope.notifications.infos.push({
+            id: $scope.id,
+            fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
+            uploadRate : 0,
+            percent : "0%"
+        });
+
         $upload.upload({
             url: '/api/video/upload',
             fields: {
@@ -53,9 +53,6 @@ angular.module("liztube.upload.video",[
             if (angular.equals($scope.notifications.infos[j].id,video.id)) {
                 $scope.notifications.infos[j].uploadRate = video.uploadRate;
                 $scope.notifications.infos[j].percent = video.percent;
-                break;
-            }else{
-                $scope.notifications.infos = $scope.notifications.infos.concat([video]);
                 break;
             }
         }

@@ -96,16 +96,15 @@ describe('liztube.upload.video', function(){
                     file: "test"
                 };
                 $scope.notifications = {
-                    "infos": [
-                        {
-                            id: $scope.id,
-                            fileName : mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
-                            uploadRate : 0,
-                            percent : "0%"
-                        }
-                    ]
+                    "infos": []
                 };
                 $scope.$broadcast('loadingUploadVideoForHeader', video);
+                $scope.notifications.infos.push({
+                    id: $scope.id,
+                    fileName : mockConstants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
+                    uploadRate : 0,
+                    percent : "0%"
+                });
             });
 
             it('should emit addNotification', function () {
@@ -138,10 +137,6 @@ describe('liztube.upload.video', function(){
                     percent : "10%"
                 };
                 $scope.addVideoAsNotifications(infos);
-            });
-
-            it('Should create new object', function(){
-                expect($scope.notifications.infos[1].id).toEqual(2);
             });
 
             it('Should update object', function(){
