@@ -61,6 +61,10 @@ describe('liztube.videos', function(){
         beforeEach(function(){
             $scope.parameters = {};
             $scope.noVideoFound = "";
+            $scope.videos = [];
+            $scope.loadPage = 0;
+            $scope.totalPage = 0;
+            $scope.videosLoading = false;
             videoServicePromise = $q.defer();
             spyOn(moastr, 'error').and.callThrough();
             spyOn($scope,'getParams').and.callThrough();
@@ -78,6 +82,7 @@ describe('liztube.videos', function(){
 
         it('Should params are setted and $scope for params created', function () {
             $scope.getParams($scope.params);
+            expect($scope.videosLoading).toBe(true);
             expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
             expect($scope.orderBy).toEqual("mostrecent");
             expect($scope.parameters.page).toEqual("1");
@@ -176,14 +181,14 @@ describe('liztube.videos', function(){
 
         it('should be a successful filter and data.length > 0', function() {
             $scope.filter("1");
-            changePromiseResult(filterPromise, "resolve", {length : 2});
+            changePromiseResult(filterPromise, "resolve", [{id:1}, {id:2}]);
             expect($scope.noVideoFound).toEqual("");
-            expect($scope.videos).toEqual({length : 2});
+            expect($scope.videos.length).toEqual(2);
         });
 
         it('should be a successful filter and data.length = 0', function() {
             $scope.filter("1");
-            changePromiseResult(filterPromise, "resolve", {length : 0});
+            changePromiseResult(filterPromise, "resolve", []);
             expect($scope.noVideoFound).toEqual(mockConstants.NO_VIDEOS_FOUND);
         });
 

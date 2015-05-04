@@ -19,8 +19,8 @@ angular.module("liztube.home",[
 }).controller("homeCtrl", function($scope){
     $scope.pageTitle = "Vidéos les plus récentes";
     $scope.orderBy = "mostrecent";
-    $scope.page = "";
-    $scope.pagination = "";
+    $scope.page = "1";
+    $scope.pagination = "20";
     $scope.userId = "";
     $scope.q = "";
     $scope.for = "home";
