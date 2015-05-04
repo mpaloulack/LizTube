@@ -176,14 +176,14 @@ describe('liztube.videos', function(){
 
         it('should be a successful filter and data.length > 0', function() {
             $scope.filter("1");
-            changePromiseResult(filterPromise, "resolve", {length : 2});
+            changePromiseResult(filterPromise, "resolve", [{id:1}, {id:2}]);
             expect($scope.noVideoFound).toEqual("");
-            expect($scope.videos).toEqual({length : 2});
+            expect($scope.videos.length).toEqual(2);
         });
 
         it('should be a successful filter and data.length = 0', function() {
             $scope.filter("1");
-            changePromiseResult(filterPromise, "resolve", {length : 0});
+            changePromiseResult(filterPromise, "resolve", []);
             expect($scope.noVideoFound).toEqual(mockConstants.NO_VIDEOS_FOUND);
         });
 

@@ -3,7 +3,7 @@
  */
 angular.module("liztube.header",[
     "liztube.userStatus"
-]).controller("headerCtrl", function($scope, $mdSidenav, constants, $location, $window) {
+]).controller("headerCtrl", function($scope, $mdSidenav, constants, $location) {
 
     $scope.notification = 0;
     $scope.showNotification = false;

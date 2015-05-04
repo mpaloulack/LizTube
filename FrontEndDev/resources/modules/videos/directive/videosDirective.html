@@ -9,7 +9,7 @@
         </div>
     </h1>
     <h3 class="text-center" ng-if="noVideoFound"><i class="fa fa-video-camera"></i> {{noVideoFound}}</h3>
-    <md-content layout="row" layout-wrap class="videosList">
+    <md-content layout="row" layout-wrap class="videosList" infinite-scroll>
         <div flex="{{flexSize}}" ng-repeat="video in videos" class="videos">
             <a href="/watch/{{video.key}}">
                 <div class="thumb">
@@ -39,4 +39,7 @@
             </a>
         </div>
     </md-content>
+    <div ng-show="videosLoading">
+        <p class="videos-loading">Chargement ...</p>
+    </div>
 </div>
