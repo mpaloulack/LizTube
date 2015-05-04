@@ -59,7 +59,7 @@ describe('liztube.videos', function(){
     describe('getParams method', function() {
         var videoServicePromise;
         beforeEach(function(){
-            $scope.pamaeters = {};
+            $scope.parameters = {};
             $scope.noVideoFound = "";
             videoServicePromise = $q.defer();
             spyOn(moastr, 'error').and.callThrough();
@@ -80,41 +80,41 @@ describe('liztube.videos', function(){
             $scope.getParams($scope.params);
             expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
             expect($scope.orderBy).toEqual("mostrecent");
-            expect($scope.pamaeters.page).toEqual("1");
-            expect($scope.pamaeters.pagination).toEqual("10");
-            expect($scope.pamaeters.user).toEqual("test");
-            expect($scope.pamaeters.q).toEqual("query");
+            expect($scope.parameters.page).toEqual("1");
+            expect($scope.parameters.pagination).toEqual("10");
+            expect($scope.parameters.user).toEqual("test");
+            expect($scope.parameters.q).toEqual("query");
         });
 
         it('Should be a successful getVideos and $scope.params.q is undefind and data.length = 0', function () {
             $scope.params.q= "";
             $scope.getParams($scope.params);
-            changePromiseResult(videoServicePromise, "resolve", {length : 0});
+            changePromiseResult(videoServicePromise, "resolve", []);
             expect($scope.noVideoFound).toEqual(mockConstants.NO_VIDEOS_FOUND);
         })
 
         it('Should be a successful getVideos and $scope.params.q is defined and data.length = 0', function () {
             $scope.params.q= "query";
             $scope.getParams($scope.params);
-            changePromiseResult(videoServicePromise, "resolve", {length : 0});
-            expect($scope.noVideoFound).toEqual(mockConstants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent($scope.pamaeters.q) + "'");
+            changePromiseResult(videoServicePromise, "resolve", []);
+            expect($scope.noVideoFound).toEqual(mockConstants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent($scope.parameters.q) + "'");
         });
 
         it('Should be a successful getVideos and data.length > 0', function () {
             $scope.params.q= "query";
             $scope.getParams($scope.params);
-            changePromiseResult(videoServicePromise, "resolve", {length : 2});
+            changePromiseResult(videoServicePromise, "resolve", [{id:1}, {id:2}]);
             expect($scope.noVideoFound).toEqual("");
-            expect($scope.videos).toEqual({length : 2});
+            expect($scope.videos.length).toEqual(2);
         });
 
-        it('should return an error message', function(){
+        it('should return an error message if api call failed', function(){
             $scope.getParams($scope.params);
             changePromiseResult(videoServicePromise, "failed");
             expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
         });
 
-        it('Shouldn set $scope for params as default if $scope.params is undefind', function () {
+        it('Should set $scope for params as default if $scope.params is undefind', function () {
             $scope.params.pageTitle= "";
             $scope.params.orderBy= "";
             $scope.getParams($scope.params);
@@ -151,6 +151,9 @@ describe('liztube.videos', function(){
         beforeEach(function(){
             spyOn(moastr, 'error').and.callThrough();
             spyOn($scope,'filter').and.callThrough();
+            $scope.videos = {};
+            filterPromise = $q.defer();
+            spyOn(videosService, 'getVideos').and.returnValue(filterPromise.promise);
         });
 
         it('Should $scope.orderBy equal mostrecent if orderBy equal 1', function () {
@@ -171,11 +174,6 @@ describe('liztube.videos', function(){
             expect($scope.pageTitle).toEqual("Vidéos les plus partagées");
         });
 
-        beforeEach(function(){
-            $scope.videos = {};
-            filterPromise = $q.defer();
-            spyOn(videosService, 'getVideos').and.returnValue(filterPromise.promise);
-        });
         it('should be a successful filter and data.length > 0', function() {
             $scope.filter("1");
             changePromiseResult(filterPromise, "resolve", {length : 2});
@@ -197,29 +195,29 @@ describe('liztube.videos', function(){
 
     });
 
-    describe('getWindowSize function', function() {
+    describe('getFlexSize function', function() {
         beforeEach(function(){
-            spyOn($scope,'getWindowSize').and.callThrough();
+            spyOn($scope,'getFlexSize').and.callThrough();
             $scope.flexSize = 20;
         });
 
-        it('Should $scope.flexSize equal 100 if getWindowSize less than or equal 500', function () {
-            $scope.getWindowSize(400);
+        it('Should $scope.flexSize equal 100 if getFlexSize less than or equal 500', function () {
+            $scope.getFlexSize(400);
             expect($scope.flexSize).toEqual(100);
         });
 
-        it('Should $scope.flexSize equal 50 if getWindowSize greater than or equal 500 and less than or equal 800', function () {
-            $scope.getWindowSize(650);
+        it('Should $scope.flexSize equal 50 if getFlexSize greater than or equal 500 and less than or equal 800', function () {
+            $scope.getFlexSize(650);
             expect($scope.flexSize).toEqual(50);
         });
 
-        it('Should $scope.flexSize equal 33 if getWindowSize greater than or equal 800 and less than or equal 1300', function () {
-            $scope.getWindowSize(950);
+        it('Should $scope.flexSize equal 33 if getFlexSize greater than or equal 800 and less than or equal 1300', function () {
+            $scope.getFlexSize(950);
             expect($scope.flexSize).toEqual(33);
         });
 
-        it('Should $scope.flexSize equal 20 if getWindowSize greater than 1300', function () {
-            $scope.getWindowSize(1350);
+        it('Should $scope.flexSize equal 20 if getFlexSize greater than 1300', function () {
+            $scope.getFlexSize(1350);
             expect($scope.flexSize).toEqual(20);
         });
     });

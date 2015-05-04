@@ -2,12 +2,16 @@ angular.module("liztube.videos",[
     "liztube.dataService.videosService",
     "liztube.moastr"
 ]).controller("videosCtrl", function($scope, constants, videosService, moastr, $window) {
-    $scope.pamaeters = {};
+    $scope.parameters = {};
     $scope.flexSize = 20;
     $scope.noVideoFound = "";
 
 
-    $scope.getWindowSize = function (size) {
+    /**
+     * Get flex size for display videos according to the screen size send as parameter
+     * @param size : screen size
+     */
+    $scope.getFlexSize = function (size) {
         if(size <= 500){
             $scope.flexSize = 100;
         }else if(size >= 500 && size <= 800){
@@ -18,7 +22,8 @@ angular.module("liztube.videos",[
             $scope.flexSize = 20;
         }
     };
-    $scope.getWindowSize($window.innerWidth);
+
+    $scope.getFlexSize($window.innerWidth);
 
     $scope.getParams = function(params){
 
@@ -46,30 +51,28 @@ angular.module("liztube.videos",[
             $scope.orderBy = "q";
         }
         if(!_.isUndefined(params.page) && params.page !== ""){
-            $scope.pamaeters.page = params.page;
+            $scope.parameters.page = params.page;
         }
         if(!_.isUndefined(params.pagination) && params.pagination !== ""){
-            $scope.pamaeters.pagination = params.pagination;
+            $scope.parameters.pagination = params.pagination;
         }
         if(!_.isUndefined(params.user) && params.user !== ""){
-            $scope.pamaeters.user = params.user;
+            $scope.parameters.user = params.user;
         }
         if(!_.isUndefined(params.q) && params.q !== ""){
-            $scope.pamaeters.q = $window.encodeURIComponent(params.q);
+            $scope.parameters.q = $window.encodeURIComponent(params.q);
         }
 
-        videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
+        videosService.getVideos($scope.orderBy, $scope.parameters).then(function(data){
             if(data.length === 0 && (_.isUndefined(params.q) || params.q === "")){
                 $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
             }else if(data.length === 0 && (!_.isUndefined(params.q) || params.q !== "")) {
-                $scope.noVideoFound = constants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent($scope.pamaeters.q) + "'";
+                $scope.noVideoFound = constants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent($scope.parameters.q) + "'";
             }else{
                 $scope.videos = data;
             }
         },function(){
             moastr.error(constants.SERVER_ERROR,'left right bottom');
-        }).finally(function(){
-            //finally
         });
     };
 
@@ -85,7 +88,7 @@ angular.module("liztube.videos",[
             $scope.pageTitle = "Vidéos les plus partagées";
         }
         $scope.videos = {};
-        videosService.getVideos($scope.orderBy, $scope.pamaeters).then(function(data){
+        videosService.getVideos($scope.orderBy, $scope.parameters).then(function(data){
             if(data.length === 0){
                 $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
             }else{
@@ -94,8 +97,6 @@ angular.module("liztube.videos",[
             }
         },function(){
             moastr.error(constants.SERVER_ERROR,'left right bottom');
-        }).finally(function(){
-            //finally
         });
     };
 
@@ -126,7 +127,7 @@ angular.module("liztube.videos",[
             });
 
             $window.addEventListener('resize', function(){
-                scope.getWindowSize(element[0].offsetWidth);
+                scope.getFlexSize(element[0].offsetWidth);
                 scope.$apply();
             });
         }
