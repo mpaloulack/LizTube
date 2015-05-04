@@ -15,31 +15,31 @@
     <link rel="SHORTCUT ICON" href="${pageContext.request.contextPath}/app/dist/img/favicon.png" />
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/videogular-themes-default/videogular.css">
     <!-- endinject -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all.min.css">
     <base href="/"/>
 </head>
 <body ng-controller="mainCtrl">
     <header></header>
     <div data-ng-view></div>
     <!-- inject:js -->
-    <script src="${pageContext.request.contextPath}/app/dist/libs/angular/angular.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular/angular.min.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-animate/angular-animate.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-aria/angular-aria.js"></script>
-    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-route/angular-route.js"></script>
-    <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload-shim.js"></script>
-    <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-route/angular-route.min.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload-shim.min.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/ng-file-upload/angular-file-upload.min.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/lodash/dist/lodash.compat.js"></script>
-    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-messages/angular-messages.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-messages/angular-messages.min.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-mocks/angular-mocks.js"></script>
-    <script src="${pageContext.request.contextPath}/app/dist/libs/angularjs-gravatar/dist/angularjs-gravatardirective.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angularjs-gravatar/dist/angularjs-gravatardirective.min.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/jquery/dist/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/SHA-1/sha1.js"></script>
-    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.min.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/restangular/dist/restangular.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/videogular/videogular.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/videogular-controls/vg-controls.js"></script>
@@ -70,7 +70,7 @@
     <script>
         window.user = ${userConnected};
     </script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/app/dist/js/all.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/app/dist/partials/partials.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/app/dist/js/all.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/app/dist/partials/partials.min.js"></script>
 </body>
 </html>

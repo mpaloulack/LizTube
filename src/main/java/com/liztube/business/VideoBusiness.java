@@ -7,11 +7,14 @@ import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
 import com.liztube.repository.VideoRepository;
 import com.liztube.utils.EnumError;
+import com.liztube.utils.FfMpegUtils;
 import com.liztube.utils.facade.video.VideoCreationFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
 //import com.xuggle.xuggler.IContainer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
@@ -22,10 +25,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,6 +35,8 @@ import java.util.*;
  */
 @Component
 public class VideoBusiness {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     AuthBusiness authBusiness;
@@ -255,17 +257,14 @@ public class VideoBusiness {
      * @param video
      */
     private Video extractVideoData(String filePath, Video video) throws VideoException {
-        /*try{
-            IContainer container = IContainer.make();
-            if (container.open(filePath, IContainer.Type.READ, null) < 0) {
-                throw new IllegalArgumentException("Video data extraction - Could not open file");
-            }
-            video.setDuration(container.getDuration() / 1000);//milliseconds
-            container.close();
-        }catch (Exception e){
+        try {
+            FfMpegUtils ffmpeg = new FfMpegUtils("ffmpeg");
+            int duration = ffmpeg.getDurationInMilliSeconds(filePath);
+            video.setDuration(duration);
+        } catch (Exception e) {
             e.printStackTrace();
             throw new VideoException("Video data extraction - error when trying to get video duration", VIDEO_UPLOAD_DURATION_ERROR);
-        }*/
+        }
         return video;
     }
 
