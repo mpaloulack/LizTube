@@ -3,6 +3,9 @@ package com.liztube.utils;
 /**
  * Created by laurent on 04/05/15.
  */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -20,6 +23,8 @@ public class FfMpegUtils
     {
         this.ffmpegCommand = ffmpegCommand;
     }
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Helper method that executes ffmpeg against the specified file, parses the
@@ -40,7 +45,9 @@ public class FfMpegUtils
             sb.append( filename );
 
             // Execute the command
-            Process p = Runtime.getRuntime().exec( sb.toString() );
+            String str = sb.toString().replace("\\","\\\\");
+            Process p = Runtime.getRuntime().exec(str);
+            logger.error(sb.toString());
 
             // Read the response
             BufferedReader input = new BufferedReader( new InputStreamReader( p.getInputStream() ) );
@@ -84,6 +91,10 @@ public class FfMpegUtils
         {
             e.printStackTrace();
         }
+        for( String field : fieldMap.keySet() )
+        {
+            System.out.println( "\t" + field + " = " + fieldMap.get( field ) );
+        }
 
         return fieldMap;
     }
@@ -109,11 +120,11 @@ public class FfMpegUtils
      * @return
      */
     public int getDurationInMilliSeconds(String filepath){
-        String duration = getDuration( filepath );
-        int hours = Integer.parseInt(duration.substring(0, 2));
-        int minutes = Integer.parseInt( duration.substring( 3, 5 ) );
-        int seconds = Integer.parseInt( duration.substring( 6, 8 ) );
-        int milliseconds = Integer.parseInt(duration.substring(9, 11));
+        String duration = getDuration(filepath).trim();
+        int hours = Integer.parseInt(duration.substring(0, 2).trim());
+        int minutes = Integer.parseInt(duration.substring( 3, 5 ).trim());
+        int seconds = Integer.parseInt(duration.substring( 6, 8 ).trim());
+        int milliseconds = Integer.parseInt(duration.substring(9, 11).trim());
         return hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds * 10;
     }
 

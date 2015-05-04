@@ -263,7 +263,8 @@ public class VideoBusiness {
             video.setDuration(duration);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new VideoException("Video data extraction - error when trying to get video duration", VIDEO_UPLOAD_DURATION_ERROR);
+            //throw new VideoException("Video data extraction - error when trying to get video duration", VIDEO_UPLOAD_DURATION_ERROR);
+            video.setDuration(0);
         }
         return video;
     }
