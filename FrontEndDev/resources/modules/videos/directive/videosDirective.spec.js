@@ -61,6 +61,10 @@ describe('liztube.videos', function(){
         beforeEach(function(){
             $scope.parameters = {};
             $scope.noVideoFound = "";
+            $scope.videos = [];
+            $scope.loadPage = 0;
+            $scope.totalPage = 0;
+            $scope.videosLoading = false;
             videoServicePromise = $q.defer();
             spyOn(moastr, 'error').and.callThrough();
             spyOn($scope,'getParams').and.callThrough();
@@ -78,6 +82,7 @@ describe('liztube.videos', function(){
 
         it('Should params are setted and $scope for params created', function () {
             $scope.getParams($scope.params);
+            expect($scope.videosLoading).toBe(true);
             expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
             expect($scope.orderBy).toEqual("mostrecent");
             expect($scope.parameters.page).toEqual("1");

@@ -29,51 +29,59 @@ angular.module("liztube.videos",[
     $scope.getFlexSize($window.innerWidth);
 
     /**
-     * Get videos form getVideos services to display videos in home page and myVideos
-     * @param getParams : get videos
+     * Get params form directive to set all params, to use it in getVideos service
+     * @param getParams : get params
      */
-    $scope.getParams = function(params){
+    $scope.getParams = function(params) {
         $scope.videosLoading = true;
-        if(!_.isUndefined(params.for) && params.for === "user"){
+        if (!_.isUndefined(params.for) && params.for === "user") {
             $scope.showConfidentiality = true;
-        }else{
+        } else {
             $scope.showConfidentiality = false;
         }
 
-        if(!_.isUndefined(params.for) && params.for === "home"){
+        if (!_.isUndefined(params.for) && params.for === "home") {
             $scope.showSelectVideos = true;
-        }else{
+        } else {
             $scope.showSelectVideos = false;
         }
 
-        if(!_.isUndefined(params.pageTitle) && params.pageTitle !== ""){
+        if (!_.isUndefined(params.pageTitle) && params.pageTitle !== "") {
             $scope.pageTitle = params.pageTitle;
-        }else{
+        } else {
             $scope.pageTitle = "Liztube vidéos";
         }
 
-        if(!_.isUndefined(params.orderBy) && params.orderBy !== ""){
+        if (!_.isUndefined(params.orderBy) && params.orderBy !== "") {
             $scope.orderBy = params.orderBy;
-        }else{
+        } else {
             $scope.orderBy = "q";
         }
-        if(!_.isUndefined(params.page) && params.page !== ""){
+        if (!_.isUndefined(params.page) && params.page !== "") {
             $scope.parameters.page = params.page;
         }
-        if(!_.isUndefined(params.pagination) && params.pagination !== ""){
+        if (!_.isUndefined(params.pagination) && params.pagination !== "") {
             $scope.parameters.pagination = params.pagination;
         }
-        if(!_.isUndefined(params.user) && params.user !== ""){
+        if (!_.isUndefined(params.user) && params.user !== "") {
             $scope.parameters.user = params.user;
         }
-        if(!_.isUndefined(params.q) && params.q !== ""){
+        if (!_.isUndefined(params.q) && params.q !== "") {
             $scope.parameters.q = $window.encodeURIComponent(params.q);
         }
-        videosService.getVideos($scope.orderBy, $scope.parameters).then(function(data){
+        $scope.getVideos($scope.parameters);
+    };
+
+    /**
+     * Get videos form getVideos services to display videos in home page and myVideos
+     * @param getParams : get videos
+     */
+    $scope.getVideos = function(params) {
+        videosService.getVideos($scope.orderBy, params).then(function(data){
             if(data.length === 0 && (_.isUndefined(params.q) || params.q === "")){
                 $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
             }else if(data.length === 0 && (!_.isUndefined(params.q) || params.q !== "")) {
-                $scope.noVideoFound = constants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent($scope.parameters.q) + "'";
+                $scope.noVideoFound = constants.NO_VIDEOS_FOUND + " pour la recherche '" + $window.decodeURIComponent(params.q) + "'";
             }else{
                 $scope.videos = $scope.videos.concat(data);
                 $scope.loadPage = data.currentPage+ 1;
@@ -129,6 +137,7 @@ angular.module("liztube.videos",[
             for: "@"
         },
         link: function(scope, element, attrs) {
+            //send all parms getted from directive to getParams method in controller
             scope.getParams({
                 pageTitle: scope.pageTitle,
                 orderBy: scope.orderBy,
@@ -139,6 +148,7 @@ angular.module("liztube.videos",[
                 for: scope.for
             });
 
+            //When window risized call getFlexSize method
             $window.addEventListener('resize', function(){
                 scope.getFlexSize(element[0].offsetWidth);
                 scope.$apply();
@@ -146,6 +156,7 @@ angular.module("liztube.videos",[
         }
     };
 }).filter('formatTime', function() {
+    //Convert milliseconds to time (hours:minutes:seconds)
     return function(milliseconds) {
         var seconds = parseInt((milliseconds/1000)%60);
         var minutes = parseInt((milliseconds/(1000*60))%60);
@@ -165,6 +176,8 @@ angular.module("liztube.videos",[
         return out;
     };
 }).directive("infiniteScroll", function ($window) {
+
+    //Call getVides method when scoll down is in bottom of page to create infinite scroll
     return function (scope, element, attrs) {
         angular.element($window).bind("scroll", function () {
             if ($window.document.body.scrollHeight === ($window.document.body.offsetHeight + $window.document.body.scrollTop)) {
