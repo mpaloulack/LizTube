@@ -1,20 +1,16 @@
 package com.liztube.utils;
 
-/**
- * Created by laurent on 04/05/15.
- */
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Provides helper methods for working with ffmpeg
- *
- * @author shaines
  */
 public class FfMpegUtils
 {
@@ -38,20 +34,16 @@ public class FfMpegUtils
 
         try
         {
-            // Build the command line
-            StringBuilder sb = new StringBuilder();
-            sb.append( ffmpegCommand );
-            sb.append( " -i " );
-            sb.append( filename );
+            ProcessBuilder pb = new ProcessBuilder(ffmpegCommand,
+                    "-i",
+                    filename);
 
-            // Execute the command
-            String str = sb.toString().replace("\\","\\\\");
-            Process p = Runtime.getRuntime().exec(str);
-            logger.error(sb.toString());
+            pb.directory(new File("/tmp"));
+            Process p = pb.start();
 
-            // Read the response
             BufferedReader input = new BufferedReader( new InputStreamReader( p.getInputStream() ) );
             BufferedReader error = new BufferedReader( new InputStreamReader( p.getErrorStream() ) );
+            p.waitFor();
 
             // Parse the input stream
             String line = input.readLine();
@@ -91,10 +83,10 @@ public class FfMpegUtils
         {
             e.printStackTrace();
         }
-        for( String field : fieldMap.keySet() )
+        /*for( String field : fieldMap.keySet() )
         {
             System.out.println( "\t" + field + " = " + fieldMap.get( field ) );
-        }
+        }*/
 
         return fieldMap;
     }
@@ -111,7 +103,7 @@ public class FfMpegUtils
         {
             return fieldMap.get( "duration" );
         }
-        return "0:00";
+        return "00:00:00.00";
     }
 
     /**
@@ -239,3 +231,4 @@ public class FfMpegUtils
     }
     */
 }
+
