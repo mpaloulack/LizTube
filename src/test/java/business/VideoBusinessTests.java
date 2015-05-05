@@ -201,7 +201,7 @@ public class VideoBusinessTests {
         assertThat(videoPersist.getViews().size()).isEqualTo(0);
         assertThat(videoPersist.getCreationdate()).isEqualToIgnoringMinutes(Timestamp.valueOf(LocalDateTime.now()));
         assertThat(videoRepository.findAll().size()).isEqualTo(7);
-        assertThat(videoPersist.getDuration()).isEqualTo(4250);
+        assertThat(videoPersist.getDuration()).isBetween((long)4200, (long)4300);
     }
 
     @Test
