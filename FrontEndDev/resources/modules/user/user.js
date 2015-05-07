@@ -5,6 +5,5 @@ angular.module("liztube.user",[
     "liztube.login",
     "liztube.register",
     "liztube.profile",
-    "liztube.updateprofile",
-    "liztube.updatepassword",
+    "liztube.updatepassword"
 ]);

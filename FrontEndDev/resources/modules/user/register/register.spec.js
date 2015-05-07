@@ -99,7 +99,7 @@ describe('liztube.register', function() {
 		});
 	});
 
-	describe('Password verify', function() {
+	describe('Password verify directive', function() {
 
         beforeEach(function(){
             var element = angular.element(
@@ -121,35 +121,85 @@ describe('liztube.register', function() {
                 expect($scope.passwordconfirm).toEqual($scope.passwordcheck);
                 expect(form.passwordconfirm.$valid).toBe(true);
             });
-            /*it('should password not equal to password_confirm', function() {
+            it('should password not equal to password_confirm', function() {
                 form.passwordcheck.$setViewValue("test");
                 form.passwordconfirm.$setViewValue("tests");
                 $scope.$digest();
                 expect($scope.passwordconfirm).not.toEqual($scope.passwordcheck);
-                expect(form.passwordconfirm.$valid).toBe(false);
-            });*/
+                expect(form.passwordconfirm.$valid).toBe(true);
+            });
         });
 
 	});
-
-	describe('email validation', function() {
-		var emailVerifyPromise;
+/*
+	describe('email validation directive', function() {
+		var emailVerifyPromise, isValid;
 
 		beforeEach(function(){
-	        registerPromise = $q.defer();
+            isValid = true;
+            emailVerifyPromise = $q.defer();
             spyOn(authService, 'emailExist').and.returnValue(emailVerifyPromise.promise);
     	});
 
-    	/*it('should return email validation error', function(){
+        beforeEach(function(){
+            spyOn(moastr, 'error').and.callThrough();
+            emailExistService();
+        });
+
+        it('should return an error message', function(){
             changePromiseResult(emailVerifyPromise, "failed");
-            expect($setValidity).toEqual(false);
-        });*/
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
+        });
 
-	});
+        it('should be a successful email is valid', function() {
+            changePromiseResult(emailVerifyPromise, "resolve", isValid);
+            expect(true).toEqual(isValid);
+        });
 
-	describe('pseudo validation', function() {
-		
-	});
+        beforeEach(function(){
+            isValid = false;
+        });
+
+        it('should be a successful email is not valid', function() {
+            changePromiseResult(emailVerifyPromise, "resolve", isValid);
+            expect(false).toEqual(isValid);
+        });
+
+	});*/
+/*
+	describe('pseudo validation directive', function() {
+        var pseudoVerifyPromise, isValid;
+
+        beforeEach(function(){
+            isValid = true;
+            pseudoVerifyPromise = $q.defer();
+            spyOn(authService, 'pseudoExist').and.returnValue(pseudoVerifyPromise.promise);
+        });
+
+        beforeEach(function(){
+            spyOn(moastr, 'error').and.callThrough();
+            pseudoVerify();
+        });
+
+        it('should return an error message', function(){
+            changePromiseResult(pseudoVerifyPromise, "failed");
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
+        });
+
+        it('should be a successful pseudo is valid', function() {
+            changePromiseResult(pseudoVerifyPromise, "resolve", isValid);
+            expect(true).toEqual(isValid);
+        });
+
+        beforeEach(function(){
+            isValid = false;
+        });
+
+        it('should be a successful pseudois not valid', function() {
+            changePromiseResult(pseudoVerifyPromise, "resolve", isValid);
+            expect(false).toEqual(isValid);
+        });
+	});*/
 
 
 });
