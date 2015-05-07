@@ -66,18 +66,22 @@ angular.module("liztube.register",[
             ctrl.$asyncValidators.emailValid = function(modelValue, viewValue) {
                 var value = modelValue || viewValue;
 
-                return authService.emailExist(value).then(function(bool){
-                    if (bool) {
-                        ctrl.$setValidity("emailValidation", false);
-                        return undefined;
-                    }else{
-                        ctrl.$setValidity("emailValidation", true);
-                        return viewValue;
-                    }
-                    return true;
-                },function(){
-                    moastr.error(constants.SERVER_ERROR, 'left right bottom');
-                });
+                var emailExistService = function(){
+                    return authService.emailExist(value).then(function(bool){
+                        if (bool) {
+                            ctrl.$setValidity("emailValidation", false);
+                            return undefined;
+                        }else{
+                            ctrl.$setValidity("emailValidation", true);
+                            return viewValue;
+                        }
+                        return true;
+                    },function(){
+                        moastr.error(constants.SERVER_ERROR, 'left right bottom');
+                    });
+                };
+
+                return emailExistService();
             };
         }
     };
@@ -88,18 +92,22 @@ angular.module("liztube.register",[
             ctrl.$asyncValidators.pseudoValid = function(modelValue, viewValue) {
                 var value = modelValue || viewValue;
 
-                return authService.pseudoExist(value).then(function(bool){
-                    if (bool) {
-                        ctrl.$setValidity("pseudoValidation", false);
-                        return undefined;
-                    }else{
-                        ctrl.$setValidity("pseudoValidation", true);
-                        return viewValue;
-                    }
-                    return true;
-                },function(){
-                    moastr.error(constants.SERVER_ERROR, 'left right bottom');
-                });
+                var pseudoVerify = function(){
+                    return authService.pseudoExist(value).then(function(bool){
+                        if (bool) {
+                            ctrl.$setValidity("pseudoValidation", false);
+                            return undefined;
+                        }else{
+                            ctrl.$setValidity("pseudoValidation", true);
+                            return viewValue;
+                        }
+                        return true;
+                    },function(){
+                        moastr.error(constants.SERVER_ERROR, 'left right bottom');
+                    });
+                };
+
+                return pseudoVerify();
             };
         }
     };
