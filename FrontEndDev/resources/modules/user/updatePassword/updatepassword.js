@@ -24,14 +24,14 @@ angular.module("liztube.updatepassword",[
     $scope.update = function () {
         $rootScope.$broadcast('loadingStatus', true);
         userService.updatePassword($scope.password).then(function () {
-            //moastr.successMin(constants.UPDATE_PASSWORD_OK, 'top right');
+            moastr.successMin(constants.UPDATE_PASSWORD_OK, 'top right');
             $location.path('/profil');
         }, function (response) {
-            /*if( response.data.messages[0] == "#1015"){
+            if( response.data.messages[0] === "#1015"){
                 moastr.error(constants.UPDATE_PASSWORD_NOK_OLD_PASSWORD, 'left right bottom');
-            }else{*/
+            }else{
                 moastr.error(constants.SERVER_ERROR, 'left right bottom');
-           //}
+           }
 
 
         }).finally(function () {

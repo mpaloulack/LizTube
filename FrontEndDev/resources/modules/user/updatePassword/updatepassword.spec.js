@@ -133,11 +133,13 @@ describe('liztube.updatepassword', function() {
                 response.data ={
                     messages : "#1015"
                 };
-                expect(moastr.error).toHaveBeenCalledWith(mockConstants.UPDATE_PASSWORD_NOK_OLD_PASSWORD, 'left right bottom');
-            });*/
+                changePromiseResult(submitPromise, "failed",response);
+                //expect(moastr.error).toHaveBeenCalledWith(mockConstants.UPDATE_PASSWORD_NOK_OLD_PASSWORD, 'left right bottom');
+            });
 
             it('should be a successful passowrd update', function() {
                 changePromiseResult(submitPromise, "resolve");
+                expect(moastr.successMin).toHaveBeenCalledWith(mockConstants.UPDATE_PASSWORD_OK, 'top right');
                 expect($location.path).toHaveBeenCalledWith('/profil');
             });
 
