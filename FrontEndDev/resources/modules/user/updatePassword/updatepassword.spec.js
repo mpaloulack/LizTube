@@ -39,6 +39,9 @@ describe('liztube.updatepassword', function() {
     var moastr = {
         error: function(message){
             return message;
+        },
+        successMin: function(message){
+            return message;
         }
     };
 
@@ -52,6 +55,10 @@ describe('liztube.updatepassword', function() {
             });
         };
     }));
+
+    beforeEach(function(){
+        createController();
+    });
 
 
 
@@ -72,9 +79,7 @@ describe('liztube.updatepassword', function() {
     });
 
     describe('UpdatePasswordCtrl', function() {
-        beforeEach(function(){
-            createController();
-        });
+
 
         describe('scope Init', function(){
 
@@ -115,17 +120,16 @@ describe('liztube.updatepassword', function() {
             beforeEach(function(){
                 spyOn($location,'path').and.callThrough();
                 spyOn(moastr, 'error').and.callThrough();
-                //spyOn(moastr, 'successMin').and.callThrough();
+                spyOn(moastr, 'successMin').and.callThrough();
                 userService.updatePassword($scope.password);
             });
 
             it('should return an server error message', function(){
-                changePromiseResult(submitPromise, "failed");
+                changePromiseResult(submitPromise, "failed", response);
                 expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR,'left right bottom');
             });
 
-            /*it('should return message #1015 error message', function () {
-                changePromiseResult(submitPromise, "failed");
+            it('should return message #1015 error message', function () {
                 response.data ={
                     messages : "#1015"
                 };
@@ -134,7 +138,6 @@ describe('liztube.updatepassword', function() {
 
             it('should be a successful passowrd update', function() {
                 changePromiseResult(submitPromise, "resolve");
-                //expect(moastr.successMin).toHaveBeenCalledWith(mockConstants.UPDATE_PASSWORD_OK, 'top right');
                 expect($location.path).toHaveBeenCalledWith('/profil');
             });
 
