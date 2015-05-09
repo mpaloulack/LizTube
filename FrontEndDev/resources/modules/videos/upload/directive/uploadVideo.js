@@ -49,7 +49,7 @@ angular.module("liztube.upload.video",[
                 percent : "100%"
             });
             moastr.successMin(constants.UPLOAD_DONE, 'top right');
-            $location.path("/videos-user");
+            $location.path("/profil");
         }).error(function (data, status, headers, config){
             moastr.error(constants.SERVER_ERROR, 'left right bottom');
         });
