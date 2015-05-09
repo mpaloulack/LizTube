@@ -10,9 +10,10 @@ describe('liztube.profile', function() {
 	beforeEach(module('liztube.moastr'));
     beforeEach(module('ngRoute'));
     beforeEach(module('liztube.profile'));
+    beforeEach(module("liztube.videos"));
     beforeEach(module('liztube.dataService.userService'));
 
-    var $scope, $rootScope, $location, userService, $q, constants, $window, createController;
+    var $scope, $rootScope, $location, userService, $q, constants, $window, createController, route;
 
     var mockConstants = {
         SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
@@ -163,6 +164,28 @@ describe('liztube.profile', function() {
                 expect(moastr.successMin).toHaveBeenCalledWith(mockConstants.UPDATE_PROFILE_OK, 'top right');
                 expect($scope.isDisable).toEqual(true);
                 expect($scope.profilTitle).toEqual("Profil");
+            });
+        });
+
+        describe("Show user vidéos", function() {
+            beforeEach(function(){
+                window.user = {
+                    "id":1,
+                    "email":"spywen@hotmail.fr",
+                    "pseudo":"spywen",
+                    "roles":["AUTHENTICATED","ADMIN"]
+                };
+                $scope.userId = window.user.id;
+            });
+
+            it('scope variables initialized', function(){
+                expect($scope.pageTitle).toEqual("Mes vidéos");
+                expect($scope.orderBy).toEqual("mostrecent");
+                expect($scope.page).toEqual("");
+                expect($scope.pagination).toEqual("");
+                expect($scope.userId).toEqual(1);
+                expect($scope.q).toEqual("");
+                expect($scope.for).toEqual("user");
             });
         });
     });

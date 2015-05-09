@@ -4,6 +4,7 @@
 angular.module("liztube.profile",[
     "liztube.moastr",
     "liztube.dataService.userService",
+    "liztube.videos",
     'ngMessages'
 ]).config(function ($routeProvider){
     $routeProvider.when("/profil",{
@@ -12,13 +13,18 @@ angular.module("liztube.profile",[
         controller: 'profileCtrl',
         templateUrl: "profile.html"
     });
-}).controller("profileCtrl", function($scope, $rootScope, userService, $location, moastr, constants) {
+}).controller("profileCtrl", function($scope, $rootScope, userService, $location, moastr, constants, $window) {
+    $scope.pageTitle = "Mes vidéos";
+    $scope.orderBy = "mostrecent";
+    $scope.page = "";
+    $scope.pagination = "";
+    $scope.userId = $window.user.id;
+    $scope.q = "";
+    $scope.for = "user";
 
     $scope.errorUpdate = '';
     $scope.isDisable = true;
     $scope.profilTitle = "Profil";
-
-
 
     $scope.enableUpdateProfil = function(){
         $scope.profilTitle = "Mise à jour du profil";
