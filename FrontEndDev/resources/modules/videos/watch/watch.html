@@ -16,6 +16,7 @@
                     <vg-mute-button></vg-mute-button>
                     <vg-volume-bar></vg-volume-bar>
                 </vg-volume>
+                <vg-playback-button></vg-playback-button>
                 <vg-fullscreen-button></vg-fullscreen-button>
 
             </vg-controls>
@@ -23,21 +24,67 @@
             <vg-overlay-play></vg-overlay-play>
             <vg-poster vg-url='config.plugins.poster'></vg-poster>
         </videogular>
-        <div class="video-infos" layout="row" layout-wrap>
-            <h1>{{videoDesc.title}}</h1>
-            <div class="clear"></div>
-            <a href="/search/{{videoDesc.ownerPseudo}}" flex="50" class="owner">
-                <gravatar-image gravatar-email="videoDesc.ownerEmail" gravatar-size="50" gravatar-default="mm"/>
-                <span>{{videoDesc.ownerPseudo}}</span>
-            </a>
+
+        <div ng-switch="isEnableEditingVideo">
+            <div class="video-infos" layout="row" ng-switch-when="false" layout-wrap>
+                <h1>{{videoDesc.title}}</h1>
+                <div class="clear"></div>
+                <div flex="50">
+                    <a href="/search/{{videoDesc.ownerPseudo}}"  class="owner" >
+                        <gravatar-image gravatar-email="videoDesc.ownerEmail" gravatar-size="50" gravatar-default="mm"/>
+                        <span>{{videoDesc.ownerPseudo}}</span>
+                    </a>
+                    <span ng-if="editVideo" ng-click="enableEditVideo()">Editer la vidéo</span>
+                </div>
+
             <span flex="50" class="nb-view">
                 Nombres de vue(s) : {{videoDesc.views}}<br/>
                 Date de publication : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}
             </span>
-            <div class="description" layout="row" layout-wrap>
-                <h2>Description </h2>
-                <p>{{videoDesc.description}}</p>
+                <div class="description" layout="row" layout-wrap>
+                    <h2>Description </h2>
+                    <p>{{videoDesc.description}}</p>
+                </div>
             </div>
+
+            <form class="form-update" name="formUpdate" ng-switch-when="true">
+                <div class="video-infos" layout="row"  layout-wrap>
+                    <h1>
+                        <md-input-container>
+                            <label><i class="fa fa-video-camera"></i> Titre</label>
+                            <input type="text" name="title" required="required" ng-model="videoDesc.title"/>
+                            <div ng-messages="formUpdate.title.$error">
+                                <div ng-message="required">Le titre est requis</div>
+                            </div>
+                        </md-input-container>
+                    </h1>
+                    <div class="clear"></div>
+                    <div flex="50">
+                        <a href="/search/{{videoDesc.ownerPseudo}}"  class="owner" >
+                            <gravatar-image gravatar-email="videoDesc.ownerEmail" gravatar-size="50" gravatar-default="mm"/>
+                            <span>{{videoDesc.ownerPseudo}}</span>
+                        </a>
+                        <span ng-click="updateVideoDesc()">Mettre à jour</span>
+                    </div>
+
+                <span flex="50" class="nb-view">
+                    Nombres de vue(s) : {{videoDesc.views}}<br/>
+                    Date de publication : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}
+                </span>
+                    <div class="description" layout="row" layout-wrap>
+                        <h2>Description </h2>
+                        <p>
+                            <md-input-container>
+                                <label><i class="fa fa-newspaper-o"></i> Description</label>
+                                <textarea ng-model="videoDesc.description" name="description" columns="1" md-maxlength="1000"></textarea>
+                                <div ng-messages="formUpdate.description.$error">
+                                    <div ng-message="md-maxlength">La description ne doit pas dépasser 1000 caractères</div>
+                                </div>
+                            </md-input-container>
+                        </p>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

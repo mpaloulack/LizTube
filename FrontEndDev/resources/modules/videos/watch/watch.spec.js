@@ -27,7 +27,7 @@ describe('liztube.videos.watch', function() {
         module(function($provide) {
             $provide.constant('constants', mockConstants);
         });
-        keyVideo = "d6e8cff8-2ba1-40da-b39f-038b6ff0f926";
+        keyVideo = "e477e67e-1288-4445-bf60-df52a1cc88d2";
     });
 
     beforeEach(inject(function (_$rootScope_, _$location_, _$route_, _videosService_, _$window_, _$q_, _$sce_) {
@@ -43,8 +43,12 @@ describe('liztube.videos.watch', function() {
     var moastr = {
         error: function(message){
             return message;
+        },
+        successMin: function(message){
+            return message;
         }
     };
+
 
     beforeEach(inject(function ($controller) {
         $scope = $rootScope.$new();
@@ -55,6 +59,12 @@ describe('liztube.videos.watch', function() {
             });
         };
     }));
+
+    beforeEach(function(){
+        createController();
+        $scope.isEnableEditingVideo = false;
+    });
+
 
     describe('Watch route', function() {
         beforeEach(inject(
@@ -73,9 +83,7 @@ describe('liztube.videos.watch', function() {
         });*/
     });
 
-    beforeEach(function(){
-        createController();
-    });
+
 
     describe('Get watch Info', function() {
         var videoDescPromise, videoDesc, videoConfig;

@@ -32,4 +32,10 @@ describe('liztube.dataService.videosService', function(){
         $httpBackend.flush();
     });
 
+    it('should put videoDesc', function(){
+        $httpBackend.expectPUT('/video').respond();
+        videosService.updateVideoData({});
+        $httpBackend.flush();
+    });
+
 });

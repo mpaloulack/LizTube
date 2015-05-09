@@ -4,6 +4,7 @@
 angular.module('liztube.videos.watch',
     [
         "ngRoute",
+        "liztube.moastr",
         "liztube.dataService.videosService",
         "ngSanitize",
         "com.2fdevs.videogular",//Video reader
@@ -20,8 +21,23 @@ angular.module('liztube.videos.watch',
             accessAnonymous : true
         });
 
-}).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, $route, videosService) {
+}).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, $route, moastr, videosService, constants) {
         $scope.errorUpdate = '';
+        $scope.isEnableEditingVideo = false;
+
+        $scope.enableEditVideo = function(){
+            $scope.isEnableEditingVideo = true;
+        };
+
+        var videoOwnerTest= function (userName) {
+            if(window.user !== null){
+                if(userName == window.user.pseudo )
+                    return true;
+                else
+                    return false;
+            }else
+                return false;
+        };
 
         var videoKey = $routeParams.videoKey;
         /**
@@ -32,13 +48,20 @@ angular.module('liztube.videos.watch',
 
                 $scope.videoDesc = video;
 
+                console.log(video);
+
+                $scope.editVideo = videoOwnerTest(video.ownerPseudo);
                 $scope.config = {
                     sources: [
                         {src: $sce.trustAsResourceUrl("/api/video/watch/"+videoKey), type: "video/mp4"}
                     ],
                     theme: "/app/dist/libs/videogular-themes-default/videogular.css",
                     plugins: {
-                        poster: "/api/video/thumbnail/"+videoKey+"?width=1280&height=720"
+                        poster: "/api/video/thumbnail/"+videoKey+"?width=1280&height=720",
+                        controls: {
+                            autoHide: true,
+                            autoHideTime: 5000
+                        }
                     }
                 };
 
@@ -48,5 +71,24 @@ angular.module('liztube.videos.watch',
             });
         };
 
+
+        /**
+         * Update videoDesc
+         */
+        $scope.updateVideoDesc= function (){
+
+            $rootScope.$broadcast('loadingStatus', true);
+
+            videosService.updateVideoData($scope.videoDesc).then(function () {
+                moastr.successMin(constants.UPDATE_VIDEO_DESCRIPTION_OK, 'top right');
+                $scope.isEnableEditingVideo = false;
+            }, function () {
+                moastr.error(constants.SERVER_ERROR, 'left right bottom');
+            }).finally(function () {
+                $rootScope.$broadcast('loadingStatus', false);
+            });
+
+
+        };
 
 });

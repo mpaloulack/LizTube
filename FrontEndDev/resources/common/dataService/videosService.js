@@ -12,7 +12,8 @@ angular.module('liztube.dataService.videosService', [
 
     return {
         getVideos : getVideos,
-        getVideoData : getVideoData
+        getVideoData : getVideoData,
+        updateVideoData : updateVideoData
     };
 
     /**
@@ -27,5 +28,12 @@ angular.module('liztube.dataService.videosService', [
      **/
     function getVideoData(key){
         return baseVideo().customGET(key);
+    }
+
+    /**
+     Update video data
+     **/
+    function updateVideoData(videoDesc){
+        return baseVideo().customPUT(videoDesc);
     }
 });
