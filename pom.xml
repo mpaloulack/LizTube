@@ -207,7 +207,7 @@
             BoneCP : "BoneCP is a fast, free, open-source, Java database connection pool (JDBC Pool) library" -->
         <dependency>
             <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
+            <artifactId>HikariCP-java6</artifactId>
             <version>${hikariCP.version}</version>
         </dependency>
         <!-- BoneCP depends on Google Guava, but HikariCP not -->
