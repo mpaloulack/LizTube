@@ -52,7 +52,12 @@ public class PublicException extends InternalException {
 
     private void logException(){
         StringBuilder builder = new StringBuilder();
+        for(String message : messages){
+            builder.append(message);
+        }
+        /* With JDK 8
         messages.forEach(builder::append);
+         */
         logger.error(super.log() + ", Messages: " + builder.toString(), this);
     }
 

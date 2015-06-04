@@ -64,6 +64,21 @@ public class SearchForVideosBusiness {
 
         //Get video list as facade objects
         List<VideoDataFacade> videosFound = new ArrayList<>();
+        for(Video v : response.getKey()){
+            videosFound.add(new VideoDataFacade()
+                            .setKey(v.getKey())
+                            .setTitle(v.getTitle())
+                            .setDescription(v.getDescription())
+                            .setViews(v.getViews().size())
+                            .setOwnerId(v.getOwner().getId())
+                            .setOwnerPseudo(v.getOwner().getPseudo())
+                            .setPublic(v.getIspublic())
+                            .setPublicLink(v.getIspubliclink())
+                            .setCreationDate(v.getCreationdate())
+                            .setDuration(v.getDuration())
+            );
+        }
+        /* With JDK 8
         response.getKey().forEach((v) -> videosFound.add(new VideoDataFacade()
                         .setKey(v.getKey())
                         .setTitle(v.getTitle())
@@ -75,7 +90,7 @@ public class SearchForVideosBusiness {
                         .setPublicLink(v.getIspubliclink())
                         .setCreationDate(v.getCreationdate())
                         .setDuration(v.getDuration())
-        ));
+        ));*/
 
         //Build response
         return new GetVideosFacade()

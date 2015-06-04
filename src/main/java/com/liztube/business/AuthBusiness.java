@@ -52,7 +52,7 @@ public class AuthBusiness {
             }
             return new UserConnectedProfile(user.getId(), user.getEmail(), user.getPseudo(),roles);
         }catch (Exception e){
-            return new UserConnectedProfile(0, "", "",new ArrayList<>());
+            return new UserConnectedProfile(0, "", "",new ArrayList<String>());
         }
     }
 

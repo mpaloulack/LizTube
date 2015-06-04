@@ -65,7 +65,12 @@ public class VideoRankBusiness {
 
         //Save videos
         logger.info("Save videos...");
+        for(Video video : videos){
+            videoRepository.saveAndFlush(video);
+        }
+        /* With JDK 8
         videos.forEach(videoRepository::saveAndFlush);
+         */
         logger.info("--- VIDEO RANK PROCEDURE - END ---");
     }
 }
