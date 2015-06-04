@@ -7,7 +7,7 @@ import com.liztube.entity.Video_;
 import com.liztube.repository.custom.VideoRepositoryCustom;
 import com.liztube.utils.EnumVideoOrderBy;
 import com.liztube.utils.facade.video.VideoSearchFacadeForRepository;
-import javafx.util.Pair;
+import com.liztube.utils.facade.video.VideosFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
@@ -35,7 +35,7 @@ public class VideoRepositoryImpl implements VideoRepositoryCustom {
      * @return
      */
     @Override
-    public Pair<List<Video>, Long> findVideosByCriteria(VideoSearchFacadeForRepository vFacade) {
+    public VideosFound findVideosByCriteria(VideoSearchFacadeForRepository vFacade) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Video> query = cb.createQuery(Video.class);
         Root<Video> video = query.from(Video.class);
@@ -53,7 +53,7 @@ public class VideoRepositoryImpl implements VideoRepositoryCustom {
         orderBy(cb, query, video, vFacade.getOrderBy());
 
         //Return videos found and total count
-        return new Pair<>(
+        return new VideosFound(
                 em.createQuery(query).setFirstResult(vFacade.getPage() * vFacade.getPagination()).setMaxResults(vFacade.getPagination()).getResultList(),
                 getTotalVideosFoundByCriteria(vFacade.isOnlyPublic(), vFacade.getUserId(), vFacade.getKeywords())
         );

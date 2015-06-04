@@ -5,11 +5,7 @@ import com.liztube.entity.Video;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.repository.VideoRepository;
 import com.liztube.utils.EnumVideoOrderBy;
-import com.liztube.utils.facade.video.GetVideosFacade;
-import com.liztube.utils.facade.video.VideoDataFacade;
-import com.liztube.utils.facade.video.VideoSearchFacade;
-import com.liztube.utils.facade.video.VideoSearchFacadeForRepository;
-import javafx.util.Pair;
+import com.liztube.utils.facade.video.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -41,7 +37,7 @@ public class SearchForVideosBusiness {
 
         VideoSearchFacadeForRepository vFacade = convertVideoSearchFacadeAsVideoSearchFacadeForRepository(videoSearchFacade);
 
-        Pair<List<Video>, Long> response = null;
+        VideosFound response;
         if(videoSearchFacade.getUserId() != 0){
             UserLiztube user = null;
             try {
@@ -57,14 +53,14 @@ public class SearchForVideosBusiness {
         }
 
         //Get pagination data
-        long totalItem = response.getValue();
+        long totalItem = response.getTotalCount();
         double pages = totalItem / vFacade.getPagination();
         double pageSup = totalItem % vFacade.getPagination();
         int totalPage = (int)Math.round(pages) + ((pageSup != 0) ? 1 : 0);
 
         //Get video list as facade objects
         List<VideoDataFacade> videosFound = new ArrayList<>();
-        for(Video v : response.getKey()){
+        for(Video v : response.getVideos()){
             videosFound.add(new VideoDataFacade()
                             .setKey(v.getKey())
                             .setTitle(v.getTitle())
