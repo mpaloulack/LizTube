@@ -10,6 +10,7 @@ import com.liztube.utils.facade.TestExistFacade;
 import com.liztube.utils.facade.UserAccountDeletionFacade;
 import com.liztube.utils.facade.UserFacade;
 import com.liztube.utils.facade.UserPasswordFacade;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,7 +75,7 @@ public class UserBusiness {
                 .setLastname(userInfo.getLastname())
                 .setBirthdate(userInfo.getBirthdate())
                 .setIsfemale(userInfo.getIsfemale())
-                .setModificationdate(Timestamp.valueOf(LocalDateTime.now()));
+                .setModificationdate(new Timestamp(new DateTime().getMillis()));
 
 
         //Verify email if modify

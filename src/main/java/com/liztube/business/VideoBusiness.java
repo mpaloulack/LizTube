@@ -13,6 +13,7 @@ import com.liztube.utils.facade.video.VideoDataFacade;
 //import com.xuggle.xuggler.IContainer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.*;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -156,7 +156,7 @@ public class VideoBusiness {
                 .setIspubliclink(!videoCreationFacade.isPublic() ? false : videoCreationFacade.isPublicLink())
                 .setKey(key)
                 .setOwner(user)
-                .setCreationdate(Timestamp.valueOf(LocalDateTime.now()));
+                .setCreationdate(new Timestamp(new DateTime().getMillis()));
 
         //Entity validations
         checkVideoEntityValidity(video);

@@ -283,12 +283,12 @@
             <version>1.9.5</version>
         </dependency>
 
-        <!-- Yoda : time (replace by java.time JDK8 native functionnality)
+        <!-- Yoda : time (replace by java.time JDK8 native functionnality)-->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.7</version>
-        </dependency>-->
+        </dependency>
 
         <!-- Video -->
 
