@@ -42,7 +42,11 @@
                 Date de publication : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}
             </span>
                 <div class="description" layout="row" layout-wrap>
-                    <h2>Description </h2>
+                    <h2>Description
+                        <md-button class="md-primary showLink" ng-click="showLink($event)">
+                            <i class="fa fa-share"></i> Partager
+                        </md-button>
+                    </h2>
                     <p>{{videoDesc.description}}</p>
                 </div>
             </div>

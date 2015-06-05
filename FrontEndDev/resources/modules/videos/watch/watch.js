@@ -21,9 +21,35 @@ angular.module('liztube.videos.watch',
             accessAnonymous : true
         });
 
-}).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, $route, moastr, videosService, constants) {
+}).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, $route, moastr, videosService, constants,$location, $mdDialog) {
         $scope.errorUpdate = '';
         $scope.isEnableEditingVideo = false;
+
+        $scope.showLink = function(ev) {
+            var confirm = $mdDialog.confirm()
+                .title('Copier ce lien pour le partager')
+                .content('http://www.liztube.fr'+$location.path())
+                .ariaLabel('Copy video link')
+                .ok('OK')
+                .targetEvent(ev);
+            $mdDialog.show(confirm).then(function() {
+
+            }, function() {
+
+            });
+        };
+
+        function DialogController($scope, $mdDialog) {
+            $scope.hide = function() {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
+            $scope.answer = function(answer) {
+                $mdDialog.hide(answer);
+            };
+        }
 
         $scope.enableEditVideo = function(){
             $scope.isEnableEditingVideo = true;
@@ -35,8 +61,9 @@ angular.module('liztube.videos.watch',
                     return true;
                 else
                     return false;
-            }else
+            }else{
                 return false;
+            }
         };
 
         var videoKey = $routeParams.videoKey;

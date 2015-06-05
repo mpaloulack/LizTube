@@ -17,7 +17,7 @@ describe('liztube.videos.watch', function() {
     beforeEach(module('com.2fdevs.videogular.plugins.poster'));
 
 
-    var $scope, $rootScope, $location, videosService, $q, constants, $window, createController, keyVideo, $sce;
+    var $scope, $rootScope, $location, videosService, $q, constants, $window, createController, keyVideo, $sce, $mdDialog;
 
     var mockConstants = {
         SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
