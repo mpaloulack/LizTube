@@ -77,6 +77,9 @@ angular.module("liztube.videos",[
      * @param getParams : get videos
      */
     $scope.getVideos = function(params) {
+        $scope.videos = [];
+        $scope.loadPage = 0;
+        $scope.totalPage = 0;
         videosService.getVideos($scope.orderBy, params).then(function(data){
             if(data.length === 0 && (_.isUndefined(params.q) || params.q === "")){
                 $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
