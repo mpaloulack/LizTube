@@ -26,8 +26,8 @@ describe('liztube.home', function(){
     describe('scope Init', function(){
 
         it('scope variables initialized', function(){
-            expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
-            expect($scope.orderBy).toEqual("mostrecent");
+            expect($scope.pageTitle).toEqual("Suggestions Liztube");
+            expect($scope.orderBy).toEqual("q");
             expect($scope.page).toEqual("1");
             expect($scope.pagination).toEqual("20");
             expect($scope.userId).toEqual("");

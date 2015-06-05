@@ -9,7 +9,7 @@
             <a ng-href="/watch/{{videoKey}}" ng-click="hideProgressBar($index)">
                 <md-button class="hideProgressBar" ng-click="hideProgressBar($index)"><i class="fa fa-close"></i></md-button>
                 <h4><i class="fa fa-check-circle"></i> {{notification.fileName}}</h4>
-                <img ng-src="/api/video/thumbnail/{{videoKey}}?width=320&height=180" alt="" />
+                <img ng-src="/api/video/thumbnail/{{notification.videoKey}}?width=320&height=180" alt="" />
             </a>
         </div>
         <div class="clear"></div>

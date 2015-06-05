@@ -21,7 +21,8 @@ angular.module("liztube.upload.video",[
             id: $scope.id,
             fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
             uploadRate : 0,
-            percent : "0%"
+            percent : "0%",
+            videoKey: ""
         });
 
         $upload.upload({
@@ -38,15 +39,16 @@ angular.module("liztube.upload.video",[
                 id: $scope.id,
                 fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
                 uploadRate : parseInt(99.0 * evt.loaded / evt.total),
-                percent : parseInt(99.0 * evt.loaded / evt.total) + "%"
+                percent : parseInt(99.0 * evt.loaded / evt.total) + "%",
+                videoKey: ""
             });
         }).success(function (data, status, headers, config) {
-            $scope.videoKey = data;
             $scope.addVideoAsNotifications({
                 id: $scope.id,
                 fileName : constants.UPLOAD_DONE + video.title,
                 uploadRate : 100,
-                percent : "100%"
+                percent : "100%",
+                videoKey: data
             });
             moastr.successMin(constants.UPLOAD_DONE, 'top right');
             $location.path("/profil");
@@ -61,6 +63,7 @@ angular.module("liztube.upload.video",[
                 $scope.notifications.infos[j].fileName = video.fileName;
                 $scope.notifications.infos[j].uploadRate = video.uploadRate;
                 $scope.notifications.infos[j].percent = video.percent;
+                $scope.notifications.infos[j].videoKey = video.videoKey;
             }
         }
     };
