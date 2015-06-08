@@ -10,9 +10,10 @@
                 <div>
                     <md-input-container>
                         <label><i class="fa fa-video-camera"></i> Titre</label>
-                        <input type="text" name="title" required="required" ng-model="video.title"/>
+                        <input type="text" name="title" required="required" md-maxlength="300" ng-model="video.title"/>
                         <div ng-messages="formUpload.title.$error">
                             <div ng-message="required">Le titre est requis</div>
+                            <div ng-message="md-maxlength">Le titre ne doit pas dépasser 300 caractères</div>
                         </div>
                     </md-input-container>
                     <md-input-container>
