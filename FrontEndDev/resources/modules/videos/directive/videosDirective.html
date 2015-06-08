@@ -14,6 +14,15 @@
         <div flex="{{flexSize}}" ng-repeat="video in videos" class="videos">
             <a href="/watch/{{video.key}}">
                 <div class="thumb">
+                    <md-tooltip ng-if="video.public">
+                        La vidéo est publique.
+                    </md-tooltip>
+                    <md-tooltip ng-if="!video.public && video.publicLink">
+                        La vidéo est disponible<br/> uniquement par lien.
+                    </md-tooltip>
+                    <md-tooltip ng-if="!video.public && !video.publicLink">
+                        La vidéo est privé.
+                    </md-tooltip>
                     <img ng-src="/api/video/thumbnail/{{video.key}}?width=640&height=360" alt="" />
                     <div class="time">{{video.duration | formatTime}}</div>
                     <div class="confidentiality" ng-show="showConfidentiality">
