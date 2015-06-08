@@ -161,20 +161,26 @@ describe('liztube.videos', function(){
             spyOn(videosService, 'getVideos').and.returnValue(filterPromise.promise);
         });
 
-        it('Should $scope.orderBy equal mostrecent if orderBy equal 1', function () {
+        it('Should $scope.orderBy equal q if orderBy equal 1', function () {
             $scope.filter("1");
+            expect($scope.orderBy).toEqual("q");
+            expect($scope.pageTitle).toEqual("Suggestions Liztube");
+        });
+
+        it('Should $scope.orderBy equal mostrecent if orderBy equal 2', function () {
+            $scope.filter("2");
             expect($scope.orderBy).toEqual("mostrecent");
             expect($scope.pageTitle).toEqual("Vidéos les plus récentes");
         });
 
-        it('Should $scope.orderBy equal mostviewed if orderBy equal 2', function () {
-            $scope.filter("2");
+        it('Should $scope.orderBy equal mostviewed if orderBy equal 3', function () {
+            $scope.filter("3");
             expect($scope.orderBy).toEqual("mostviewed");
             expect($scope.pageTitle).toEqual("Vidéos les plus vue");
         });
 
-        it('Should $scope.orderBy equal mostshared if orderBy equal 3', function () {
-            $scope.filter("3");
+        it('Should $scope.orderBy equal mostshared if orderBy equal 4', function () {
+            $scope.filter("4");
             expect($scope.orderBy).toEqual("mostshared");
             expect($scope.pageTitle).toEqual("Vidéos les plus partagées");
         });

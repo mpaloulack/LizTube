@@ -1,11 +1,11 @@
 <div id="liztubeVideos" on-size-changed>
     <h1 class="pageTitle" ng-if="pageTitle"><i class="fa fa-video-camera"></i> {{pageTitle}}
         <div class="filter" ng-show="showSelectVideos">
-            <md-select placeholder="Les plus récents" ng-model="filterOrderBy" ng-change="filter(filterOrderBy)">
-                <md-option value="1">Les plus récents</md-option>
-                <md-option value="2">Les plus vue</md-option>
-                <md-option value="3">Les plus partagées</md-option>
-                <md-option value="4">Suggestions Liztube</md-option>
+            <md-select placeholder="Suggestions Liztube" ng-model="filterOrderBy" ng-change="filter(filterOrderBy)">
+                <md-option value="1">Suggestions Liztube</md-option>
+                <md-option value="2">Les plus récents</md-option>
+                <md-option value="3">Les plus vue</md-option>
+                <md-option value="4">Les plus partagées</md-option>
             </md-select>
         </div>
     </h1>

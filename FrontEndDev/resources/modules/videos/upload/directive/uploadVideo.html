@@ -6,7 +6,7 @@
             <div class="pull-left">{{notification.percent}}</div>
         </div>
         <div ng-show="notification.uploadRate == 100" class="download-end">
-            <a ng-href="/watch/{{videoKey}}" ng-click="hideProgressBar($index)">
+            <a ng-href="/watch/{{notification.videoKey}}" ng-click="hideProgressBar($index)">
                 <md-button class="hideProgressBar" ng-click="hideProgressBar($index)"><i class="fa fa-close"></i></md-button>
                 <h4><i class="fa fa-check-circle"></i> {{notification.fileName}}</h4>
                 <img ng-src="/api/video/thumbnail/{{notification.videoKey}}?width=320&height=180" alt="" />

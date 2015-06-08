@@ -77,9 +77,6 @@ angular.module("liztube.videos",[
      * @param getParams : get videos
      */
     $scope.getVideos = function(params) {
-        $scope.videos = [];
-        $scope.loadPage = 0;
-        $scope.totalPage = 0;
         videosService.getVideos($scope.orderBy, params).then(function(data){
             if(data.length === 0 && (_.isUndefined(params.q) || params.q === "")){
                 $scope.noVideoFound = constants.NO_VIDEOS_FOUND;
@@ -103,17 +100,17 @@ angular.module("liztube.videos",[
      */
     $scope.filter = function(orderBy){
         if(orderBy === "1"){
-            $scope.orderBy = "mostrecent";
-            $scope.pageTitle = "Vidéos les plus récentes";
-        }else if(orderBy === "2"){
-            $scope.orderBy = "mostviewed";
-            $scope.pageTitle = "Vidéos les plus vue";
-        }else if(orderBy === "3"){
-            $scope.orderBy = "mostshared";
-            $scope.pageTitle = "Vidéos les plus partagées";
-        }else if(orderBy === "4"){
             $scope.orderBy = "q";
             $scope.pageTitle = "Suggestions Liztube";
+        }else if(orderBy === "2"){
+            $scope.orderBy = "mostrecent";
+            $scope.pageTitle = "Vidéos les plus récentes";
+        }else if(orderBy === "3"){
+            $scope.orderBy = "mostviewed";
+            $scope.pageTitle = "Vidéos les plus vue";
+        }else if(orderBy === "4"){
+            $scope.orderBy = "mostshared";
+            $scope.pageTitle = "Vidéos les plus partagées";
         }
         $scope.videos = [];
         $scope.getParams({
