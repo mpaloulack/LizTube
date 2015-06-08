@@ -50,6 +50,9 @@
                     <md-input-container flex>
                         <label><i class="fa fa-calendar"></i> Date de naissance</label>
                         <input type="date" name="date_naissance" ng-model="user.birthdate" date-to-timestamp>
+                        <div ng-messages="formRegister.date_naissance.$error">
+                            <div ng-message="dateToTimestamp">La date doit être infèrieur a la date d'aujourd'hui</div>
+                        </div>
                     </md-input-container>
                 </div>
                 <div layout layout-sm="column">

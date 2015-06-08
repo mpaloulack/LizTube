@@ -9,7 +9,16 @@ angular.module("liztube.date",[
         link: function(scope, ele, attr, ngModel) {
             // view to model
             ngModel.$parsers.push(function(value) {
-                return Date.parse(value);
+                var date = Date.parse(value);
+                var currentTime = new Date();
+                var now = Date.parse(currentTime.getMonth() + 1 + "/" + currentTime.getDate() + "/" + currentTime.getFullYear());
+
+                if(date > now ){
+                    ngModel.$setValidity("dateToTimestamp", false);
+                }else{
+                    ngModel.$setValidity("dateToTimestamp", true);
+                    return Date.parse(value);
+                }
             });
         }
     };
