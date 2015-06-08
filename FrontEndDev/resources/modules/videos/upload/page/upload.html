@@ -18,8 +18,9 @@
                     </md-input-container>
                     <md-input-container>
                         <label><i class="fa fa-newspaper-o"></i> Description</label>
-                        <textarea ng-model="video.description" name="description" columns="1" md-maxlength="1000"></textarea>
+                        <textarea ng-model="video.description" name="description" required="required" columns="1" md-maxlength="1000"></textarea>
                         <div ng-messages="formUpload.description.$error">
+                            <div ng-message="required">La description est requise</div>
                             <div ng-message="md-maxlength">La description ne doit pas dépasser 1000 caractères</div>
                         </div>
                     </md-input-container>
@@ -40,8 +41,8 @@
                         </div>
                     </div>
                     <h4>Sélectionner une vidéo ou glisser/déposer :</h4>
-                    <md-input-container md-theme="sub-bar">
-                        <md-button class="md-primary md-raised" name="file" aria-label="uploadVideo" ng-model-rejected="rejFiles" ng-file-select ng-model="video.files" ng-multiple="false"><i class="fa fa-video-camera"></i> Sélectionner une vidéo</md-button>
+                    <md-input-container md-theme="sub-bar" >
+                        <md-button class="md-primary md-raised" name="file"  aria-label="uploadVideo" ng-model-rejected="rejFiles" ng-file-select ng-model="video.files" ng-multiple="false"><i class="fa fa-video-camera"></i> Sélectionner une vidéo</md-button>
                     </md-input-container>
                     <span ng-if="fileName != ''" class="bold"><i class="fa fa-file-video-o"></i> Vidéo Séléctionnée : {{fileName}}</span>
                     <md-input-container>

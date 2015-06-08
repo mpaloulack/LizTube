@@ -74,8 +74,9 @@
 
                             <md-input-container>
                                 <label><i class="fa fa-newspaper-o"></i> Description</label>
-                                <textarea ng-model="videoDesc.description" name="description" columns="1" md-maxlength="1000"></textarea>
+                                <textarea ng-model="videoDesc.description" name="description" required="required" columns="1" md-maxlength="1000"></textarea>
                                 <div ng-messages="formUpdate.description.$error">
+                                    <div ng-message="required">La description est requise</div>
                                     <div ng-message="md-maxlength">La description ne doit pas dépasser 1000 caractères</div>
                                 </div>
                             </md-input-container>
