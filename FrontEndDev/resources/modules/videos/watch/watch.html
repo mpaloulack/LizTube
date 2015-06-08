@@ -55,13 +55,12 @@
 
             <form class="form-update" name="formUpdate" ng-switch-when="true">
                 <div class="video-infos" layout="row"  layout-wrap>
-
                     <div class="description" layout="row" layout-wrap>
-                        <h1>Edition
+                        <h2>Edition
                             <md-button class="md-primary showLink" ng-click="updateVideoDesc()" ng-disabled="formUpdate.$invalid">
                                 <i class="fa fa-pencil-square-o"></i> Mettre à jour
                             </md-button>
-                        </h1>
+                        </h2>
                         <p>
                             <md-input-container>
                                 <label><i class="fa fa-video-camera"></i> Titre</label>
@@ -71,8 +70,8 @@
                                     <div ng-message="md-maxlength">Le titre ne doit pas dépasser 300 caractères</div>
                                 </div>
                             </md-input-container>
-                        </p>
-                        <p>
+                            <p>
+
                             <md-input-container>
                                 <label><i class="fa fa-newspaper-o"></i> Description</label>
                                 <textarea ng-model="videoDesc.description" name="description" columns="1" md-maxlength="1000"></textarea>
@@ -81,7 +80,9 @@
                                 </div>
                             </md-input-container>
                         </p>
+                        </p>
                     </div>
+
                 </div>
             </form>
         </div>
