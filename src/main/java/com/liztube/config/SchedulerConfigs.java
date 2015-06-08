@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * Scheduler configuration
  */
 @Configuration
-//@EnableScheduling
-//@ComponentScan(basePackages = {"com.liztube.scheduler"})
+@EnableScheduling
+@ComponentScan(basePackages = {"com.liztube.scheduler"})
 public class SchedulerConfigs {
 
 }

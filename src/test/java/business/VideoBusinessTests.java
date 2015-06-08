@@ -201,19 +201,46 @@ public class VideoBusinessTests {
         assertThat(videoPersist.getViews().size()).isEqualTo(0);
         assertThat(videoPersist.getCreationdate()).isEqualToIgnoringMinutes(Timestamp.valueOf(LocalDateTime.now()));
         assertThat(videoRepository.findAll().size()).isEqualTo(7);
-        assertThat(videoPersist.getDuration()).isBetween((long)4200, (long)4300);
+        assertThat(videoPersist.getDuration()).isBetween((long) 4200, (long) 4300);
     }
 
     @Test
-    public void uploadVideo_should_persist_video_if_all_tests_passed_successfully_as_private_and_should_set_publicLink_as_false_automaticaly() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
+    public void uploadVideo_should_persist_video_and_if_public_is_true_public_link_should_be_true() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
         assertThat(videoRepository.findAll().size()).isEqualTo(6);
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
+        videoCreationFacade = videoCreationFacade.setPublic(true).setPublicLink(false);
 
-        String key = videoBusiness.uploadVideo(file, videoCreationFacade.setPublicLink(true));
+        String key = videoBusiness.uploadVideo(file, videoCreationFacade);
         Video videoPersist = videoRepository.findByKey(key);
         assertThat(videoPersist.getIspublic()).isEqualTo(videoCreationFacade.isPublic());
         assertThat(videoPersist.getIspubliclink()).isEqualTo(!videoCreationFacade.isPublicLink());
+    }
+
+    @Test
+    public void uploadVideo_should_persist_video_and_if_public_is_false_public_link_could_be_true() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(6);
+        FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
+        MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
+        videoCreationFacade = videoCreationFacade.setPublic(false).setPublicLink(true);
+
+        String key = videoBusiness.uploadVideo(file, videoCreationFacade);
+        Video videoPersist = videoRepository.findByKey(key);
+        assertThat(videoPersist.getIspublic()).isEqualTo(videoCreationFacade.isPublic());
+        assertThat(videoPersist.getIspubliclink()).isEqualTo(videoCreationFacade.isPublicLink());
+    }
+
+    @Test
+    public void uploadVideo_should_persist_video_and_if_public_is_false_public_link_could_be_false() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
+        assertThat(videoRepository.findAll().size()).isEqualTo(6);
+        FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
+        MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
+        videoCreationFacade = videoCreationFacade.setPublic(false).setPublicLink(false);
+
+        String key = videoBusiness.uploadVideo(file, videoCreationFacade);
+        Video videoPersist = videoRepository.findByKey(key);
+        assertThat(videoPersist.getIspublic()).isEqualTo(videoCreationFacade.isPublic());
+        assertThat(videoPersist.getIspubliclink()).isEqualTo(videoCreationFacade.isPublicLink());
     }
     //endregion
 

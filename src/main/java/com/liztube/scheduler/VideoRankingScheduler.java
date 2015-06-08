@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * Scheduler (CRON) to analyse all videos and assign to it a rank for each type of filter
  */
-@Service
+@Component
 public class VideoRankingScheduler {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

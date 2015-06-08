@@ -71,8 +71,8 @@ public class View {
         return asShared;
     }
 
-    public void setAsShared(boolean asShared) {
-        this.asShared = asShared;
+    public View setAsShared(boolean asShared) {
+        this.asShared = asShared; return this;
     }
 
     //endregion

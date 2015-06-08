@@ -2,10 +2,12 @@ package com.liztube.business;
 
 import com.liztube.entity.UserLiztube;
 import com.liztube.entity.Video;
+import com.liztube.entity.View;
 import com.liztube.exception.ThumbnailException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
 import com.liztube.repository.VideoRepository;
+import com.liztube.repository.ViewRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.FfMpegUtils;
 import com.liztube.utils.facade.video.VideoCreationFacade;
@@ -14,6 +16,7 @@ import com.liztube.utils.facade.video.VideoDataFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,8 @@ public class VideoBusiness {
     @Autowired
     VideoRepository videoRepository;
     @Autowired
+    ViewRepository viewRepository;
+    @Autowired
     ThumbnailBusiness thumbnailBusiness;
 
     public ClassPathResource videoLibrary = new ClassPathResource("VideoLibrary/");
@@ -57,8 +62,8 @@ public class VideoBusiness {
     public static final String VIDEO_UPLOAD_FILE_EMPTY     = "File is empty.";
     public static final String VIDEO_UPLOAD_NO_VALID_TYPE  = "Not valid type of file uploaded.";
     public static final String VIDEO_UPLOAD_TOO_HEAVY      = "File size exceed %s Mo.";
-    public static final String VIDEO_NOT_FOUND = "Video not found";
-    public static final String VIDEO_NOT_AVAILABLE = "Video not available. This is a private video.";
+    public static final String VIDEO_NOT_FOUND = "#1100";
+    public static final String VIDEO_NOT_AVAILABLE = "#1101";
     public static final String VIDEO_UPDATE_USER_IS_NOT_VIDEO_OWNER = "Don't have sufficient rights to edit this video.";
     public static final String VIDEO_UPLOAD_DURATION_ERROR = "An unexpected error occured when trying to get video duration.";
 
@@ -94,7 +99,34 @@ public class VideoBusiness {
      * @param key
      * @return
      */
-    public byte[] watch(String key) throws IOException {
+    public byte[] watch(String key) throws IOException, VideoException, UserNotFoundException {
+        //Get video
+        Video video = videoRepository.findByKey(key);
+        if(video == null){
+            throw new VideoException("Watch video - video not found", Arrays.asList(VIDEO_NOT_FOUND));//#1100
+        }
+
+        //Check that video could be watched
+        UserLiztube user = authBusiness.getConnectedUser(false);
+        if(!video.getIspublic() && !video.getIspubliclink()){
+            if(user == null || user.getId() != video.getOwner().getId()){
+                throw new VideoException("Get video - video not available isPublic: "+video.getIspublic()+", isPublicLink: "+video.getIspubliclink(), Arrays.asList(VIDEO_NOT_AVAILABLE));//#1101
+            }
+        }
+
+        //Create view id user connected and never see the video
+        if(user != null){
+            List<View> views = viewRepository.findByUserIdAndVideoKey(user.getId(), video.getKey());
+            if(views.size() == 0){
+                View newView = new View()
+                        .setVideo(video)
+                        .setViewdate(new Timestamp(new DateTime().getMillis()))
+                        .setUser(user)
+                        .setAsShared(!video.getIspublic() && video.getIspubliclink());
+                viewRepository.saveAndFlush(newView);
+            }
+        }
+
         FileInputStream fis = new FileInputStream(videoLibrary.getFile().getAbsolutePath() + File.separator + key);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         byte[] buf = new byte[1024];
@@ -153,7 +185,7 @@ public class VideoBusiness {
                 .setTitle(videoCreationFacade.getTitle())
                 .setDescription(videoCreationFacade.getDescription())
                 .setIspublic(videoCreationFacade.isPublic())
-                .setIspubliclink(!videoCreationFacade.isPublic() ? false : videoCreationFacade.isPublicLink())
+                .setIspubliclink(videoCreationFacade.isPublic() ? true : videoCreationFacade.isPublicLink())
                 .setKey(key)
                 .setOwner(user)
                 .setCreationdate(new Timestamp(new DateTime().getMillis()));

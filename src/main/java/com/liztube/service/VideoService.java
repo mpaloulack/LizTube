@@ -173,7 +173,7 @@ public class VideoService {
      */
     @RequestMapping(value = "/watch/{key}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
-    public byte[] watch(@PathVariable(value = "key") String key) throws IOException {
+    public byte[] watch(@PathVariable(value = "key") String key) throws IOException, VideoException, UserNotFoundException {
         return videoBusiness.watch(key);
     }
 }
