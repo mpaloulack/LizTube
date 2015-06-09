@@ -37,8 +37,8 @@ describe('liztube.search', function(){
             $rootScope.$digest();
             $scope.pageTitle = "Vidéos les plus récentes";
             $scope.orderBy = "mostrecent";
-            $scope.page = "";
-            $scope.pagination = "";
+            $scope.page = "1";
+            $scope.pagination = "20";
             $scope.userId = "";
             $scope.q = $routeParams.search;
             $scope.for = "home";

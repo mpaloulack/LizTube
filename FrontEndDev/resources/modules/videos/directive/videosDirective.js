@@ -6,8 +6,6 @@ angular.module("liztube.videos",[
     $scope.flexSize = 20;
     $scope.noVideoFound = "";
     $scope.videos = [];
-    $scope.loadPage = 0;
-    $scope.totalPage = 0;
     $scope.videosLoading = false;
 
     /**
@@ -194,6 +192,8 @@ angular.module("liztube.videos",[
                         q: scope.q,
                         for: scope.for
                     });
+                    console.log("scope.loadPage " + scope.loadPage);
+                    console.log("scope.totalPage " + scope.totalPage);
                 }
             }
         });

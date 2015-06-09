@@ -16,8 +16,8 @@ angular.module("liztube.profile",[
 }).controller("profileCtrl", function($scope, $rootScope, userService, $location, moastr, constants, $window) {
     $scope.pageTitle = "Mes vidéos";
     $scope.orderBy = "mostrecent";
-    $scope.page = "";
-    $scope.pagination = "";
+    $scope.page = "1";
+    $scope.pagination = "20";
     $scope.userId = $window.user.id;
     $scope.q = "";
     $scope.for = "user";
