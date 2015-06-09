@@ -13,7 +13,7 @@ angular.module("liztube.date",[
                 var currentTime = new Date();
                 var now = Date.parse(currentTime.getMonth() + 1 + "/" + currentTime.getDate() + "/" + currentTime.getFullYear());
 
-                if(date > now ){
+                if(date >= now ){
                     ngModel.$setValidity("dateToTimestamp", false);
                 }else{
                     ngModel.$setValidity("dateToTimestamp", true);
