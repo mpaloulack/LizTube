@@ -93,8 +93,15 @@ angular.module('liztube.videos.watch',
                 };
 
             },function(responses){
-                console.log(responses);
-                moastr.error(constants.SERVER_ERROR, 'left right bottom');
+                if(responses.data.messages[0] === "#1101"){
+                    moastr.error(constants.VIDEO_NOT_EXISTS, 'left right bottom');
+                    $location.path('/');
+                }else if(responses.data.messages[0] === "#1100"){
+                    moastr.error(constants.VIDEO_NOT_EXISTS, 'left right bottom');
+                    $location.path('/');
+                }else{
+                    moastr.error(constants.SERVER_ERROR, 'left right bottom');
+                }
             });
         };
 
