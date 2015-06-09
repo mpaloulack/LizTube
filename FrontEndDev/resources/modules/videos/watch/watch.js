@@ -28,7 +28,7 @@ angular.module('liztube.videos.watch',
         $scope.showLink = function(ev) {
             var confirm = $mdDialog.confirm()
                 .title('Copier ce lien pour le partager')
-                .content('http://www.liztube.fr'+$location.path())
+                .content($location.absUrl())
                 .ariaLabel('Copy video link')
                 .ok('OK')
                 .targetEvent(ev);
