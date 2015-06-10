@@ -45,7 +45,8 @@
                         <md-button ng-if="editVideo" class="md-primary showLink" ng-click="enableEditVideo()">
                             <i class="fa fa-pencil-square-o"></i> Modifier
                         </md-button>
-                        <md-button class="md-primary showLink" ng-click="showLink($event)">
+                        <input type="hidden" data-ng-model="urlForSharing"/>
+                        <md-button class="md-primary showLink" clip-copy="urlForSharing" clip-click="showLink($event)">
                             <i class="fa fa-share"></i> Partager
                         </md-button>
                     </h2>
