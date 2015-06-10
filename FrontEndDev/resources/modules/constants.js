@@ -14,5 +14,5 @@ angular.module("liztube.constants",[
     UPDATE_PROFILE_OK: "Votre profil à bien était mis à jour",
     UPDATE_VIDEO_DESCRIPTION_OK: "Votre vidéo à bien était mis à jour",
     NO_VIDEOS_FOUND: "Aucune vidéos trouvées",
-    VIDEO_NOT_EXISTS: "La vidéo que vous voulez afficher n'éxiste pas"
+    VIDEO_NOT_EXISTS: "Vidéo indisponible"
 });

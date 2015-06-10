@@ -26,7 +26,7 @@ angular.module('liztube.videos.watch',
         $scope.isEnableEditingVideo = false;
 
         $scope.showLink = function(ev) {
-            var confirm = $mdDialog.confirm()
+            /*var confirm = $mdDialog.confirm()
                 .title('Copier ce lien pour le partager')
                 .content($location.absUrl())
                 .ariaLabel('Copy video link')
@@ -36,10 +36,22 @@ angular.module('liztube.videos.watch',
 
             }, function() {
 
+            });*/
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: 'dialogs.html',
+                parent: angular.element(document.body),
+                targetEvent: ev
+            })
+            .then(function(answer) {
+            }, function() {
             });
         };
 
+
+
         function DialogController($scope, $mdDialog) {
+            $scope.clipboard = $location.absUrl();
             $scope.hide = function() {
                 $mdDialog.hide();
             };

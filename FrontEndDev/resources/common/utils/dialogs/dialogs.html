@@ -1,0 +1,17 @@
+<md-dialog aria-label="Copier ce lien pour le partager" md-theme="sub-bar" layout="column">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2><i class="fa fa-link"></i> Copier ce lien pour le partager</h2>
+            </div>
+        </md-toolbar>
+        <md-input-container md-no-float>
+            <input type="text" autofocus name="clipboard" value="{{clipboard}}"/>
+        </md-input-container>
+        <div class="md-actions" layout="row">
+            <md-button class="md-primary" ng-click="cancel()">
+                OK
+            </md-button>
+        </div>
+    </form>
+</md-dialog>
