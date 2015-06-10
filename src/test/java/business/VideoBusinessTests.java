@@ -2,10 +2,12 @@ package business;
 
 import com.excilys.ebi.spring.dbunit.test.DataSet;
 import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
+import com.liztube.business.PathBusiness;
 import com.liztube.business.ThumbnailBusiness;
 import com.liztube.business.VideoBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.entity.Video;
+import com.liztube.exception.PathException;
 import com.liztube.exception.ThumbnailException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
@@ -68,6 +70,9 @@ public class VideoBusinessTests {
     @Autowired
     VideoRepository videoRepository;
     @Autowired
+    PathBusiness pathBusiness;
+
+    @Autowired
     Environment environment;
 
     private ClassPathResource files = new ClassPathResource("files/");
@@ -91,10 +96,10 @@ public class VideoBusinessTests {
     }
 
     @After
-    public void setDown() throws IOException {
+    public void setDown() throws IOException, PathException {
         //Remove all files inside the video library AND video thumbnails library after each tests
-        File videoLibraryFolder = new File(videoBusiness.videoLibrary.getFile().getAbsolutePath() + File.separator);
-        File videoThumbnailLibraryFolder = new File(thumbnailBusiness.videoThumbnailsLibrary.getFile().getAbsolutePath() + File.separator);
+        File videoLibraryFolder = new File(pathBusiness.getVideoLibraryPath() + File.separator);
+        File videoThumbnailLibraryFolder = new File(pathBusiness.getVideoThumbnailsLibraryPath() + File.separator);
         if(videoLibraryFolder.exists()){
             for(File file : videoLibraryFolder.listFiles()){
                 file.delete();
@@ -154,29 +159,29 @@ public class VideoBusinessTests {
     }
 
     @Test
-    public void uploadVideo_should_save_file_on_server() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
+    public void uploadVideo_should_save_file_on_server() throws IOException, UserNotFoundException, VideoException, ThumbnailException, PathException {
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
-        File videoLibraryFolder = new File(videoBusiness.videoLibrary.getFile().getAbsolutePath() + File.separator);
+        File videoLibraryFolder = new File(pathBusiness.getVideoLibraryPath() + File.separator);
         assertThat(videoLibraryFolder.list().length).isEqualTo(0);
 
         String key = videoBusiness.uploadVideo(file, videoCreationFacade);
-        File fileFound = new File(videoBusiness.videoLibrary.getFile().getAbsolutePath() + File.separator + key);
+        File fileFound = new File(pathBusiness.getVideoLibraryPath() + File.separator + key);
         assertThat(videoLibraryFolder.list().length).isEqualTo(1);
         assertThat(fileFound.exists()).isTrue();
     }
 
     @Test
-    public void uploadVideo_should_save_default_thumbnail_on_server() throws IOException, UserNotFoundException, VideoException, ThumbnailException {
+    public void uploadVideo_should_save_default_thumbnail_on_server() throws IOException, UserNotFoundException, VideoException, ThumbnailException, PathException {
         FileInputStream inputFile = new FileInputStream(files.getFile().getAbsolutePath() + File.separator +"video.mp4");
         MockMultipartFile file = new MockMultipartFile("file", "video.mp4", "multipart/form-data", inputFile);
 
-        File videoLibraryFolder = new File(thumbnailBusiness.videoThumbnailsLibrary.getFile().getAbsolutePath() + File.separator);
+        File videoLibraryFolder = new File(pathBusiness.getVideoThumbnailsLibraryPath() + File.separator);
         assertThat(videoLibraryFolder.list().length).isEqualTo(0);
 
         String key = videoBusiness.uploadVideo(file, videoCreationFacade);
-        String videoPath = thumbnailBusiness.videoThumbnailsLibrary.getFile().getAbsolutePath() + File.separator + key + thumbnailBusiness.VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX;
+        String videoPath = pathBusiness.getVideoThumbnailsLibraryPath() + File.separator + key + thumbnailBusiness.VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX;
         File fileFound = new File(videoPath);
         assertThat(videoLibraryFolder.list().length).isEqualTo(1);
         assertThat(fileFound.exists()).isTrue();
