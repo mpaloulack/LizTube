@@ -9,10 +9,11 @@ angular.module("liztube.constants",[
     UPLOAD_DONE: "Téléchargement de la vidéo terminé ",
     DOWNLOAD_ON_AIR_FILE_NAME: "Téléchargement de la vidéo : ",
     NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notifications",
-    UPDATE_PASSWORD_OK: "Votre mot de passe a bien était mis à jour",
+    UPDATE_PASSWORD_OK: "Votre mot de passe a bien été mis à jour",
     UPDATE_PASSWORD_NOK_OLD_PASSWORD: "Votre ancien mot de passe ne correspond pas",
-    UPDATE_PROFILE_OK: "Votre profil à bien était mis à jour",
-    UPDATE_VIDEO_DESCRIPTION_OK: "Votre vidéo à bien était mis à jour",
+    UPDATE_PROFILE_OK: "Votre profil à bien été mis à jour",
+    UPDATE_VIDEO_DESCRIPTION_OK: "Votre vidéo à bien été mise à jour",
     NO_VIDEOS_FOUND: "Aucune vidéos trouvées",
-    VIDEO_NOT_EXISTS: "Vidéo indisponible"
+    VIDEO_NOT_EXISTS: "Vidéo indisponible",
+    VIDEO_SHARE_URL_CLIPPED: "Le lien de la vidéo a automatiquement été copié"
 });
