@@ -14,7 +14,8 @@ angular.module('liztube.dataService.userService', [
         userProfile : userProfile,
         updateProfile : updateProfile,
         emailExistUpdate : emailExistUpdate,
-        updatePassword : updatePassword
+        updatePassword : updatePassword,
+        deleteUser : deleteUser
     };
 
     /**
@@ -46,5 +47,12 @@ angular.module('liztube.dataService.userService', [
             'value':email
         };
         return baseAuth().post('email', emailObj);
+    }
+
+    /**
+     * DELETE user
+     */
+    function deleteUser(password) {
+        return baseUser().post('delete', password);
     }
 });

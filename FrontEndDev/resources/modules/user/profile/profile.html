@@ -2,6 +2,9 @@
     <div layout="column" layout-align="center center" class="profile">
         <h1 class="pageTitle">
             <span><img src="app/dist/img/favicon.png" width="27px"> {{profilTitle}}</span>
+            <md-button type="submit" ng-click="showAdvanced($event)" class="md-raised md-warn delete-account margin-right" >
+                <i class="fa fa-trash-o"></i> Supprimer son compte
+            </md-button>
         </h1>
         <form class="form-profile" name="formupdate-profile">
             <div class="profile-content" ng-init="isDisable= true" >
@@ -65,6 +68,7 @@
                         </md-button>
                     </div>
                 </div>
+
             </div>
         </form>
     </div>

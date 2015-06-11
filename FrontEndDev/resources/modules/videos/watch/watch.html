@@ -42,7 +42,7 @@
             </span>
                 <div class="description" layout="row" layout-wrap>
                     <h2>Description
-                        <md-button ng-if="editVideo" class="md-primary showLink" ng-click="enableEditVideo()">
+                        <md-button ng-if="editVideo" class="md-raised showLink md-primary" ng-click="enableEditVideo()">
                             <i class="fa fa-pencil-square-o"></i> Modifier
                         </md-button>
                         <md-button class="md-primary showLink" ng-click="showLink($event)">
@@ -57,7 +57,7 @@
                 <div class="video-infos" layout="row"  layout-wrap>
                     <div class="description" layout="row" layout-wrap>
                         <h2>Edition
-                            <md-button class="md-primary showLink" ng-click="updateVideoDesc()" ng-disabled="formUpdate.$invalid">
+                            <md-button class="md-raised md-primary showLink" ng-click="updateVideoDesc()" ng-disabled="formUpdate.$invalid">
                                 <i class="fa fa-pencil-square-o"></i> Mettre à jour
                             </md-button>
                         </h2>

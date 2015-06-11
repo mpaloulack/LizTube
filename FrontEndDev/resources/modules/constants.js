@@ -13,5 +13,7 @@ angular.module("liztube.constants",[
     UPDATE_PASSWORD_NOK_OLD_PASSWORD: "Votre ancien mot de passe ne correspond pas",
     UPDATE_PROFILE_OK: "Votre profil à bien était mis à jour",
     UPDATE_VIDEO_DESCRIPTION_OK: "Votre vidéo à bien était mis à jour",
-    NO_VIDEOS_FOUND: "Aucune vidéos trouvées"
+    NO_VIDEOS_FOUND: "Aucune vidéos trouvées",
+    WRONG_PASSWORD: "Mauvais password",
+    SUCCESS_DELETE: "Votre profil à bien était supprimer"
 });

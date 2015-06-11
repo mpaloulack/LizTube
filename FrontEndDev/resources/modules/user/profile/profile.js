@@ -13,7 +13,7 @@ angular.module("liztube.profile",[
         controller: 'profileCtrl',
         templateUrl: "profile.html"
     });
-}).controller("profileCtrl", function($scope, $rootScope, userService, $location, moastr, constants, $window) {
+}).controller("profileCtrl", function($scope, $rootScope, userService, $location, moastr, constants, $window, $mdDialog) {
     $scope.pageTitle = "Mes vidéos";
     $scope.orderBy = "mostrecent";
     $scope.page = "";
@@ -67,6 +67,52 @@ angular.module("liztube.profile",[
     };
 
 
+    /**
+     * Alertview for delete user
+     */
+
+    $scope.showAdvanced = function(ev) {
+        $mdDialog.show({
+            controller: DialogController,
+            templateUrl: 'dialog.delete.user.html',
+            parent: angular.element(document.body),
+            targetEvent: ev
+        });
+    };
+
+    function DialogController($scope, $mdDialog) {
+        $scope.hide = function() {
+            $mdDialog.hide();
+        };
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+        $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+            console.log($scope.password);
+
+            $rootScope.$broadcast('loadingStatus', true);
+
+
+            userService.deleteUser($scope.password).then(function () {
+                moastr.successMin(constants.SUCCESS_DELETE, 'top right');
+                $scope.$emit('userStatus', undefined);
+                $window.user = "";
+                $route.reload();
+                $location.path("/");
+
+            }, function () {
+                moastr.error(constants.WRONG_PASSWORD, 'left right bottom');
+
+            }).finally(function () {
+                $rootScope.$broadcast('loadingStatus', false);
+            });
+        };
+    }
+
+    function deleteUser (password) {
+
+    }
 
 }).directive('emailValidation', function(userService, moastr) {
     return {

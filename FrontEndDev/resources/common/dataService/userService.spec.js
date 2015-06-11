@@ -31,4 +31,10 @@ describe('liztube.dataService.userService', function(){
         userService.updatePassword({});
         $httpBackend.flush();
     });
+
+    it('should post for delete account', function(){
+        $httpBackend.expectPOST('/user/delete').respond();
+        userService.deleteUser({});
+        $httpBackend.flush();
+    });
 });
