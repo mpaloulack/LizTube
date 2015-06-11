@@ -3,6 +3,7 @@ package com.liztube.business;
 import com.liztube.entity.UserLiztube;
 import com.liztube.entity.Video;
 import com.liztube.entity.View;
+import com.liztube.exception.PathException;
 import com.liztube.exception.ThumbnailException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
@@ -49,8 +50,8 @@ public class VideoBusiness {
     ViewRepository viewRepository;
     @Autowired
     ThumbnailBusiness thumbnailBusiness;
-
-    public ClassPathResource videoLibrary = new ClassPathResource("VideoLibrary/");
+    @Autowired
+    PathBusiness pathBusiness;
 
     /**
      * 0 -> server absolute library path
@@ -99,7 +100,7 @@ public class VideoBusiness {
      * @param key
      * @return
      */
-    public byte[] watch(String key) throws IOException, VideoException, UserNotFoundException {
+    public byte[] watch(String key) throws IOException, VideoException, UserNotFoundException, PathException {
         //Get video
         Video video = videoRepository.findByKey(key);
         if(video == null){
@@ -127,7 +128,7 @@ public class VideoBusiness {
             }
         }
 
-        FileInputStream fis = new FileInputStream(videoLibrary.getFile().getAbsolutePath() + File.separator + key);
+        FileInputStream fis = new FileInputStream(pathBusiness.getVideoLibraryPath() + File.separator + key);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         byte[] buf = new byte[1024];
         for (int readNum; (readNum = fis.read(buf)) != -1;) {
@@ -196,7 +197,7 @@ public class VideoBusiness {
         String videoPath;
         //Save video file
         try {
-            videoPath = String.format(filePathForFormat, videoLibrary.getFile().getAbsolutePath(), File.separator, key);
+            videoPath = String.format(filePathForFormat, pathBusiness.getVideoLibraryPath(), File.separator, key);
             //transfer video to the video library
             file.transferTo(new File(videoPath));
         } catch (Exception e) {

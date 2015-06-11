@@ -185,8 +185,8 @@
             it('scope variables initialized', function(){
                 expect($scope.pageTitle).toEqual("Mes vidéos");
                 expect($scope.orderBy).toEqual("mostrecent");
-                expect($scope.page).toEqual("");
-                expect($scope.pagination).toEqual("");
+                expect($scope.page).toEqual("1");
+                expect($scope.pagination).toEqual("20");
                 expect($scope.userId).toEqual(1);
                 expect($scope.q).toEqual("");
                 expect($scope.for).toEqual("user");

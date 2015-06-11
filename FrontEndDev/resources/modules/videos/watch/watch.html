@@ -30,7 +30,7 @@
                 <h1>{{videoDesc.title}}</h1>
                 <div class="clear"></div>
                 <div flex="50">
-                    <a href="/search/{{videoDesc.ownerPseudo}}"  class="owner" >
+                    <a href="/search/{{videoDesc.ownerPseudo}}" class="owner">
                         <gravatar-image gravatar-email="videoDesc.ownerEmail" gravatar-size="50" gravatar-default="mm"/>
                         <span>{{videoDesc.ownerPseudo}}</span>
                     </a>
@@ -45,6 +45,7 @@
                         <md-button ng-if="editVideo" class="md-raised showLink md-primary" ng-click="enableEditVideo()">
                             <i class="fa fa-pencil-square-o"></i> Modifier
                         </md-button>
+                        <input type="hidden" data-ng-model="urlForSharing"/>
                         <md-button class="md-primary showLink" ng-click="showLink($event)">
                             <i class="fa fa-share"></i> Partager
                         </md-button>

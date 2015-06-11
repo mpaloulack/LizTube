@@ -2,9 +2,11 @@ package business;
 
 import com.excilys.ebi.spring.dbunit.test.DataSet;
 import com.excilys.ebi.spring.dbunit.test.DataSetTestExecutionListener;
+import com.liztube.business.PathBusiness;
 import com.liztube.business.VideoBusiness;
 import com.liztube.config.JpaConfigs;
 import com.liztube.entity.View;
+import com.liztube.exception.PathException;
 import com.liztube.exception.UserNotFoundException;
 import com.liztube.exception.VideoException;
 import com.liztube.exception.exceptionType.PublicException;
@@ -45,13 +47,16 @@ public class WatchVideoTests {
     @Autowired
     VideoBusiness videoBusiness;
     @Autowired
+    PathBusiness pathBusiness;
+
+    @Autowired
     ViewRepository viewRepository;
 
     @Before
-    public void setUp() throws IOException {
-        File fakeVideoA = new File(videoBusiness.videoLibrary.getFile().getAbsolutePath() + File.separator + "a");
-        File fakeVideoD = new File(videoBusiness.videoLibrary.getFile().getAbsolutePath() + File.separator + "d");
-        File fakeVideoE = new File(videoBusiness.videoLibrary.getFile().getAbsolutePath() + File.separator + "e");
+    public void setUp() throws IOException, PathException {
+        File fakeVideoA = new File(pathBusiness.getVideoLibraryPath() + File.separator + "a");
+        File fakeVideoD = new File(pathBusiness.getVideoLibraryPath() + File.separator + "d");
+        File fakeVideoE = new File(pathBusiness.getVideoLibraryPath() + File.separator + "e");
         if(!fakeVideoA.exists()){
             fakeVideoA.createNewFile();
         }
@@ -92,12 +97,12 @@ public class WatchVideoTests {
     }
 
     @Test
-    public void should_be_successfull_if_user_is_owner_of_private_video() throws VideoException, UserNotFoundException, IOException {
+    public void should_be_successfull_if_user_is_owner_of_private_video() throws VideoException, UserNotFoundException, IOException, PathException {
         videoBusiness.watch("d");
     }
 
     @Test
-    public void should_log_view_if_user_never_seen_video() throws VideoException, UserNotFoundException, IOException {
+    public void should_log_view_if_user_never_seen_video() throws VideoException, UserNotFoundException, IOException, PathException {
         assertThat(viewRepository.findByUserIdAndVideoKey(1, "a").size()).isEqualTo(0);
         videoBusiness.watch("a");
         List<View> views = viewRepository.findByUserIdAndVideoKey(1, "a");
@@ -109,7 +114,7 @@ public class WatchVideoTests {
     }
 
     @Test
-    public void should_log_view_as_shared() throws VideoException, UserNotFoundException, IOException {
+    public void should_log_view_as_shared() throws VideoException, UserNotFoundException, IOException, PathException {
         assertThat(viewRepository.findByUserIdAndVideoKey(1, "e").size()).isEqualTo(0);
         videoBusiness.watch("e");
         List<View> views = viewRepository.findByUserIdAndVideoKey(1, "e");
@@ -121,7 +126,7 @@ public class WatchVideoTests {
     }
 
     @Test
-    public void should_not_log_view_if_user_already_seen_video() throws VideoException, UserNotFoundException, IOException {
+    public void should_not_log_view_if_user_already_seen_video() throws VideoException, UserNotFoundException, IOException, PathException {
         SecurityContextHolder.getContext().setAuthentication(null);
 
         List<GrantedAuthority> userAuthorities=new ArrayList<GrantedAuthority>(2);
@@ -137,7 +142,7 @@ public class WatchVideoTests {
     }
 
     @Test
-    public void should_not_log_view_if_user_disconnected() throws VideoException, UserNotFoundException, IOException {
+    public void should_not_log_view_if_user_disconnected() throws VideoException, UserNotFoundException, IOException, PathException {
         SecurityContextHolder.getContext().setAuthentication(null);
         assertThat(viewRepository.findAll().size()).isEqualTo(2);
         videoBusiness.watch("a");

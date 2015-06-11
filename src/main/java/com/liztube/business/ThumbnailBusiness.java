@@ -21,9 +21,9 @@ import java.io.File;
 public class ThumbnailBusiness {
     @Autowired
     VideoBusiness videoBusiness;
+    @Autowired
+    PathBusiness pathBusiness;
 
-    public ClassPathResource videoLibrary = new ClassPathResource("VideoLibrary/");
-    public ClassPathResource videoThumbnailsLibrary = new ClassPathResource("VideoThumbnailsLibrary/");
     public ClassPathResource liztubeDefaultContent = new ClassPathResource("LiztubeDefaultContent/");
 
     /**
@@ -49,13 +49,13 @@ public class ThumbnailBusiness {
     public void createDefaultThumbnail(String key) throws ThumbnailException {
         try {
             //Get video file on the server
-            File file = new File(String.format(filePathForFormat, videoLibrary.getFile().getAbsolutePath(), File.separator, key));
+            File file = new File(String.format(filePathForFormat, pathBusiness.getVideoLibraryPath(), File.separator, key));
             //Capture thumbnail
             BufferedImage thumbnail = FrameGrab.getFrame(file, VIDEO_DEFAULT_THUMBNAIL_FRAME);
             //Adapt thumbnail size
             thumbnail = ThumbnailResizing.adaptThumbnailSize(thumbnail);
             //Save thumbnail
-            ImageIO.write(thumbnail, VIDEO_DEFAULT_THUMBNAIL_IMAGE_TYPE, new File(String.format(filePathForFormat, videoThumbnailsLibrary.getFile().getAbsolutePath(), File.separator, key + VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX)));
+            ImageIO.write(thumbnail, VIDEO_DEFAULT_THUMBNAIL_IMAGE_TYPE, new File(String.format(filePathForFormat, pathBusiness.getVideoThumbnailsLibraryPath(), File.separator, key + VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX)));
         }catch (Exception e) {
             e.printStackTrace();
             throw new ThumbnailException("Thumbnail - Create default video thumbnail", VIDEO_CREATE_DEFAULT_THUMBNAIL);
@@ -78,7 +78,7 @@ public class ThumbnailBusiness {
 
         //Get video thumbnail
         try {
-            BufferedImage img = ImageIO.read(new File(String.format(filePathForFormat, videoThumbnailsLibrary.getFile().getAbsolutePath(), File.separator, key + VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX)));
+            BufferedImage img = ImageIO.read(new File(String.format(filePathForFormat, pathBusiness.getVideoThumbnailsLibraryPath(), File.separator, key + VIDEO_DEFAULT_THUMBNAIL_DEFAULT_IMAGE_SUFFIX)));
             img = ThumbnailResizing.resizeImageWithHint(img, width, height);
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
             ImageIO.write(img, "png", bao);

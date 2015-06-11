@@ -3,10 +3,7 @@ package com.liztube.service;
 import com.liztube.business.SearchForVideosBusiness;
 import com.liztube.business.ThumbnailBusiness;
 import com.liztube.business.VideoBusiness;
-import com.liztube.exception.ServiceException;
-import com.liztube.exception.ThumbnailException;
-import com.liztube.exception.UserNotFoundException;
-import com.liztube.exception.VideoException;
+import com.liztube.exception.*;
 import com.liztube.exception.exceptionType.PublicException;
 import com.liztube.utils.EnumVideoOrderBy;
 import com.liztube.utils.GroupRoles;
@@ -173,7 +170,7 @@ public class VideoService {
      */
     @RequestMapping(value = "/watch/{key}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
-    public byte[] watch(@PathVariable(value = "key") String key) throws IOException, VideoException, UserNotFoundException {
+    public byte[] watch(@PathVariable(value = "key") String key) throws IOException, VideoException, UserNotFoundException, PathException {
         return videoBusiness.watch(key);
     }
 }

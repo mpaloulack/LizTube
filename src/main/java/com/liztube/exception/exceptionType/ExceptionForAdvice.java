@@ -37,6 +37,10 @@ public class ExceptionForAdvice{
     public ExceptionForAdvice(ServiceException serviceException){
         this.messages = serviceException.getMessages();
     }
+
+    public ExceptionForAdvice(PathException pathException){
+        this.messages = pathException.getMessages();
+    }
     //endregion
 
     //region getter/setter
