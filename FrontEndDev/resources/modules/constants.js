@@ -12,7 +12,7 @@ angular.module("liztube.constants",[
     UPDATE_PASSWORD_OK: "Votre mot de passe a bien été mis à jour",
     UPDATE_PASSWORD_NOK_OLD_PASSWORD: "Votre ancien mot de passe ne correspond pas",
     WRONG_PASSWORD: "Mauvais password",
-    SUCCESS_DELETE: "Votre profil à bien était supprimer"
+    SUCCESS_DELETE: "Votre profil à bien était supprimer",
     UPDATE_PROFILE_OK: "Votre profil à bien été mis à jour",
     UPDATE_VIDEO_DESCRIPTION_OK: "Votre vidéo à bien été mise à jour",
     NO_VIDEOS_FOUND: "Aucune vidéos trouvées",
