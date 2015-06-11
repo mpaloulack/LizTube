@@ -35,20 +35,23 @@
                         <span>{{videoDesc.ownerPseudo}}</span>
                     </a>
                 </div>
-
-            <span flex="50" class="nb-view">
-                Nombres de vue(s) : {{videoDesc.views}}<br/>
-                Date de publication : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}
-            </span>
+                <span flex="50"  class="nb-view">
+                    Nombres de vue(s) : {{videoDesc.views}}<br/>
+                    Date de publication : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}
+                </span>
+                <div ng-if="editVideo" flex="100">
+                    <md-button   class="md-accent md-raised watch-btn" ng-click="enableEditVideo()">
+                        <i class="fa fa-pencil-square-o"></i> Modifier
+                    </md-button>
+                    <md-button class="md-accent md-raised watch-btn" ng-click="showLink($event)">
+                        <i class="fa fa-share"></i> Partager
+                    </md-button>
+                </div>
                 <div class="description" layout="row" layout-wrap>
                     <h2>Description
-                        <md-button ng-if="editVideo" class="md-raised showLink md-primary" ng-click="enableEditVideo()">
-                            <i class="fa fa-pencil-square-o"></i> Modifier
-                        </md-button>
+
                         <input type="hidden" data-ng-model="urlForSharing"/>
-                        <md-button class="md-primary showLink" ng-click="showLink($event)">
-                            <i class="fa fa-share"></i> Partager
-                        </md-button>
+
                     </h2>
                     <p>{{videoDesc.description}}</p>
                 </div>
@@ -58,9 +61,7 @@
                 <div class="video-infos" layout="row"  layout-wrap>
                     <div class="description" layout="row" layout-wrap>
                         <h2>Edition
-                            <md-button class="md-raised md-primary showLink" ng-click="updateVideoDesc()" ng-disabled="formUpdate.$invalid">
-                                <i class="fa fa-pencil-square-o"></i> Mettre à jour
-                            </md-button>
+
                         </h2>
                         <p>
                             <md-input-container>
@@ -82,6 +83,10 @@
                                 </div>
                             </md-input-container>
                         </p>
+                        <p>
+                            <md-button class="md-accent md-raised showLink" ng-click="updateVideoDesc()" ng-disabled="formUpdate.$invalid">
+                                <i class="fa fa-pencil-square-o"></i> Mettre à jour
+                            </md-button>
                         </p>
                     </div>
 
