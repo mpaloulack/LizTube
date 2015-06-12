@@ -70,7 +70,6 @@ angular.module("liztube.profile",[
     /**
      * Alertview for delete user
      */
-
     $scope.showAdvanced = function(ev) {
         $mdDialog.show({
             controller: DialogController,
@@ -108,10 +107,6 @@ angular.module("liztube.profile",[
                 $rootScope.$broadcast('loadingStatus', false);
             });
         };
-    }
-
-    function deleteUser (password) {
-
     }
 
 }).directive('emailValidation', function(userService, moastr) {

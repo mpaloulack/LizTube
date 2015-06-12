@@ -12,15 +12,16 @@
         <md-dialog-content>
             <div class="content-delete-user">
                 <h3>
-                    Pour supprimer votre compte veuillez rentrer votre mot de passe
+                    Pour supprimer votre compte veuillez rentrer votre mot de passe.
                 </h3>
-                    <md-input-container flex>
-                        <label><i class="fa fa-lock"></i> Mot de passe</label>
-                        <input type="password" name="password" ng-model="password.password" required>
-                        <div ng-messages="formRegister.password.$error">
-                            <div ng-message="required">Mot de passe requis</div>
-                        </div>
-                    </md-input-container>
+                <em>Attention la suppression de votre compte entraînera l'effacement définitif de toutes<br/> les données relatives à votre compte (incluant vos vidéos).</em>
+                <md-input-container flex>
+                    <label><i class="fa fa-lock"></i> Mot de passe</label>
+                    <input type="password" name="password" ng-model="password.password" required>
+                    <div ng-messages="formRegister.password.$error">
+                        <div ng-message="required">Mot de passe requis</div>
+                    </div>
+                </md-input-container>
             </div>
         </md-dialog-content>
         <div class="md-actions" layout="row">
