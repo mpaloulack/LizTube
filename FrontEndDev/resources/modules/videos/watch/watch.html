@@ -36,7 +36,7 @@
                     </a>
                 </div>
                 <span flex="50"  class="nb-view">
-                    Nombres de vue(s) : {{videoDesc.views}}<br/>
+                    Nombre de vue(s) : {{videoDesc.views}}<br/>
                     Date de publication : {{videoDesc.creationDate | date:'dd/MM/yyyy'}}
                 </span>
                 <div ng-if="editVideo" flex="100">
@@ -63,7 +63,7 @@
                         <h2>Edition
 
                         </h2>
-                        <p>
+                        <div class="justify">
                             <md-input-container>
                                 <label><i class="fa fa-video-camera"></i> Titre</label>
                                 <input type="text" name="title" required="required" md-maxlength="300" ng-model="videoDesc.title"/>
@@ -72,8 +72,8 @@
                                     <div ng-message="md-maxlength">Le titre ne doit pas dépasser 300 caractères</div>
                                 </div>
                             </md-input-container>
-                            <p>
-
+                        </div>
+                        <div class="justify">
                             <md-input-container>
                                 <label><i class="fa fa-newspaper-o"></i> Description</label>
                                 <textarea ng-model="videoDesc.description" name="description" required="required" columns="1" md-maxlength="1000"></textarea>
@@ -82,7 +82,22 @@
                                     <div ng-message="md-maxlength">La description ne doit pas dépasser 1000 caractères</div>
                                 </div>
                             </md-input-container>
-                        </p>
+                        </div>
+                        <div>
+                            <div layout="column" layout-align="center center">
+                                <h4 class="no-margin">Sélectionner le niveau de confidentialité :</h4>
+                                <md-radio-group class="no-margin md-primary" name="confidentiality" ng-model="videoDesc.confidentiality" required="required" aria-label="confidentiality"  layout="row" layout-align="center center">
+                                    <md-radio-button value="1">Publique</md-radio-button>
+                                    <md-radio-button value="0">Privé</md-radio-button>
+                                    <md-radio-button value="2">
+                                        Disponible uniquement par lien
+                                        <md-tooltip>
+                                            Seules les personnes disposant<br/>du lien de la vidéo pourront<br/> y accèder. Option modifiable<br/> une fois la vidéo uploadée.
+                                        </md-tooltip>
+                                    </md-radio-button>
+                                </md-radio-group>
+                            </div>
+                        </div>
                         <p>
                             <md-button class="md-accent md-raised showLink" ng-click="updateVideoDesc()" ng-disabled="formUpdate.$invalid">
                                 <i class="fa fa-pencil-square-o"></i> Mettre à jour

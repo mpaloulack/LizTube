@@ -15,12 +15,13 @@ describe('liztube.videos.watch', function() {
     beforeEach(module('com.2fdevs.videogular.plugins.controls'));
     beforeEach(module('com.2fdevs.videogular.plugins.overlayplay'));
     beforeEach(module('com.2fdevs.videogular.plugins.poster'));
-
+    beforeEach(module('ngClipboard'));
 
     var $scope, $rootScope, $location, videosService, $q, constants, $window, createController, keyVideo, $sce, $mdDialog;
 
     var mockConstants = {
-        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
+        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
+        UPDATE_VIDEO_DESCRIPTION_OK: "Votre vidéo a bien été mise à jour"
     };
 
     beforeEach(function() {
@@ -49,13 +50,18 @@ describe('liztube.videos.watch', function() {
         }
     };
 
+    var $mdDialog = function(){
+        return true;
+    };
+
 
     beforeEach(inject(function ($controller) {
         $scope = $rootScope.$new();
         createController = function () {
             return $controller('watchCtrl', {
                 '$scope': $scope,
-                'moastr' : moastr
+                'moastr' : moastr,
+                '$mdDialog': $mdDialog
             });
         };
     }));
@@ -136,6 +142,128 @@ describe('liztube.videos.watch', function() {
             expect($scope.videoDesc.creationDate).toEqual(new Date(2015, 3, 23));
             expect($scope.config).toEqual(videoConfig);
         });*/
+
+    });
+
+    describe('Edit video load data', function(){
+        beforeEach(function(){
+            $scope.isEnableEditingVideo = false;
+            $scope.videoDesc = {
+                public:false,
+                publicLink:false
+            }
+        });
+
+        it('should pass in edit mode', function(){
+            expect($scope.isEnableEditingVideo).toBeFalsy();
+            $scope.enableEditVideo();
+            expect($scope.isEnableEditingVideo).toBeTruthy();
+        });
+
+        it('confidentiality should be private (0)', function(){
+            $scope.videoDesc = {
+                public:false,
+                publicLink:false
+            }
+            $scope.enableEditVideo();
+            expect($scope.videoDesc.confidentiality).toEqual(0);
+        });
+
+        it('confidentiality should be public link (2)', function(){
+            $scope.videoDesc = {
+                public:false,
+                publicLink:true
+            }
+            $scope.enableEditVideo();
+            expect($scope.videoDesc.confidentiality).toEqual(2);
+        });
+
+    });
+
+    describe('Update video', function(){
+        var updateVideoPromise;
+
+        beforeEach(function(){
+            $scope.isEnableEditingVideo = true;
+            $scope.videoDesc = {
+                public:false,
+                publicLink:false,
+                title:'title',
+                description:'desc',
+                confidentiality:0
+            };
+            spyOn($rootScope, '$broadcast').and.callThrough();
+            spyOn(moastr, 'successMin').and.callThrough();
+            spyOn(moastr, 'error').and.callThrough();
+
+            updateVideoPromise = $q.defer();
+            spyOn(videosService, 'updateVideoData').and.returnValue(updateVideoPromise.promise);
+        });
+
+        it('should start loading', function(){
+            $scope.updateVideoDesc();
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadingStatus', true);
+        });
+
+        it('should set video as public', function(){
+            $scope.videoDesc = {
+                public:false,
+                publicLink:false,
+                title:'title',
+                description:'desc',
+                confidentiality:1
+            };
+            $scope.updateVideoDesc();
+            expect($scope.videoDesc.public).toBeTruthy();
+            expect($scope.videoDesc.publicLink).toBeTruthy();
+        });
+
+        it('should set video as private', function(){
+            $scope.videoDesc = {
+                public:true,
+                publicLink:true,
+                title:'title',
+                description:'desc',
+                confidentiality:0
+            };
+            $scope.updateVideoDesc();
+            expect($scope.videoDesc.public).toBeFalsy();
+            expect($scope.videoDesc.publicLink).toBeFalsy();
+        });
+
+        it('should set video as public link', function(){
+            $scope.videoDesc = {
+                public:false,
+                publicLink:false,
+                title:'title',
+                description:'desc',
+                confidentiality:2
+            };
+            $scope.updateVideoDesc();
+            expect($scope.videoDesc.public).toBeFalsy();
+            expect($scope.videoDesc.publicLink).toBeTruthy();
+        });
+
+        it('should remove confidentiality attribute from object to send', function(){
+            $scope.updateVideoDesc();
+            expect($scope.videoDesc.confidentiality).toEqual(undefined);
+        });
+
+        it('should display successful notification in case of success and pass back to the view mode and stop loading', function(){
+            $scope.updateVideoDesc();
+            changePromiseResult(updateVideoPromise,'resolve');
+            expect($scope.isEnableEditingVideo).toBeFalsy();
+            expect(moastr.successMin).toHaveBeenCalledWith(mockConstants.UPDATE_VIDEO_DESCRIPTION_OK, 'top right');
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadingStatus', false);
+        });
+
+        it('should display error notification in case of error and stop loading', function(){
+            $scope.updateVideoDesc();
+            changePromiseResult(updateVideoPromise,'error');
+            expect($scope.isEnableEditingVideo).toBeTruthy();
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.SERVER_ERROR, 'left right bottom');
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('loadingStatus', false);
+        });
 
     });
 

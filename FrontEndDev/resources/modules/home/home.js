@@ -13,7 +13,7 @@ angular.module("liztube.home",[
     }).otherwise({
         redirectTo: '/404',
         title: "LizTube - 404",
-        page: "404 : Page non trouvé",
+        page: "404 : Page non trouvée",
         templateUrl:"404.html"
     });
 }).controller("homeCtrl", function($scope){

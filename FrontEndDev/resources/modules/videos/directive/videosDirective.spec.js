@@ -176,7 +176,7 @@ describe('liztube.videos', function(){
         it('Should $scope.orderBy equal mostviewed if orderBy equal 3', function () {
             $scope.filter("3");
             expect($scope.orderBy).toEqual("mostviewed");
-            expect($scope.pageTitle).toEqual("Vidéos les plus vue");
+            expect($scope.pageTitle).toEqual("Vidéos les plus vues");
         });
 
         it('Should $scope.orderBy equal mostshared if orderBy equal 4', function () {

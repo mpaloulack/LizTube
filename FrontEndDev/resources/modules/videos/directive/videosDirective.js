@@ -105,7 +105,7 @@ angular.module("liztube.videos",[
             $scope.pageTitle = "Vidéos les plus récentes";
         }else if(orderBy === "3"){
             $scope.orderBy = "mostviewed";
-            $scope.pageTitle = "Vidéos les plus vue";
+            $scope.pageTitle = "Vidéos les plus vues";
         }else if(orderBy === "4"){
             $scope.orderBy = "mostshared";
             $scope.pageTitle = "Vidéos les plus partagées";

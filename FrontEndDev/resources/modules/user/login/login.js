@@ -27,7 +27,7 @@ angular.module("liztube.login",[
                 moastr.error(constants.SERVER_ERROR,'left right bottom');
             });
         },function(){
-            moastr.error('Bad credentials', 'left right bottom');
+            moastr.error(constants.LOGIN_FAILED, 'left right bottom');
         }).finally(function(){
             $scope.$emit('loadingStatus', false);
         });

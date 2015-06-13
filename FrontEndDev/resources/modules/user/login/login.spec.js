@@ -14,7 +14,8 @@ describe('liztube.login', function() {
     var createController, $scope, $rootScope, $location, authService, $window, $q, constants;
 
     var mockConstants = {
-        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.'
+        SERVER_ERROR : 'Une erreur inattendue est survenue. Si le problème persiste veuillez contacter l\'équipe de Liztube.',
+        LOGIN_FAILED: "Login ou mot de passe incorrect"
     };
 
     beforeEach(function() {
@@ -102,7 +103,7 @@ describe('liztube.login', function() {
 
         it('should return an error message', function(){
             changePromiseResult(loginPromise, "failed");
-            expect(moastr.error).toHaveBeenCalledWith('Bad credentials','left right bottom');
+            expect(moastr.error).toHaveBeenCalledWith(mockConstants.LOGIN_FAILED,'left right bottom');
         });
 
         it('should be a successful authentication', function(){

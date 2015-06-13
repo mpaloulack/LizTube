@@ -65,7 +65,7 @@ describe('liztube.home', function(){
             location.path('/404');
             $rootScope.$digest();
             expect(route.current.title).toBe('LizTube - 404');
-            expect(route.current.page).toBe('404 : Page non trouvé');
+            expect(route.current.page).toBe('404 : Page non trouvée');
         });
     });
 

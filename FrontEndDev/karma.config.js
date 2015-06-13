@@ -24,6 +24,13 @@ module.exports = function (config) {
             'bower_components/angular-messages/angular-messages.js',
             'bower_components/ng-file-upload/angular-file-upload-shim.js',
             'bower_components/ng-file-upload/angular-file-upload-all.js',
+            'bower_components/angular-sanitize/angular-sanitize.js',
+            'bower_components/videogular/videogular.js',
+            'bower_components/videogular-controls/vg-controls.js',
+            'bower_components/videogular-overlay-play/vg-overlay-play.js',
+            'bower_components/videogular-poster/vg-poster.js',
+            'bower_components/ng-clip/dest/ng-clip.min.js',
+            'bower_components/zeroclipboard/dist/ZeroClipboard.js',
             'resources/**/*.js',
             'resources/**/*.spec.js'
         ],

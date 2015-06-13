@@ -17,5 +17,6 @@ angular.module("liztube.constants",[
     UPDATE_VIDEO_DESCRIPTION_OK: "Votre vidéo a bien été mise à jour",
     NO_VIDEOS_FOUND: "Aucune vidéos trouvées",
     VIDEO_NOT_EXISTS: "Vidéo indisponible",
-    VIDEO_SHARE_URL_CLIPPED: "Le lien de la vidéo a automatiquement été copié"
+    VIDEO_SHARE_URL_CLIPPED: "Le lien de la vidéo a automatiquement été copié",
+    LOGIN_FAILED: "Login ou mot de passe incorrect"
 });

@@ -15,7 +15,7 @@ angular.module('liztube.videos.watch',
     ]
 ).config(function ($routeProvider){
         $routeProvider.when("/watch/:videoKey",{
-            title: "LizTube - vidéo",
+            title: "LizTube - Vidéo",
             page: "vidéo",
             controller: 'watchCtrl',
             templateUrl: "watch.html",
@@ -53,6 +53,13 @@ angular.module('liztube.videos.watch',
 
     $scope.enableEditVideo = function(){
         $scope.isEnableEditingVideo = true;
+        if($scope.videoDesc.public){
+            $scope.videoDesc.confidentiality = 1;
+        }else if(!$scope.videoDesc.public && $scope.videoDesc.publicLink){
+            $scope.videoDesc.confidentiality = 2;
+        }else{
+            $scope.videoDesc.confidentiality = 0;
+        }
     };
 
     var videoOwnerTest= function (userName) {
@@ -109,6 +116,19 @@ angular.module('liztube.videos.watch',
     $scope.updateVideoDesc= function (){
 
         $rootScope.$broadcast('loadingStatus', true);
+
+        //Intepret confidentiality
+        if($scope.videoDesc.confidentiality == 1){//Public
+            $scope.videoDesc.public = true;
+            $scope.videoDesc.publicLink = true;
+        }else if($scope.videoDesc.confidentiality == 2){//PublicLink
+            $scope.videoDesc.public = false;
+            $scope.videoDesc.publicLink = true;
+        }else{//Private
+            $scope.videoDesc.public = false;
+            $scope.videoDesc.publicLink = false;
+        }
+        delete $scope.videoDesc.confidentiality;
 
         videosService.updateVideoData($scope.videoDesc).then(function () {
             moastr.successMin(constants.UPDATE_VIDEO_DESCRIPTION_OK, 'top right');
