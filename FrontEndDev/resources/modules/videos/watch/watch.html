@@ -43,7 +43,7 @@
                     <md-button   class="md-accent md-raised watch-btn" ng-click="enableEditVideo()">
                         <i class="fa fa-pencil-square-o"></i> Modifier
                     </md-button>
-                    <md-button class="md-accent md-raised watch-btn" ng-click="showLink($event)">
+                    <md-button ng-if="videoDesc.public || videoDesc.publicLink" class="md-accent md-raised watch-btn" ng-click="showLink($event)">
                         <i class="fa fa-share"></i> Partager
                     </md-button>
                 </div>
