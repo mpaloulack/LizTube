@@ -13,7 +13,7 @@ angular.module("liztube.profile",[
         controller: 'profileCtrl',
         templateUrl: "profile.html"
     });
-}).controller("profileCtrl", function($scope, $rootScope, userService, $location, moastr, constants, $window, $mdDialog) {
+}).controller("profileCtrl", function($scope, $rootScope, userService, authService, $location, moastr, constants, $window, $mdDialog, $route) {
     $scope.pageTitle = "Mes vidéos";
     $scope.orderBy = "mostrecent";
     $scope.page = "1";
@@ -88,24 +88,34 @@ angular.module("liztube.profile",[
         };
         $scope.answer = function(answer) {
             $mdDialog.hide(answer);
-            console.log($scope.password);
 
             $rootScope.$broadcast('loadingStatus', true);
+
+            console.log($scope.password);
 
 
             userService.deleteUser($scope.password).then(function () {
                 moastr.successMin(constants.SUCCESS_DELETE, 'top right');
                 $scope.$emit('userStatus', undefined);
-                $window.user = "";
-                $route.reload();
-                $location.path("/");
+
+                authService.logout().then(function(){
+                    $window.user = null;
+                    $window.location.reload();
+                    $location.path("/");
+
+                }, function(){
+                    moastr.error(constants.SERVER_ERROR,'left right bottom');
+                });
 
             }, function () {
                 moastr.error(constants.WRONG_PASSWORD, 'left right bottom');
 
             }).finally(function () {
                 $rootScope.$broadcast('loadingStatus', false);
+                $scope.$apply();
             });
+
+
         };
     }
 
