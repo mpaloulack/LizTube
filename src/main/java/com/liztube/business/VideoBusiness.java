@@ -153,7 +153,7 @@ public class VideoBusiness {
         video.setTitle(videoDataFacade.getTitle())
                 .setDescription(videoDataFacade.getDescription())
                 .setIspublic(videoDataFacade.isPublic())
-                .setIspubliclink(!videoDataFacade.isPublic() ? false : videoDataFacade.isPublicLink());
+                .setIspubliclink(videoDataFacade.isPublic() ? true : videoDataFacade.isPublicLink());
 
         //Entity validations
         checkVideoEntityValidity(video);
