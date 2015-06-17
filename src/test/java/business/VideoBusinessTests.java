@@ -83,7 +83,7 @@ public class VideoBusinessTests {
 
     @Before
     public void setUp(){
-        videoCreationFacade = new VideoCreationFacade().setTitle("title").setDescription("description").setPublic(false).setPublicLink(false);
+        videoCreationFacade = new VideoCreationFacade().setTitle("dGl0bGU=").setDescription("ZGVzY3JpcHRpb24=").setPublic(false).setPublicLink(false);
 
         //User connected
         List<GrantedAuthority> userAuthorities=new ArrayList<GrantedAuthority>(2);
@@ -199,8 +199,8 @@ public class VideoBusinessTests {
         String key = videoBusiness.uploadVideo(file, videoCreationFacade);
         Video videoPersist = videoRepository.findByKey(key);
         assertThat(videoPersist).isNotNull();
-        assertThat(videoPersist.getTitle()).isEqualTo(videoCreationFacade.getTitle());
-        assertThat(videoPersist.getDescription()).isEqualTo(videoCreationFacade.getDescription());
+        assertThat(videoPersist.getTitle()).isEqualTo("title");
+        assertThat(videoPersist.getDescription()).isEqualTo("description");
         assertThat(videoPersist.getIspublic()).isEqualTo(videoCreationFacade.isPublic());
         assertThat(videoPersist.getIspubliclink()).isEqualTo(videoCreationFacade.isPublicLink());
         assertThat(videoPersist.getViews().size()).isEqualTo(0);
