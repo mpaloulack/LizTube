@@ -6,7 +6,7 @@ angular.module("liztube.constants",[
     FILE_SIZE_ERROR: 'La taille de la vidéo ne doit pas dépasser 500 Mo',
     NO_FILE_SELECTED: 'Aucune vidéo sélectionnée',
     FILE_SIZE_ALLOWED: 524288000,
-    UPLOAD_DONE: "Téléchargement de la vidéo terminée",
+    UPLOAD_DONE: "Téléchargement de la vidéo terminé",
     DOWNLOAD_ON_AIR_FILE_NAME: "Téléchargement de la vidéo : ",
     NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notification",
     UPDATE_PASSWORD_OK: "Votre mot de passe a bien été mis à jour",
