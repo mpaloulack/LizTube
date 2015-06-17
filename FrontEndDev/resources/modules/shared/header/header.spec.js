@@ -84,25 +84,30 @@ describe('liztube.header', function(){
 
         beforeEach(function(){
             $scope.showNotification = true;
+            $scope.notification = 1;
+            notifications = {
+                remove : true,
+                delete : false
+            };
         });
 
         it('should soustract 1 to notification count', function(){
             $scope.notification = 1;
-            $scope.$broadcast('removeNotificationForHeader', true);
+            $scope.$broadcast('removeNotificationForHeader', notifications);
             expect($scope.notification).toEqual(0);
             expect($scope.noNotification).toEqual(mockConstants.NO_NOTIFICATIONS_FOUND);
         });
 
         it('should keep showNotification to true if some notification are left', function(){
             $scope.notification = 2;
-            $scope.$broadcast('removeNotificationForHeader', true);
+            $scope.$broadcast('removeNotificationForHeader', notifications);
             expect($scope.showNotification).toEqual(true);
             expect($scope.noNotification).toEqual("");
         });
 
         it('should set showNotification to false if no notification are left', function(){
-            $scope.notification = 1;
-            $scope.$broadcast('removeNotificationForHeader', true);
+
+            $scope.$broadcast('removeNotificationForHeader', notifications);
             expect($scope.showNotification).toEqual(false);
             expect($scope.noNotification).toEqual(mockConstants.NO_NOTIFICATIONS_FOUND);
         });

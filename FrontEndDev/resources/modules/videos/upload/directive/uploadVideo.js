@@ -19,7 +19,7 @@ angular.module("liztube.upload.video",[
         $scope.$emit('addNotification', true);
         $scope.notifications.infos.push({
             id: $scope.id,
-            fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
+            fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + ": " + video.title,
             uploadRate : 0,
             percent : "0%",
             videoKey: ""
@@ -37,7 +37,7 @@ angular.module("liztube.upload.video",[
         }).progress(function (evt) {
             $scope.addVideoAsNotifications({
                 id: $scope.id,
-                fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + video.title,
+                fileName : constants.DOWNLOAD_ON_AIR_FILE_NAME + ": " + video.title,
                 uploadRate : parseInt(99.0 * evt.loaded / evt.total),
                 percent : parseInt(99.0 * evt.loaded / evt.total) + "%",
                 videoKey: ""
@@ -45,13 +45,12 @@ angular.module("liztube.upload.video",[
         }).success(function (data, status, headers, config) {
             $scope.addVideoAsNotifications({
                 id: $scope.id,
-                fileName : constants.UPLOAD_DONE + video.title,
+                fileName : constants.UPLOAD_DONE + ": " + video.title,
                 uploadRate : 100,
                 percent : "100%",
                 videoKey: data
             });
             moastr.successMin(constants.UPLOAD_DONE, 'top right');
-            $location.path("/profil");
         }).error(function (data, status, headers, config){
             moastr.error(constants.SERVER_ERROR, 'left right bottom');
         });
@@ -73,8 +72,18 @@ angular.module("liztube.upload.video",[
      */
     $scope.hideProgressBar = function(index){
         $scope.notifications.infos.splice(index, 1);
-        $scope.$emit('removeNotification', true);
+        var notifications = {
+            remove : true,
+            delete : false
+        };
+        $scope.$emit('removeNotification', notifications);
     };
+
+    $scope.$on('removeNotificationForSideBar', function(event, bool) {
+        $scope.notifications = {
+            "infos": []
+        };
+    });
 
     /**
      * Encode as base64

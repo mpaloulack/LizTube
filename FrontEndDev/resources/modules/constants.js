@@ -7,7 +7,7 @@ angular.module("liztube.constants",[
     NO_FILE_SELECTED: 'Aucune vidéo sélectionnée',
     FILE_SIZE_ALLOWED: 524288000,
     UPLOAD_DONE: "Téléchargement de la vidéo terminé",
-    DOWNLOAD_ON_AIR_FILE_NAME: "Téléchargement de la vidéo : ",
+    DOWNLOAD_ON_AIR_FILE_NAME: "Téléchargement de la vidéo",
     NO_NOTIFICATIONS_FOUND: "Vous n'avez aucune notification",
     UPDATE_PASSWORD_OK: "Votre mot de passe a bien été mis à jour",
     UPDATE_PASSWORD_NOK_OLD_PASSWORD: "Votre ancien mot de passe ne correspond pas",

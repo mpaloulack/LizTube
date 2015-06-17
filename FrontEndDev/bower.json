@@ -44,8 +44,7 @@
           "dist/ZeroClipboard.swf"
         ],
         "prod": [
-          "dist/ZeroClipboard.min.js",
-          "dist/ZeroClipboard.min.map",
+          "dist/ZeroClipboard.js",
           "dist/ZeroClipboard.swf"
         ]
       }
