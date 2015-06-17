@@ -331,23 +331,7 @@ public class VideoBusinessTests {
         assertThat(videoUpdated.getIspublic()).isFalse();
         assertThat(videoUpdated.getIspubliclink()).isFalse();
     }
-
-    @Test
-    public void updateVideo_should_update_video_as_private_then_publicLink_should_be_set_to_false() throws VideoException, UserNotFoundException {
-        String key = videoBusiness.update(new VideoDataFacade()
-                .setKey("a")
-                .setTitle("z")
-                .setDescription("desc of z")
-                .setPublic(false)
-                .setPublicLink(true));
-        Video videoUpdated = videoRepository.findByKey("a");
-        assertThat(key).isEqualTo("a");
-        assertThat(videoUpdated.getTitle()).isEqualTo("z");
-        assertThat(videoUpdated.getDescription()).isEqualTo("desc of z");
-        assertThat(videoUpdated.getIspublic()).isFalse();
-        assertThat(videoUpdated.getIspubliclink()).isFalse();
-    }
-
+    
     @Test
     public void updateVideo_should_raise_an_error_when_video_not_found() throws VideoException, UserNotFoundException {
         try{
