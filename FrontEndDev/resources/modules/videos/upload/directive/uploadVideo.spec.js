@@ -180,6 +180,20 @@ describe('liztube.upload.video', function(){
                 expect(directive.html()).toEqual("");
             });
         });
+
+        describe('encode in base64', function(){
+            it('should encode in base64', function(){
+                var encodedValue = $scope.base64Encode("éé");
+                expect(encodedValue).toEqual("w6nDqQ==");
+            });
+
+            it('should encode in base64 2', function(){
+                var encodedValue = $scope.base64Encode("ok à");
+                expect(encodedValue).toEqual("b2sgw6A=");
+            });
+        });
     });
+
+
 });
 

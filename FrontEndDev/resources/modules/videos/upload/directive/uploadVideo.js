@@ -28,8 +28,8 @@ angular.module("liztube.upload.video",[
         $upload.upload({
             url: '/api/video/upload',
             fields: {
-                title: video.title,
-                description: video.description,
+                title: $scope.base64Encode(video.title),
+                description: $scope.base64Encode(video.description),
                 isPublic: video.isPublic,
                 isPublicLink: video.isPublicLink
             },
@@ -75,6 +75,73 @@ angular.module("liztube.upload.video",[
         $scope.notifications.infos.splice(index, 1);
         $scope.$emit('removeNotification', true);
     };
+
+    /**
+     * Encode as base64
+     * @param value
+     * @returns {string}
+     */
+    $scope.base64Encode = function(value){
+        var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+
+        var input = UTF8Encode(value);
+
+        while (i < input.length) {
+
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64;
+            } else if (isNaN(chr3)) {
+                enc4 = 64;
+            }
+
+            output = output + _keyStr.charAt(enc1) + _keyStr.charAt(enc2) + _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
+        }
+        return output;
+    };
+
+    /**
+     * Method required by base64Encode
+     * @param string
+     * @returns {string}
+     * @constructor
+     */
+    function UTF8Encode(string){
+        string = string.replace(/\r\n/g, "\n");
+        var utftext = "";
+
+        for (var n = 0; n < string.length; n++) {
+
+            var c = string.charCodeAt(n);
+
+            if (c < 128) {
+                utftext += String.fromCharCode(c);
+            }
+            else if ((c > 127) && (c < 2048)) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+            else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+        }
+
+        return utftext;
+    }
 
 }).directive('uploadVideo', function () {
     return {

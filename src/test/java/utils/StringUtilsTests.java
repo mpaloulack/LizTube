@@ -23,4 +23,17 @@ public class StringUtilsTests {
         String result = StringUtils.UrlDecoder("hello%2C+how+are+you+%3F");
         assertThat(result).isEqualTo("hello, how are you ?");
     }
+
+    @Test
+    public void base64(){
+        String encodedString = StringUtils.Base64Encode("éé");
+        assertThat(encodedString).isEqualTo("w6nDqQ==");
+        String decodedString = StringUtils.Base64Decode(encodedString);
+        assertThat(decodedString).isEqualTo("éé");
+    }
+
+    @Test
+    public void base64_2(){
+        assertThat(StringUtils.Base64Decode("b2sgw6A=")).isEqualTo("ok à");
+    }
 }

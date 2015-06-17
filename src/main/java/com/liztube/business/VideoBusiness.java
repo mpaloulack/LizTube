@@ -11,6 +11,7 @@ import com.liztube.repository.VideoRepository;
 import com.liztube.repository.ViewRepository;
 import com.liztube.utils.EnumError;
 import com.liztube.utils.FfMpegUtils;
+import com.liztube.utils.StringUtils;
 import com.liztube.utils.facade.video.VideoCreationFacade;
 import com.liztube.utils.facade.video.VideoDataFacade;
 //import com.xuggle.xuggler.IContainer;
@@ -31,6 +32,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -183,8 +185,8 @@ public class VideoBusiness {
 
         //Check validity of extra data : title, description, ...
         Video video = new Video()
-                .setTitle(videoCreationFacade.getTitle())
-                .setDescription(videoCreationFacade.getDescription())
+                .setTitle(StringUtils.Base64Decode(videoCreationFacade.getTitle()))
+                .setDescription(StringUtils.Base64Decode(videoCreationFacade.getDescription()))
                 .setIspublic(videoCreationFacade.isPublic())
                 .setIspubliclink(videoCreationFacade.isPublic() ? true : videoCreationFacade.isPublicLink())
                 .setKey(key)
