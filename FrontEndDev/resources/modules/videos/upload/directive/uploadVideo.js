@@ -72,8 +72,18 @@ angular.module("liztube.upload.video",[
      */
     $scope.hideProgressBar = function(index){
         $scope.notifications.infos.splice(index, 1);
-        $scope.$emit('removeNotification', true);
+        var notifications = {
+            remove : true,
+            delete : false
+        };
+        $scope.$emit('removeNotification', notifications);
     };
+
+    $scope.$on('removeNotificationForSideBar', function(event, bool) {
+        $scope.notifications = {
+            "infos": []
+        };
+    });
 
 }).directive('uploadVideo', function () {
     return {

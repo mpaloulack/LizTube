@@ -22,15 +22,22 @@ angular.module("liztube.header",[
     /**
      * Remove a notification
      */
-    $scope.$on('removeNotificationForHeader', function(event, bool) {
-        if($scope.notification > 0){
-            $scope.notification = $scope.notification - 1;
-            if($scope.notification === 0){
-                $scope.showNotification = false;
-                $scope.noNotification = constants.NO_NOTIFICATIONS_FOUND;
-            }else{
-                $scope.noNotification = "";
+    $scope.$on('removeNotificationForHeader', function(event, notifications) {
+        if(notifications.remove && !notifications.delete){
+            if($scope.notification > 0){
+                $scope.notification = $scope.notification - 1;
+                if($scope.notification === 0){
+                    $scope.showNotification = false;
+                    $scope.noNotification = constants.NO_NOTIFICATIONS_FOUND;
+                }else{
+                    $scope.noNotification = "";
+                }
             }
+        }else if(notifications.remove && notifications.delete){
+            $scope.$emit('removeNotificationSideBar', true);
+            $scope.notification = 0;
+            $scope.showNotification = false;
+            $scope.noNotification = constants.NO_NOTIFICATIONS_FOUND;
         }
     });
 

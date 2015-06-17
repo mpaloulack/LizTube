@@ -47,8 +47,11 @@ angular.module("liztube",[
     $scope.$on('addNotification', function(event, bool) {
         $scope.$broadcast('addNotificationForHeader', bool);
     });
-    $scope.$on('removeNotification', function(event, bool) {
-        $scope.$broadcast('removeNotificationForHeader', bool);
+    $scope.$on('removeNotification', function(event, notifications) {
+        $scope.$broadcast('removeNotificationForHeader', notifications);
+    });
+    $scope.$on('removeNotificationSideBar', function(event, bool) {
+        $scope.$broadcast('removeNotificationForSideBar', bool);
     });
 }).run(function($rootScope,$window,$location) {
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {

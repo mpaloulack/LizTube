@@ -170,7 +170,11 @@ describe('liztube.upload.video', function(){
 
             it('Should emit for removeNotification', function(){
                 expect($scope.notifications.infos).toEqual([]);
-                expect($scope.$emit).toHaveBeenCalledWith('removeNotification', true);
+                var notifications = {
+                    remove : true,
+                    delete : false
+                };
+                expect($scope.$emit).toHaveBeenCalledWith('removeNotification', notifications);
             });
         });
 

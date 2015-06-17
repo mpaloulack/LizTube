@@ -21,6 +21,11 @@ angular.module("liztube.userStatus",[
         authService.logout().then(function(){
             $scope.$emit('userStatus', undefined);
             $window.user.pseudo = "";
+            var notifications = {
+                remove : true,
+                delete : true
+            };
+            $scope.$emit('removeNotification', notifications);
             $location.path("/");
         }, function(){
             moastr.error(constants.SERVER_ERROR,'left right bottom');
