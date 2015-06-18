@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/libs/videogular-themes-default/videogular.css">
     <!-- endinject -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all.css">
+
     <base href="/"/>
 </head>
 <body ng-controller="mainCtrl">
@@ -40,7 +41,7 @@
     <script src="${pageContext.request.contextPath}/app/dist/libs/jquery/dist/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/SHA-1/sha1.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/zeroclipboard/dist/ZeroClipboard.js"></script>
-    <script src="${pageContext.request.contextPath}/app/dist/libs/ng-clip/dest/ng-clip.min.js"></script>
+    <script src="${pageContext.request.contextPath}/app/dist/libs/ng-clip/src/ngClip.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/angular-material/angular-material.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/restangular/dist/restangular.js"></script>
     <script src="${pageContext.request.contextPath}/app/dist/libs/videogular/videogular.js"></script>

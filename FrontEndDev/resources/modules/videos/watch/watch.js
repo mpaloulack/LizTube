@@ -13,18 +13,16 @@ angular.module('liztube.videos.watch',
         "com.2fdevs.videogular.plugins.poster",//Thumbnail poster
         "ngClipboard"
     ]
-).config(function ($routeProvider){
-        $routeProvider.when("/watch/:videoKey",{
-            title: "LizTube - Vidéo",
-            page: "vidéo",
-            controller: 'watchCtrl',
-            templateUrl: "watch.html",
-            accessAnonymous : true
-        });
-
-}).config(['ngClipProvider', function(ngClipProvider) {
-        ngClipProvider.setPath("app/dist/libs/zeroclipboard/dist/ZeroClipboard.swf");
-}]).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, $route, moastr, videosService, constants,$location, $mdDialog) {
+).config(function ($routeProvider, ngClipProvider){
+    $routeProvider.when("/watch/:videoKey",{
+        title: "LizTube - Vidéo",
+        page: "vidéo",
+        controller: 'watchCtrl',
+        templateUrl: "watch.html",
+        accessAnonymous : true
+    });
+    ngClipProvider.setPath("app/dist/libs/zeroclipboard/dist/ZeroClipboard.swf");
+}).controller('watchCtrl', function ($sce,$rootScope, $scope, $routeParams, $route, moastr, videosService, constants,$location, $mdDialog) {
     $scope.errorUpdate = '';
     $scope.isEnableEditingVideo = false;
 

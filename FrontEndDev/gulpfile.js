@@ -15,6 +15,7 @@
     htmlify = require('gulp-angular-htmlify'),
     ngHtml2Js = require("gulp-ng-html2js"),
     clean = require('gulp-clean'),
+    wrap = require("gulp-wrap"),
     replace = require('gulp-replace-task');//Delete files and folders
 
 
@@ -74,12 +75,13 @@ gulp.task('generate-partial', function() {
 //If a quality error occured the script task will not be executed
 gulp.task('script', ['quality', 'generate-partial'], function () {
     return gulp.src(scriptsLocation)
+        .pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
         .pipe(plumber())
         .pipe(concat('all.js'))
         .pipe(ngAnnotate())
         .pipe(gulp.dest(scriptsBaseDestination))
         .pipe(stripDebug())
-        .pipe(uglify())
+        .pipe(uglify({mangle:false}))
         .pipe(rename('all.min.js'))
         .pipe(gulp.dest(scriptsBaseDestination));
 });

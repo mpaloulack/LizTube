@@ -44,7 +44,7 @@
           "dist/ZeroClipboard.swf"
         ],
         "prod": [
-          "dist/ZeroClipboard.js",
+          "dist/ZeroClipboard.min.js",
           "dist/ZeroClipboard.swf"
         ]
       }
@@ -52,7 +52,7 @@
     "ng-clip":{
       "main": {
         "dev": [
-          "dest/ng-clip.min.js"
+          "src/ngClip.js"
         ],
         "prod": [
           "dest/ng-clip.min.js"

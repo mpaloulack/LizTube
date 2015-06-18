@@ -17,6 +17,7 @@
     <!-- inject:css -->
     <!-- endinject -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/app/dist/css/all@MINIFY@css">
+
     <base href="/"/>
 </head>
 <body ng-controller="mainCtrl">
